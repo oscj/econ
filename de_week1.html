@@ -1,0 +1,1687 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>de_week1</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="de_week1_files/libs/clipboard/clipboard.min.js"></script>
+<script src="de_week1_files/libs/quarto-html/quarto.js"></script>
+<script src="de_week1_files/libs/quarto-html/popper.min.js"></script>
+<script src="de_week1_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="de_week1_files/libs/quarto-html/anchor.min.js"></script>
+<link href="de_week1_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="de_week1_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="de_week1_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="de_week1_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="de_week1_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read data from excel file</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># equivalent R code:</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># bp_data&lt;-read_excel("bp_2023.xlsx",sheet = "Primary Energy - Cons by fuel",range="A3:O94")</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>: </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  bp_data <span class="op">=</span> pd.read_excel(</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"./data/bp_2023.xlsx"</span>, </span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    sheet_name<span class="op">=</span><span class="st">"Primary Energy - Cons by fuel"</span>, </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    usecols<span class="op">=</span><span class="st">"A:O"</span>, </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    skiprows<span class="op">=</span>[<span class="op">*</span><span class="bu">range</span>(<span class="dv">2</span>), <span class="op">*</span><span class="bu">range</span>(<span class="dv">94</span>, <span class="dv">100</span>)] </span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">FileNotFoundError</span>:</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="st">'File not found!!!'</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co"># print the dataframe</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>bp_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="2">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Exajoules</th>
+<th data-quarto-table-cell-role="th">Oil</th>
+<th data-quarto-table-cell-role="th">Natural Gas</th>
+<th data-quarto-table-cell-role="th">Coal</th>
+<th data-quarto-table-cell-role="th">Nuclear energy</th>
+<th data-quarto-table-cell-role="th">Hydro electric</th>
+<th data-quarto-table-cell-role="th">Renew- ables</th>
+<th data-quarto-table-cell-role="th">Total</th>
+<th data-quarto-table-cell-role="th">Oil.1</th>
+<th data-quarto-table-cell-role="th">Natural Gas.1</th>
+<th data-quarto-table-cell-role="th">Coal.1</th>
+<th data-quarto-table-cell-role="th">Nuclear energy.1</th>
+<th data-quarto-table-cell-role="th">Hydro electric.1</th>
+<th data-quarto-table-cell-role="th">Renew- ables.1</th>
+<th data-quarto-table-cell-role="th">Total.1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Canada</td>
+<td>4.113149</td>
+<td>4.211032</td>
+<td>0.497359</td>
+<td>0.831491</td>
+<td>3.605937</td>
+<td>0.578330</td>
+<td>13.837298</td>
+<td>4.266870</td>
+<td>4.378618</td>
+<td>0.386039</td>
+<td>0.780338</td>
+<td>3.739615</td>
+<td>0.591139</td>
+<td>14.142619</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Mexico</td>
+<td>3.394625</td>
+<td>3.503976</td>
+<td>0.198454</td>
+<td>0.107778</td>
+<td>0.328479</td>
+<td>0.456047</td>
+<td>7.989359</td>
+<td>4.118036</td>
+<td>3.477085</td>
+<td>0.251242</td>
+<td>0.097717</td>
+<td>0.335236</td>
+<td>0.446182</td>
+<td>8.725498</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>US</td>
+<td>35.508236</td>
+<td>30.088923</td>
+<td>10.572820</td>
+<td>7.418466</td>
+<td>2.345239</td>
+<td>7.468412</td>
+<td>93.402095</td>
+<td>36.150043</td>
+<td>31.723642</td>
+<td>9.868398</td>
+<td>7.314550</td>
+<td>2.426679</td>
+<td>8.427068</td>
+<td>95.910380</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Total North America</td>
+<td>43.016010</td>
+<td>37.803932</td>
+<td>11.268633</td>
+<td>8.357734</td>
+<td>6.279654</td>
+<td>8.502789</td>
+<td>115.228753</td>
+<td>44.534949</td>
+<td>39.579344</td>
+<td>10.505679</td>
+<td>8.192605</td>
+<td>6.501530</td>
+<td>9.464389</td>
+<td>118.778497</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">86</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">87</td>
+<td>Total World</td>
+<td>184.858762</td>
+<td>146.414377</td>
+<td>160.433339</td>
+<td>25.333448</td>
+<td>40.400496</td>
+<td>39.965786</td>
+<td>597.406209</td>
+<td>190.690521</td>
+<td>141.886964</td>
+<td>161.474539</td>
+<td>24.128422</td>
+<td>40.679341</td>
+<td>45.175867</td>
+<td>604.035654</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">88</td>
+<td>of which: OECD</td>
+<td>85.054943</td>
+<td>65.261314</td>
+<td>29.941897</td>
+<td>17.285087</td>
+<td>13.661267</td>
+<td>21.173076</td>
+<td>232.377585</td>
+<td>87.978756</td>
+<td>64.676317</td>
+<td>28.899354</td>
+<td>16.115615</td>
+<td>13.216860</td>
+<td>23.533032</td>
+<td>234.419935</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">89</td>
+<td>Non-OECD</td>
+<td>99.803819</td>
+<td>81.153063</td>
+<td>130.491442</td>
+<td>8.048361</td>
+<td>26.739229</td>
+<td>18.792711</td>
+<td>365.028624</td>
+<td>102.711765</td>
+<td>77.210647</td>
+<td>132.575186</td>
+<td>8.012806</td>
+<td>27.462480</td>
+<td>21.642835</td>
+<td>369.615719</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">90</td>
+<td>European Union</td>
+<td>21.377587</td>
+<td>14.292494</td>
+<td>6.843064</td>
+<td>6.614155</td>
+<td>3.271308</td>
+<td>7.881390</td>
+<td>60.279999</td>
+<td>22.134121</td>
+<td>12.361101</td>
+<td>6.978611</td>
+<td>5.481124</td>
+<td>2.598522</td>
+<td>8.626509</td>
+<td>58.179988</td>
+</tr>
+</tbody>
+</table>
+
+<p>91 rows × 15 columns</p>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># clean data to get desired columns</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>desired_columns <span class="op">=</span> bp_data.columns[[<span class="dv">0</span>, <span class="op">*</span><span class="bu">range</span>(<span class="dv">8</span>,<span class="dv">15</span>)]]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>bp_data <span class="op">=</span> bp_data[desired_columns]</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># equivalent R code</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># bp_data&lt;-bp_data %&gt;% select(1,seq(9,15))</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># print out new dataframe</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>bp_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Exajoules</th>
+<th data-quarto-table-cell-role="th">Oil.1</th>
+<th data-quarto-table-cell-role="th">Natural Gas.1</th>
+<th data-quarto-table-cell-role="th">Coal.1</th>
+<th data-quarto-table-cell-role="th">Nuclear energy.1</th>
+<th data-quarto-table-cell-role="th">Hydro electric.1</th>
+<th data-quarto-table-cell-role="th">Renew- ables.1</th>
+<th data-quarto-table-cell-role="th">Total.1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Canada</td>
+<td>4.266870</td>
+<td>4.378618</td>
+<td>0.386039</td>
+<td>0.780338</td>
+<td>3.739615</td>
+<td>0.591139</td>
+<td>14.142619</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Mexico</td>
+<td>4.118036</td>
+<td>3.477085</td>
+<td>0.251242</td>
+<td>0.097717</td>
+<td>0.335236</td>
+<td>0.446182</td>
+<td>8.725498</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>US</td>
+<td>36.150043</td>
+<td>31.723642</td>
+<td>9.868398</td>
+<td>7.314550</td>
+<td>2.426679</td>
+<td>8.427068</td>
+<td>95.910380</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Total North America</td>
+<td>44.534949</td>
+<td>39.579344</td>
+<td>10.505679</td>
+<td>8.192605</td>
+<td>6.501530</td>
+<td>9.464389</td>
+<td>118.778497</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">86</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">87</td>
+<td>Total World</td>
+<td>190.690521</td>
+<td>141.886964</td>
+<td>161.474539</td>
+<td>24.128422</td>
+<td>40.679341</td>
+<td>45.175867</td>
+<td>604.035654</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">88</td>
+<td>of which: OECD</td>
+<td>87.978756</td>
+<td>64.676317</td>
+<td>28.899354</td>
+<td>16.115615</td>
+<td>13.216860</td>
+<td>23.533032</td>
+<td>234.419935</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">89</td>
+<td>Non-OECD</td>
+<td>102.711765</td>
+<td>77.210647</td>
+<td>132.575186</td>
+<td>8.012806</td>
+<td>27.462480</td>
+<td>21.642835</td>
+<td>369.615719</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">90</td>
+<td>European Union</td>
+<td>22.134121</td>
+<td>12.361101</td>
+<td>6.978611</td>
+<td>5.481124</td>
+<td>2.598522</td>
+<td>8.626509</td>
+<td>58.179988</td>
+</tr>
+</tbody>
+</table>
+
+<p>91 rows × 8 columns</p>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># change column names</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>bp_data.columns <span class="op">=</span> [<span class="st">"Country"</span>,<span class="st">"Oil"</span>,<span class="st">"Natural Gas"</span>,<span class="st">"Coal"</span>,<span class="st">"Nuclear"</span>,<span class="st">"Hydro"</span>,<span class="st">"Renewables"</span>,<span class="st">"Total"</span>]</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># equivalent R code</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># names(bp_data)&lt;-c("country","Oil","Natural Gas","Coal","Nuclear","Hydro","Renewables","Total")</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># print out new dataframe</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>bp_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Country</th>
+<th data-quarto-table-cell-role="th">Oil</th>
+<th data-quarto-table-cell-role="th">Natural Gas</th>
+<th data-quarto-table-cell-role="th">Coal</th>
+<th data-quarto-table-cell-role="th">Nuclear</th>
+<th data-quarto-table-cell-role="th">Hydro</th>
+<th data-quarto-table-cell-role="th">Renewables</th>
+<th data-quarto-table-cell-role="th">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Canada</td>
+<td>4.266870</td>
+<td>4.378618</td>
+<td>0.386039</td>
+<td>0.780338</td>
+<td>3.739615</td>
+<td>0.591139</td>
+<td>14.142619</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Mexico</td>
+<td>4.118036</td>
+<td>3.477085</td>
+<td>0.251242</td>
+<td>0.097717</td>
+<td>0.335236</td>
+<td>0.446182</td>
+<td>8.725498</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>US</td>
+<td>36.150043</td>
+<td>31.723642</td>
+<td>9.868398</td>
+<td>7.314550</td>
+<td>2.426679</td>
+<td>8.427068</td>
+<td>95.910380</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Total North America</td>
+<td>44.534949</td>
+<td>39.579344</td>
+<td>10.505679</td>
+<td>8.192605</td>
+<td>6.501530</td>
+<td>9.464389</td>
+<td>118.778497</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">86</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">87</td>
+<td>Total World</td>
+<td>190.690521</td>
+<td>141.886964</td>
+<td>161.474539</td>
+<td>24.128422</td>
+<td>40.679341</td>
+<td>45.175867</td>
+<td>604.035654</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">88</td>
+<td>of which: OECD</td>
+<td>87.978756</td>
+<td>64.676317</td>
+<td>28.899354</td>
+<td>16.115615</td>
+<td>13.216860</td>
+<td>23.533032</td>
+<td>234.419935</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">89</td>
+<td>Non-OECD</td>
+<td>102.711765</td>
+<td>77.210647</td>
+<td>132.575186</td>
+<td>8.012806</td>
+<td>27.462480</td>
+<td>21.642835</td>
+<td>369.615719</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">90</td>
+<td>European Union</td>
+<td>22.134121</td>
+<td>12.361101</td>
+<td>6.978611</td>
+<td>5.481124</td>
+<td>2.598522</td>
+<td>8.626509</td>
+<td>58.179988</td>
+</tr>
+</tbody>
+</table>
+
+<p>91 rows × 8 columns</p>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># data filtering for NaN values</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># remove observations that have an NA for country</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>bp_data <span class="op">=</span> bp_data.dropna(subset<span class="op">=</span>[<span class="st">'Country'</span>])</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># equivalent R code</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># bp_data&lt;-bp_data%&gt;%filter(!is.na(country))</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>bp_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Country</th>
+<th data-quarto-table-cell-role="th">Oil</th>
+<th data-quarto-table-cell-role="th">Natural Gas</th>
+<th data-quarto-table-cell-role="th">Coal</th>
+<th data-quarto-table-cell-role="th">Nuclear</th>
+<th data-quarto-table-cell-role="th">Hydro</th>
+<th data-quarto-table-cell-role="th">Renewables</th>
+<th data-quarto-table-cell-role="th">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Canada</td>
+<td>4.266870</td>
+<td>4.378618</td>
+<td>0.386039</td>
+<td>0.780338</td>
+<td>3.739615</td>
+<td>0.591139</td>
+<td>14.142619</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Mexico</td>
+<td>4.118036</td>
+<td>3.477085</td>
+<td>0.251242</td>
+<td>0.097717</td>
+<td>0.335236</td>
+<td>0.446182</td>
+<td>8.725498</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">3</td>
+<td>US</td>
+<td>36.150043</td>
+<td>31.723642</td>
+<td>9.868398</td>
+<td>7.314550</td>
+<td>2.426679</td>
+<td>8.427068</td>
+<td>95.910380</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Total North America</td>
+<td>44.534949</td>
+<td>39.579344</td>
+<td>10.505679</td>
+<td>8.192605</td>
+<td>6.501530</td>
+<td>9.464389</td>
+<td>118.778497</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>Argentina</td>
+<td>1.378020</td>
+<td>1.644587</td>
+<td>0.051836</td>
+<td>0.067271</td>
+<td>0.224219</td>
+<td>0.237570</td>
+<td>3.603504</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">85</td>
+<td>Total Asia Pacific</td>
+<td>69.614733</td>
+<td>32.654824</td>
+<td>130.498829</td>
+<td>6.645511</td>
+<td>17.940396</td>
+<td>20.240810</td>
+<td>277.595104</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">87</td>
+<td>Total World</td>
+<td>190.690521</td>
+<td>141.886964</td>
+<td>161.474539</td>
+<td>24.128422</td>
+<td>40.679341</td>
+<td>45.175867</td>
+<td>604.035654</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">88</td>
+<td>of which: OECD</td>
+<td>87.978756</td>
+<td>64.676317</td>
+<td>28.899354</td>
+<td>16.115615</td>
+<td>13.216860</td>
+<td>23.533032</td>
+<td>234.419935</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">89</td>
+<td>Non-OECD</td>
+<td>102.711765</td>
+<td>77.210647</td>
+<td>132.575186</td>
+<td>8.012806</td>
+<td>27.462480</td>
+<td>21.642835</td>
+<td>369.615719</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">90</td>
+<td>European Union</td>
+<td>22.134121</td>
+<td>12.361101</td>
+<td>6.978611</td>
+<td>5.481124</td>
+<td>2.598522</td>
+<td>8.626509</td>
+<td>58.179988</td>
+</tr>
+</tbody>
+</table>
+
+<p>83 rows × 8 columns</p>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># only grab 'totals' data</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>bp_data <span class="op">=</span> bp_data[bp_data[<span class="st">'Country'</span>].<span class="bu">str</span>.contains(<span class="st">'Total'</span>)]</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># equivalent R code</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># bp_data&lt;-bp_data%&gt;%filter(grepl("Total",country))</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>bp_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="6">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Country</th>
+<th data-quarto-table-cell-role="th">Oil</th>
+<th data-quarto-table-cell-role="th">Natural Gas</th>
+<th data-quarto-table-cell-role="th">Coal</th>
+<th data-quarto-table-cell-role="th">Nuclear</th>
+<th data-quarto-table-cell-role="th">Hydro</th>
+<th data-quarto-table-cell-role="th">Renewables</th>
+<th data-quarto-table-cell-role="th">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Total North America</td>
+<td>44.534949</td>
+<td>39.579344</td>
+<td>10.505679</td>
+<td>8.192605</td>
+<td>6.501530</td>
+<td>9.464389</td>
+<td>118.778497</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">15</td>
+<td>Total S. &amp; Cent. America</td>
+<td>12.371884</td>
+<td>5.822230</td>
+<td>1.185503</td>
+<td>0.198397</td>
+<td>7.003996</td>
+<td>3.525883</td>
+<td>30.107893</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">38</td>
+<td>Total Europe</td>
+<td>28.719345</td>
+<td>17.956092</td>
+<td>10.070483</td>
+<td>6.678120</td>
+<td>5.320641</td>
+<td>11.064249</td>
+<td>79.808929</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">47</td>
+<td>Total CIS</td>
+<td>9.096157</td>
+<td>19.844188</td>
+<td>4.870980</td>
+<td>2.082615</td>
+<td>2.325580</td>
+<td>0.139257</td>
+<td>38.358776</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">58</td>
+<td>Total Middle East</td>
+<td>17.966869</td>
+<td>20.180148</td>
+<td>0.370185</td>
+<td>0.240209</td>
+<td>0.116262</td>
+<td>0.256208</td>
+<td>39.129882</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">65</td>
+<td>Total Africa</td>
+<td>8.386584</td>
+<td>5.850138</td>
+<td>3.972881</td>
+<td>0.090965</td>
+<td>1.470935</td>
+<td>0.485071</td>
+<td>20.256574</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">85</td>
+<td>Total Asia Pacific</td>
+<td>69.614733</td>
+<td>32.654824</td>
+<td>130.498829</td>
+<td>6.645511</td>
+<td>17.940396</td>
+<td>20.240810</td>
+<td>277.595104</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">87</td>
+<td>Total World</td>
+<td>190.690521</td>
+<td>141.886964</td>
+<td>161.474539</td>
+<td>24.128422</td>
+<td>40.679341</td>
+<td>45.175867</td>
+<td>604.035654</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># replace text to strip the word “Total” out of all my regions</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>bp_data[<span class="st">'Country'</span>] <span class="op">=</span> bp_data[<span class="st">'Country'</span>].<span class="bu">str</span>.replace(<span class="st">'Total'</span>, <span class="st">''</span>).<span class="bu">str</span>.strip()</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># equivalent R code</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># bp_data&lt;-bp_data%&gt;%mutate(country=gsub("Total ","",country))</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># now this is the data that we want to graph</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>bp_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>/var/folders/s5/yg5h8c3j31s_2ln84ztn6rgh0000gn/T/ipykernel_56764/835576135.py:2: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
+
+See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
+  bp_data['Country'] = bp_data['Country'].str.replace('Total', '').str.strip()</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Country</th>
+<th data-quarto-table-cell-role="th">Oil</th>
+<th data-quarto-table-cell-role="th">Natural Gas</th>
+<th data-quarto-table-cell-role="th">Coal</th>
+<th data-quarto-table-cell-role="th">Nuclear</th>
+<th data-quarto-table-cell-role="th">Hydro</th>
+<th data-quarto-table-cell-role="th">Renewables</th>
+<th data-quarto-table-cell-role="th">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>North America</td>
+<td>44.534949</td>
+<td>39.579344</td>
+<td>10.505679</td>
+<td>8.192605</td>
+<td>6.501530</td>
+<td>9.464389</td>
+<td>118.778497</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">15</td>
+<td>S. &amp; Cent. America</td>
+<td>12.371884</td>
+<td>5.822230</td>
+<td>1.185503</td>
+<td>0.198397</td>
+<td>7.003996</td>
+<td>3.525883</td>
+<td>30.107893</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">38</td>
+<td>Europe</td>
+<td>28.719345</td>
+<td>17.956092</td>
+<td>10.070483</td>
+<td>6.678120</td>
+<td>5.320641</td>
+<td>11.064249</td>
+<td>79.808929</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">47</td>
+<td>CIS</td>
+<td>9.096157</td>
+<td>19.844188</td>
+<td>4.870980</td>
+<td>2.082615</td>
+<td>2.325580</td>
+<td>0.139257</td>
+<td>38.358776</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">58</td>
+<td>Middle East</td>
+<td>17.966869</td>
+<td>20.180148</td>
+<td>0.370185</td>
+<td>0.240209</td>
+<td>0.116262</td>
+<td>0.256208</td>
+<td>39.129882</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">65</td>
+<td>Africa</td>
+<td>8.386584</td>
+<td>5.850138</td>
+<td>3.972881</td>
+<td>0.090965</td>
+<td>1.470935</td>
+<td>0.485071</td>
+<td>20.256574</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">85</td>
+<td>Asia Pacific</td>
+<td>69.614733</td>
+<td>32.654824</td>
+<td>130.498829</td>
+<td>6.645511</td>
+<td>17.940396</td>
+<td>20.240810</td>
+<td>277.595104</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">87</td>
+<td>World</td>
+<td>190.690521</td>
+<td>141.886964</td>
+<td>161.474539</td>
+<td>24.128422</td>
+<td>40.679341</td>
+<td>45.175867</td>
+<td>604.035654</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pivot the data to a longer style, by country</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Use melt to pivot</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>bp_data <span class="op">=</span> bp_data.melt(</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  id_vars<span class="op">=</span>[<span class="st">'Country'</span>], </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  value_vars<span class="op">=</span>[<span class="st">'Oil'</span>, <span class="st">'Natural Gas'</span>, <span class="st">'Coal'</span>, <span class="st">'Nuclear'</span>, <span class="st">'Hydro'</span>, <span class="st">'Renewables'</span>, <span class="st">'Total'</span>], </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  var_name<span class="op">=</span><span class="st">'source'</span>, </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  value_name<span class="op">=</span><span class="st">'tpes'</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># equivalent R code</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>bp_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<div>
+
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Country</th>
+<th data-quarto-table-cell-role="th">source</th>
+<th data-quarto-table-cell-role="th">tpes</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>North America</td>
+<td>Oil</td>
+<td>44.534949</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>S. &amp; Cent. America</td>
+<td>Oil</td>
+<td>12.371884</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Europe</td>
+<td>Oil</td>
+<td>28.719345</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>CIS</td>
+<td>Oil</td>
+<td>9.096157</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Middle East</td>
+<td>Oil</td>
+<td>17.966869</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">5</td>
+<td>Africa</td>
+<td>Oil</td>
+<td>8.386584</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">6</td>
+<td>Asia Pacific</td>
+<td>Oil</td>
+<td>69.614733</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">7</td>
+<td>World</td>
+<td>Oil</td>
+<td>190.690521</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">8</td>
+<td>North America</td>
+<td>Natural Gas</td>
+<td>39.579344</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">9</td>
+<td>S. &amp; Cent. America</td>
+<td>Natural Gas</td>
+<td>5.822230</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">10</td>
+<td>Europe</td>
+<td>Natural Gas</td>
+<td>17.956092</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">11</td>
+<td>CIS</td>
+<td>Natural Gas</td>
+<td>19.844188</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">12</td>
+<td>Middle East</td>
+<td>Natural Gas</td>
+<td>20.180148</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">13</td>
+<td>Africa</td>
+<td>Natural Gas</td>
+<td>5.850138</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">14</td>
+<td>Asia Pacific</td>
+<td>Natural Gas</td>
+<td>32.654824</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">15</td>
+<td>World</td>
+<td>Natural Gas</td>
+<td>141.886964</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">16</td>
+<td>North America</td>
+<td>Coal</td>
+<td>10.505679</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">17</td>
+<td>S. &amp; Cent. America</td>
+<td>Coal</td>
+<td>1.185503</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">18</td>
+<td>Europe</td>
+<td>Coal</td>
+<td>10.070483</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">19</td>
+<td>CIS</td>
+<td>Coal</td>
+<td>4.870980</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">20</td>
+<td>Middle East</td>
+<td>Coal</td>
+<td>0.370185</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">21</td>
+<td>Africa</td>
+<td>Coal</td>
+<td>3.972881</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">22</td>
+<td>Asia Pacific</td>
+<td>Coal</td>
+<td>130.498829</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">23</td>
+<td>World</td>
+<td>Coal</td>
+<td>161.474539</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">24</td>
+<td>North America</td>
+<td>Nuclear</td>
+<td>8.192605</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">25</td>
+<td>S. &amp; Cent. America</td>
+<td>Nuclear</td>
+<td>0.198397</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">26</td>
+<td>Europe</td>
+<td>Nuclear</td>
+<td>6.678120</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">27</td>
+<td>CIS</td>
+<td>Nuclear</td>
+<td>2.082615</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">28</td>
+<td>Middle East</td>
+<td>Nuclear</td>
+<td>0.240209</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">29</td>
+<td>Africa</td>
+<td>Nuclear</td>
+<td>0.090965</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">30</td>
+<td>Asia Pacific</td>
+<td>Nuclear</td>
+<td>6.645511</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">31</td>
+<td>World</td>
+<td>Nuclear</td>
+<td>24.128422</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">32</td>
+<td>North America</td>
+<td>Hydro</td>
+<td>6.501530</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">33</td>
+<td>S. &amp; Cent. America</td>
+<td>Hydro</td>
+<td>7.003996</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">34</td>
+<td>Europe</td>
+<td>Hydro</td>
+<td>5.320641</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">35</td>
+<td>CIS</td>
+<td>Hydro</td>
+<td>2.325580</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">36</td>
+<td>Middle East</td>
+<td>Hydro</td>
+<td>0.116262</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">37</td>
+<td>Africa</td>
+<td>Hydro</td>
+<td>1.470935</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">38</td>
+<td>Asia Pacific</td>
+<td>Hydro</td>
+<td>17.940396</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">39</td>
+<td>World</td>
+<td>Hydro</td>
+<td>40.679341</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">40</td>
+<td>North America</td>
+<td>Renewables</td>
+<td>9.464389</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">41</td>
+<td>S. &amp; Cent. America</td>
+<td>Renewables</td>
+<td>3.525883</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">42</td>
+<td>Europe</td>
+<td>Renewables</td>
+<td>11.064249</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">43</td>
+<td>CIS</td>
+<td>Renewables</td>
+<td>0.139257</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">44</td>
+<td>Middle East</td>
+<td>Renewables</td>
+<td>0.256208</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">45</td>
+<td>Africa</td>
+<td>Renewables</td>
+<td>0.485071</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">46</td>
+<td>Asia Pacific</td>
+<td>Renewables</td>
+<td>20.240810</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">47</td>
+<td>World</td>
+<td>Renewables</td>
+<td>45.175867</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">48</td>
+<td>North America</td>
+<td>Total</td>
+<td>118.778497</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">49</td>
+<td>S. &amp; Cent. America</td>
+<td>Total</td>
+<td>30.107893</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">50</td>
+<td>Europe</td>
+<td>Total</td>
+<td>79.808929</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">51</td>
+<td>CIS</td>
+<td>Total</td>
+<td>38.358776</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">52</td>
+<td>Middle East</td>
+<td>Total</td>
+<td>39.129882</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">53</td>
+<td>Africa</td>
+<td>Total</td>
+<td>20.256574</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">54</td>
+<td>Asia Pacific</td>
+<td>Total</td>
+<td>277.595104</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">55</td>
+<td>World</td>
+<td>Total</td>
+<td>604.035654</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># take out the global observations</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>bp_data <span class="op">=</span> bp_data[<span class="op">~</span>bp_data[<span class="st">'Country'</span>].<span class="bu">str</span>.contains(<span class="st">'World'</span>)]</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># take out the 'total' column</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>bp_data <span class="op">=</span> bp_data[<span class="op">~</span>bp_data[<span class="st">'source'</span>].<span class="bu">str</span>.contains(<span class="st">'Total'</span>)]</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># create graph</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>bp_data <span class="op">=</span> bp_data.pivot(index<span class="op">=</span><span class="st">'Country'</span>, columns<span class="op">=</span><span class="st">'source'</span>, values<span class="op">=</span><span class="st">'tpes'</span>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> bp_data.plot(kind<span class="op">=</span><span class="st">'bar'</span>, stacked<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">7</span>))</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'TPES (Exajoules)'</span>)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'country'</span>)</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Primary Energy Consumption by Source'</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">'ggplot'</span>)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>)</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="de_week1_files/figure-html/cell-10-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
