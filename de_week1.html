@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>de_week1</title>
+<title>Primary Energy Consumption - Data Exercise Week 1</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -80,13 +80,40 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <main class="content" id="quarto-document-content">
 
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Primary Energy Consumption - Data Exercise Week 1</h1>
+</div>
 
 
-<div class="cell" data-execution_count="1">
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div>
+<p>
+Name: Oscar Jaimes<br> ID: 1576326<br> Course: ECON366<br>
+</p>
+</div>
+<div class="cell" data-execution_count="6">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
-<div class="cell" data-execution_count="2">
+<section id="fetch-load-data-from-excel" class="level4">
+<h4 class="anchored" data-anchor-id="fetch-load-data-from-excel">Fetch &amp; Load Data From Excel</h4>
+<div class="cell" data-execution_count="7">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read data from excel file</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># equivalent R code:</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># bp_data&lt;-read_excel("bp_2023.xlsx",sheet = "Primary Energy - Cons by fuel",range="A3:O94")</span></span>
@@ -102,8 +129,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="bu">print</span>(<span class="st">'File not found!!!'</span>)</span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co"># print the dataframe</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>bp_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="2">
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>bp_data.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="7">
 <div>
 
 
@@ -220,121 +248,107 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>118.778497</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
+<td data-quarto-table-cell-role="th">5</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">86</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
+<td data-quarto-table-cell-role="th">6</td>
+<td>Argentina</td>
+<td>1.289159</td>
+<td>1.653627</td>
+<td>0.050589</td>
+<td>0.091929</td>
+<td>0.185085</td>
+<td>0.206030</td>
+<td>3.476418</td>
+<td>1.378020</td>
+<td>1.644587</td>
+<td>0.051836</td>
+<td>0.067271</td>
+<td>0.224219</td>
+<td>0.237570</td>
+<td>3.603504</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">87</td>
-<td>Total World</td>
-<td>184.858762</td>
-<td>146.414377</td>
-<td>160.433339</td>
-<td>25.333448</td>
-<td>40.400496</td>
-<td>39.965786</td>
-<td>597.406209</td>
-<td>190.690521</td>
-<td>141.886964</td>
-<td>161.474539</td>
-<td>24.128422</td>
-<td>40.679341</td>
-<td>45.175867</td>
-<td>604.035654</td>
+<td data-quarto-table-cell-role="th">7</td>
+<td>Brazil</td>
+<td>4.779510</td>
+<td>1.456072</td>
+<td>0.712471</td>
+<td>0.132921</td>
+<td>3.417763</td>
+<td>2.355674</td>
+<td>12.854411</td>
+<td>5.006519</td>
+<td>1.151143</td>
+<td>0.585582</td>
+<td>0.131125</td>
+<td>4.008753</td>
+<td>2.526408</td>
+<td>13.409531</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">88</td>
-<td>of which: OECD</td>
-<td>85.054943</td>
-<td>65.261314</td>
-<td>29.941897</td>
-<td>17.285087</td>
-<td>13.661267</td>
-<td>21.173076</td>
-<td>232.377585</td>
-<td>87.978756</td>
-<td>64.676317</td>
-<td>28.899354</td>
-<td>16.115615</td>
-<td>13.216860</td>
-<td>23.533032</td>
-<td>234.419935</td>
+<td data-quarto-table-cell-role="th">8</td>
+<td>Chile</td>
+<td>0.760950</td>
+<td>0.245625</td>
+<td>0.292000</td>
+<td>0.000000</td>
+<td>0.170241</td>
+<td>0.247869</td>
+<td>1.716685</td>
+<td>0.796943</td>
+<td>0.268543</td>
+<td>0.220206</td>
+<td>0.000000</td>
+<td>0.208811</td>
+<td>0.294019</td>
+<td>1.788522</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">89</td>
-<td>Non-OECD</td>
-<td>99.803819</td>
-<td>81.153063</td>
-<td>130.491442</td>
-<td>8.048361</td>
-<td>26.739229</td>
-<td>18.792711</td>
-<td>365.028624</td>
-<td>102.711765</td>
-<td>77.210647</td>
-<td>132.575186</td>
-<td>8.012806</td>
-<td>27.462480</td>
-<td>21.642835</td>
-<td>369.615719</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">90</td>
-<td>European Union</td>
-<td>21.377587</td>
-<td>14.292494</td>
-<td>6.843064</td>
-<td>6.614155</td>
-<td>3.271308</td>
-<td>7.881390</td>
-<td>60.279999</td>
-<td>22.134121</td>
-<td>12.361101</td>
-<td>6.978611</td>
-<td>5.481124</td>
-<td>2.598522</td>
-<td>8.626509</td>
-<td>58.179988</td>
+<td data-quarto-table-cell-role="th">9</td>
+<td>Colombia</td>
+<td>0.858505</td>
+<td>0.454559</td>
+<td>0.113252</td>
+<td>0.000000</td>
+<td>0.569879</td>
+<td>0.071280</td>
+<td>2.067475</td>
+<td>0.961179</td>
+<td>0.453061</td>
+<td>0.102573</td>
+<td>0.000000</td>
+<td>0.603849</td>
+<td>0.072975</td>
+<td>2.193637</td>
 </tr>
 </tbody>
 </table>
 
-<p>91 rows × 15 columns</p>
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="3">
+</section>
+<section id="clean-data" class="level4">
+<h4 class="anchored" data-anchor-id="clean-data">Clean Data</h4>
+<div class="cell" data-execution_count="8">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># clean data to get desired columns</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>desired_columns <span class="op">=</span> bp_data.columns[[<span class="dv">0</span>, <span class="op">*</span><span class="bu">range</span>(<span class="dv">8</span>,<span class="dv">15</span>)]]</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>bp_data <span class="op">=</span> bp_data[desired_columns]</span>
@@ -343,8 +357,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># bp_data&lt;-bp_data %&gt;% select(1,seq(9,15))</span></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># print out new dataframe</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>bp_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="3">
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>bp_data.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="8">
 <div>
 
 
@@ -419,79 +434,69 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>118.778497</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
+<td data-quarto-table-cell-role="th">5</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">86</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
+<td data-quarto-table-cell-role="th">6</td>
+<td>Argentina</td>
+<td>1.378020</td>
+<td>1.644587</td>
+<td>0.051836</td>
+<td>0.067271</td>
+<td>0.224219</td>
+<td>0.237570</td>
+<td>3.603504</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">87</td>
-<td>Total World</td>
-<td>190.690521</td>
-<td>141.886964</td>
-<td>161.474539</td>
-<td>24.128422</td>
-<td>40.679341</td>
-<td>45.175867</td>
-<td>604.035654</td>
+<td data-quarto-table-cell-role="th">7</td>
+<td>Brazil</td>
+<td>5.006519</td>
+<td>1.151143</td>
+<td>0.585582</td>
+<td>0.131125</td>
+<td>4.008753</td>
+<td>2.526408</td>
+<td>13.409531</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">88</td>
-<td>of which: OECD</td>
-<td>87.978756</td>
-<td>64.676317</td>
-<td>28.899354</td>
-<td>16.115615</td>
-<td>13.216860</td>
-<td>23.533032</td>
-<td>234.419935</td>
+<td data-quarto-table-cell-role="th">8</td>
+<td>Chile</td>
+<td>0.796943</td>
+<td>0.268543</td>
+<td>0.220206</td>
+<td>0.000000</td>
+<td>0.208811</td>
+<td>0.294019</td>
+<td>1.788522</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">89</td>
-<td>Non-OECD</td>
-<td>102.711765</td>
-<td>77.210647</td>
-<td>132.575186</td>
-<td>8.012806</td>
-<td>27.462480</td>
-<td>21.642835</td>
-<td>369.615719</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">90</td>
-<td>European Union</td>
-<td>22.134121</td>
-<td>12.361101</td>
-<td>6.978611</td>
-<td>5.481124</td>
-<td>2.598522</td>
-<td>8.626509</td>
-<td>58.179988</td>
+<td data-quarto-table-cell-role="th">9</td>
+<td>Colombia</td>
+<td>0.961179</td>
+<td>0.453061</td>
+<td>0.102573</td>
+<td>0.000000</td>
+<td>0.603849</td>
+<td>0.072975</td>
+<td>2.193637</td>
 </tr>
 </tbody>
 </table>
 
-<p>91 rows × 8 columns</p>
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="4">
+<div class="cell" data-execution_count="9">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># change column names</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>bp_data.columns <span class="op">=</span> [<span class="st">"Country"</span>,<span class="st">"Oil"</span>,<span class="st">"Natural Gas"</span>,<span class="st">"Coal"</span>,<span class="st">"Nuclear"</span>,<span class="st">"Hydro"</span>,<span class="st">"Renewables"</span>,<span class="st">"Total"</span>]</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -499,8 +504,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># names(bp_data)&lt;-c("country","Oil","Natural Gas","Coal","Nuclear","Hydro","Renewables","Total")</span></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># print out new dataframe</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>bp_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>bp_data.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="9">
 <div>
 
 
@@ -575,79 +581,69 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>118.778497</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
+<td data-quarto-table-cell-role="th">5</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">86</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
+<td data-quarto-table-cell-role="th">6</td>
+<td>Argentina</td>
+<td>1.378020</td>
+<td>1.644587</td>
+<td>0.051836</td>
+<td>0.067271</td>
+<td>0.224219</td>
+<td>0.237570</td>
+<td>3.603504</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">87</td>
-<td>Total World</td>
-<td>190.690521</td>
-<td>141.886964</td>
-<td>161.474539</td>
-<td>24.128422</td>
-<td>40.679341</td>
-<td>45.175867</td>
-<td>604.035654</td>
+<td data-quarto-table-cell-role="th">7</td>
+<td>Brazil</td>
+<td>5.006519</td>
+<td>1.151143</td>
+<td>0.585582</td>
+<td>0.131125</td>
+<td>4.008753</td>
+<td>2.526408</td>
+<td>13.409531</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">88</td>
-<td>of which: OECD</td>
-<td>87.978756</td>
-<td>64.676317</td>
-<td>28.899354</td>
-<td>16.115615</td>
-<td>13.216860</td>
-<td>23.533032</td>
-<td>234.419935</td>
+<td data-quarto-table-cell-role="th">8</td>
+<td>Chile</td>
+<td>0.796943</td>
+<td>0.268543</td>
+<td>0.220206</td>
+<td>0.000000</td>
+<td>0.208811</td>
+<td>0.294019</td>
+<td>1.788522</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">89</td>
-<td>Non-OECD</td>
-<td>102.711765</td>
-<td>77.210647</td>
-<td>132.575186</td>
-<td>8.012806</td>
-<td>27.462480</td>
-<td>21.642835</td>
-<td>369.615719</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">90</td>
-<td>European Union</td>
-<td>22.134121</td>
-<td>12.361101</td>
-<td>6.978611</td>
-<td>5.481124</td>
-<td>2.598522</td>
-<td>8.626509</td>
-<td>58.179988</td>
+<td data-quarto-table-cell-role="th">9</td>
+<td>Colombia</td>
+<td>0.961179</td>
+<td>0.453061</td>
+<td>0.102573</td>
+<td>0.000000</td>
+<td>0.603849</td>
+<td>0.072975</td>
+<td>2.193637</td>
 </tr>
 </tbody>
 </table>
 
-<p>91 rows × 8 columns</p>
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="5">
+<div class="cell" data-execution_count="10">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># data filtering for NaN values</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># remove observations that have an NA for country</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>bp_data <span class="op">=</span> bp_data.dropna(subset<span class="op">=</span>[<span class="st">'Country'</span>])</span>
@@ -655,8 +651,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># equivalent R code</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># bp_data&lt;-bp_data%&gt;%filter(!is.na(country))</span></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>bp_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>bp_data.head(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="10">
 <div>
 
 
@@ -731,79 +728,69 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>3.603504</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
+<td data-quarto-table-cell-role="th">7</td>
+<td>Brazil</td>
+<td>5.006519</td>
+<td>1.151143</td>
+<td>0.585582</td>
+<td>0.131125</td>
+<td>4.008753</td>
+<td>2.526408</td>
+<td>13.409531</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">85</td>
-<td>Total Asia Pacific</td>
-<td>69.614733</td>
-<td>32.654824</td>
-<td>130.498829</td>
-<td>6.645511</td>
-<td>17.940396</td>
-<td>20.240810</td>
-<td>277.595104</td>
+<td data-quarto-table-cell-role="th">8</td>
+<td>Chile</td>
+<td>0.796943</td>
+<td>0.268543</td>
+<td>0.220206</td>
+<td>0.000000</td>
+<td>0.208811</td>
+<td>0.294019</td>
+<td>1.788522</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">87</td>
-<td>Total World</td>
-<td>190.690521</td>
-<td>141.886964</td>
-<td>161.474539</td>
-<td>24.128422</td>
-<td>40.679341</td>
-<td>45.175867</td>
-<td>604.035654</td>
+<td data-quarto-table-cell-role="th">9</td>
+<td>Colombia</td>
+<td>0.961179</td>
+<td>0.453061</td>
+<td>0.102573</td>
+<td>0.000000</td>
+<td>0.603849</td>
+<td>0.072975</td>
+<td>2.193637</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">88</td>
-<td>of which: OECD</td>
-<td>87.978756</td>
-<td>64.676317</td>
-<td>28.899354</td>
-<td>16.115615</td>
-<td>13.216860</td>
-<td>23.533032</td>
-<td>234.419935</td>
+<td data-quarto-table-cell-role="th">10</td>
+<td>Ecuador</td>
+<td>0.527438</td>
+<td>0.019791</td>
+<td>0.002879</td>
+<td>0.000000</td>
+<td>0.231218</td>
+<td>0.006055</td>
+<td>0.787380</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">89</td>
-<td>Non-OECD</td>
-<td>102.711765</td>
-<td>77.210647</td>
-<td>132.575186</td>
-<td>8.012806</td>
-<td>27.462480</td>
-<td>21.642835</td>
-<td>369.615719</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">90</td>
-<td>European Union</td>
-<td>22.134121</td>
-<td>12.361101</td>
-<td>6.978611</td>
-<td>5.481124</td>
-<td>2.598522</td>
-<td>8.626509</td>
-<td>58.179988</td>
+<td data-quarto-table-cell-role="th">11</td>
+<td>Peru</td>
+<td>0.497067</td>
+<td>0.346346</td>
+<td>0.029294</td>
+<td>0.000000</td>
+<td>0.279133</td>
+<td>0.053777</td>
+<td>1.205618</td>
 </tr>
 </tbody>
 </table>
 
-<p>83 rows × 8 columns</p>
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="6">
+<div class="cell" data-execution_count="11">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># only grab 'totals' data</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>bp_data <span class="op">=</span> bp_data[bp_data[<span class="st">'Country'</span>].<span class="bu">str</span>.contains(<span class="st">'Total'</span>)]</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -811,7 +798,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># bp_data&lt;-bp_data%&gt;%filter(grepl("Total",country))</span></span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>bp_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="6">
+</details>
+<div class="cell-output cell-output-display" data-execution_count="11">
 <div>
 
 
@@ -924,7 +912,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="7">
+<div class="cell" data-execution_count="12">
+<details>
+<summary>Code</summary>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># replace text to strip the word “Total” out of all my regions</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>bp_data[<span class="st">'Country'</span>] <span class="op">=</span> bp_data[<span class="st">'Country'</span>].<span class="bu">str</span>.replace(<span class="st">'Total'</span>, <span class="st">''</span>).<span class="bu">str</span>.strip()</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -933,15 +923,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># now this is the data that we want to graph</span></span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>bp_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>/var/folders/s5/yg5h8c3j31s_2ln84ztn6rgh0000gn/T/ipykernel_56764/835576135.py:2: SettingWithCopyWarning: 
-A value is trying to be set on a copy of a slice from a DataFrame.
-Try using .loc[row_indexer,col_indexer] = value instead
-
-See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stable/user_guide/indexing.html#returning-a-view-versus-a-copy
-  bp_data['Country'] = bp_data['Country'].str.replace('Total', '').str.strip()</code></pre>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="7">
+</details>
+<div class="cell-output cell-output-display" data-execution_count="12">
 <div>
 
 
@@ -1054,20 +1037,26 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pivot the data to a longer style, by country</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Use melt to pivot</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>bp_data <span class="op">=</span> bp_data.melt(</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  id_vars<span class="op">=</span>[<span class="st">'Country'</span>], </span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  value_vars<span class="op">=</span>[<span class="st">'Oil'</span>, <span class="st">'Natural Gas'</span>, <span class="st">'Coal'</span>, <span class="st">'Nuclear'</span>, <span class="st">'Hydro'</span>, <span class="st">'Renewables'</span>, <span class="st">'Total'</span>], </span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  var_name<span class="op">=</span><span class="st">'source'</span>, </span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  value_name<span class="op">=</span><span class="st">'tpes'</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co"># equivalent R code</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>bp_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="8">
+</section>
+<section id="change-data-from-wide-to-long" class="level4">
+<h4 class="anchored" data-anchor-id="change-data-from-wide-to-long">Change Data From ‘Wide’ to ‘Long’</h4>
+<div class="cell" data-execution_count="13">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># pivot the data to a longer style, by country</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Use melt to pivot</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>bp_data <span class="op">=</span> bp_data.melt(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  id_vars<span class="op">=</span>[<span class="st">'Country'</span>], </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  value_vars<span class="op">=</span>[<span class="st">'Oil'</span>, <span class="st">'Natural Gas'</span>, <span class="st">'Coal'</span>, <span class="st">'Nuclear'</span>, <span class="st">'Hydro'</span>, <span class="st">'Renewables'</span>, <span class="st">'Total'</span>], </span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  var_name<span class="op">=</span><span class="st">'source'</span>, </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  value_name<span class="op">=</span><span class="st">'tpes'</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co"># equivalent R code</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>bp_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="13">
 <div>
 
 
@@ -1423,27 +1412,34 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
 </div>
 </div>
 </div>
-<div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># take out the global observations</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>bp_data <span class="op">=</span> bp_data[<span class="op">~</span>bp_data[<span class="st">'Country'</span>].<span class="bu">str</span>.contains(<span class="st">'World'</span>)]</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># take out the 'total' column</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>bp_data <span class="op">=</span> bp_data[<span class="op">~</span>bp_data[<span class="st">'source'</span>].<span class="bu">str</span>.contains(<span class="st">'Total'</span>)]</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co"># create graph</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>bp_data <span class="op">=</span> bp_data.pivot(index<span class="op">=</span><span class="st">'Country'</span>, columns<span class="op">=</span><span class="st">'source'</span>, values<span class="op">=</span><span class="st">'tpes'</span>)</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> bp_data.plot(kind<span class="op">=</span><span class="st">'bar'</span>, stacked<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">7</span>))</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'TPES (Exajoules)'</span>)</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'country'</span>)</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Primary Energy Consumption by Source'</span>)</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">'ggplot'</span>)</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>)</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="graph-visualization" class="level4">
+<h4 class="anchored" data-anchor-id="graph-visualization">Graph Visualization</h4>
+<div class="cell" data-execution_count="14">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># take out the global observations</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>bp_data <span class="op">=</span> bp_data[<span class="op">~</span>bp_data[<span class="st">'Country'</span>].<span class="bu">str</span>.contains(<span class="st">'World'</span>)]</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># take out the 'total' column</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>bp_data <span class="op">=</span> bp_data[<span class="op">~</span>bp_data[<span class="st">'source'</span>].<span class="bu">str</span>.contains(<span class="st">'Total'</span>)]</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co"># create graph</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>bp_data <span class="op">=</span> bp_data.pivot(index<span class="op">=</span><span class="st">'Country'</span>, columns<span class="op">=</span><span class="st">'source'</span>, values<span class="op">=</span><span class="st">'tpes'</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> bp_data.plot(kind<span class="op">=</span><span class="st">'bar'</span>, stacked<span class="op">=</span><span class="va">True</span>, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">7</span>))</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">'TPES (Exajoules)'</span>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">'country'</span>)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Primary Energy Consumption by Source'</span>)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">'ggplot'</span>)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>plt.xticks(rotation<span class="op">=</span><span class="dv">45</span>)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <p><img src="de_week1_files/figure-html/cell-10-output-1.png" class="img-fluid"></p>
 </div>
 </div>
+</section>
 
 </main>
 <!-- /main column -->
