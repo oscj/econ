@@ -1,0 +1,44 @@
+/* Change text color of dropdown when closed */
+.Select-control .Select-value-label {
+  color: white !important;
+}
+
+/* Change text color of dropdown when expanded */
+.Select-menu-outer .Select-option {
+  color: white !important;
+}
+
+/* Change background color of dropdown when expanded */
+.Select-menu-outer {
+  background-color: black !important;
+}
+
+/* Change background color of dropdown when closed */
+.Select-control {
+  background-color: black !important;
+}
+
+/* Prevent color change on hover for the dropdown */
+.Select-menu-outer .Select-option.is-focused,
+.Select-menu-outer .Select-option:hover {
+  background-color: black !important;
+  color: white !important;
+}
+
+/* Styling for HTML select element used in Plotly charts */
+.updatemenu-dropdown {
+  color: white !important;
+  background-color: black !important;
+}
+
+/* Styling for the options when dropdown is expanded */
+.updatemenu-dropdown option {
+  color: white !important;
+  background-color: black !important;
+}
+
+/* Prevent color change on hover for HTML select element */
+.updatemenu-dropdown option:hover {
+  background-color: black !important;
+  color: white !important;
+}
