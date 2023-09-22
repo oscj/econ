@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Oscar Jaimes">
+<meta name="dcterms.date" content="2023-09-30">
 
-<title>Data Assignment #1 - Canada’s Energy Future</title>
+<title>Data Assignment 1 - Canada’s Energy Future</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -96,22 +98,50 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="fullcontent">
+<body>
 
 <div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#import-required-libraries" id="toc-import-required-libraries" class="nav-link active" data-scroll-target="#import-required-libraries">Import Required Libraries</a></li>
+  <li><a href="#fetch-data-setup-dataframe" id="toc-fetch-data-setup-dataframe" class="nav-link" data-scroll-target="#fetch-data-setup-dataframe">Fetch Data &amp; Setup Dataframe</a></li>
+  <li><a href="#utility-functions" id="toc-utility-functions" class="nav-link" data-scroll-target="#utility-functions">Utility Functions</a></li>
+  <li><a href="#wti-prices---current-measures" id="toc-wti-prices---current-measures" class="nav-link" data-scroll-target="#wti-prices---current-measures">WTI Prices - Current Measures</a></li>
+  <li><a href="#crude-oil-prices---canada-net-zero" id="toc-crude-oil-prices---canada-net-zero" class="nav-link" data-scroll-target="#crude-oil-prices---canada-net-zero">Crude Oil Prices - Canada Net-Zero</a></li>
+  <li><a href="#wcs-crude-oil-prices" id="toc-wcs-crude-oil-prices" class="nav-link" data-scroll-target="#wcs-crude-oil-prices">WCS Crude Oil Prices</a></li>
+  <li><a href="#nit-natural-gas-prices" id="toc-nit-natural-gas-prices" class="nav-link" data-scroll-target="#nit-natural-gas-prices">NIT Natural Gas Prices</a></li>
+  <li><a href="#crude-oil-prices---current-global-net-zero" id="toc-crude-oil-prices---current-global-net-zero" class="nav-link" data-scroll-target="#crude-oil-prices---current-global-net-zero">Crude Oil Prices - Current &amp; Global Net-zero</a></li>
+  <li><a href="#interactive-graphs" id="toc-interactive-graphs" class="nav-link" data-scroll-target="#interactive-graphs">Interactive Graphs</a></li>
+  </ul>
+</nav>
+</div>
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Data Assignment #1 - Canada’s Energy Future</h1>
+<h1 class="title">Data Assignment 1 - Canada’s Energy Future</h1>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Oscar Jaimes </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">September 30, 2023</p>
+    </div>
+  </div>
   
     
   </div>
@@ -119,481 +149,452 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<div>
-<p>
-Name: Oscar Jaimes<br> ID: 1576326<br> Course: ECON366<br>
-</p>
-</div>
-<section id="import-required-libraries" class="level4">
-<h4 class="anchored" data-anchor-id="import-required-libraries">Import Required Libraries</h4>
-<div class="cell" data-execution_count="53">
+<section id="import-required-libraries" class="level2">
+<h2 class="anchored" data-anchor-id="import-required-libraries">Import Required Libraries</h2>
+<div class="cell" data-execution_count="134">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> requests</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> io <span class="im">import</span> BytesIO</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="im">import</span> requests</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="im">from</span> matplotlib <span class="im">import</span> pyplot <span class="im">as</span> plt</span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="im">from</span> io <span class="im">import</span> BytesIO</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
-<section id="fetch-data-setup-dataframe" class="level4">
-<h4 class="anchored" data-anchor-id="fetch-data-setup-dataframe">Fetch Data &amp; Setup Dataframe</h4>
-<div class="cell" data-execution_count="54">
+<section id="fetch-data-setup-dataframe" class="level2">
+<h2 class="anchored" data-anchor-id="fetch-data-setup-dataframe">Fetch Data &amp; Setup Dataframe</h2>
+<div class="cell" data-execution_count="135">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">'''</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">Dataset Information</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">---------------------</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">Canada’s Energy Future 2023: Energy Supply and Demand Projections to 2050 - benchmark-prices-2023</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">'''</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>DATA_URL <span class="op">=</span> <span class="st">'https://www.cer-rec.gc.ca/open/energy/energyfutures2023/benchmark-prices-2023.csv'</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>benchmark_prices <span class="op">=</span> <span class="va">None</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># fetch data from GOC and load it into pandas dataframe</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> requests.get(DATA_URL)</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> BytesIO(response.content) <span class="im">as</span> data:</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    benchmark_prices <span class="op">=</span> pd.read_csv(data)</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter out unwanted column </span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>benchmark_prices.drop(<span class="st">'Unnamed: 0'</span>, axis<span class="op">=</span><span class="dv">1</span>, inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">'''</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="co">Dataset Information</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="co">---------------------</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="co">Canada’s Energy Future 2023: Energy Supply and Demand Projections to 2050 - benchmark-prices-2023</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="co">'''</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a></span>
+<span id="cb2-7"><a href="#cb2-7"></a>DATA_URL <span class="op">=</span> <span class="st">'https://www.cer-rec.gc.ca/open/energy/energyfutures2023/benchmark-prices-2023.csv'</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a>benchmark_prices <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a></span>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="co"># fetch data from GOC and load it into pandas dataframe</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a>response <span class="op">=</span> requests.get(DATA_URL)</span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="cf">with</span> BytesIO(response.content) <span class="im">as</span> data:</span>
+<span id="cb2-13"><a href="#cb2-13"></a>    benchmark_prices <span class="op">=</span> pd.read_csv(data)</span>
+<span id="cb2-14"><a href="#cb2-14"></a></span>
+<span id="cb2-15"><a href="#cb2-15"></a><span class="co"># Filter out unwanted column </span></span>
+<span id="cb2-16"><a href="#cb2-16"></a>benchmark_prices.drop(<span class="st">'Unnamed: 0'</span>, axis<span class="op">=</span><span class="dv">1</span>, inplace<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
-<section id="utility-functions" class="level4">
-<h4 class="anchored" data-anchor-id="utility-functions">Utility Functions</h4>
-<div class="cell" data-execution_count="55">
+<section id="utility-functions" class="level2">
+<h2 class="anchored" data-anchor-id="utility-functions">Utility Functions</h2>
+<div class="cell" data-execution_count="136">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> format_table(dataframe, title, width):</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">    Formats a dataframe and returns a styled pandas table</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">    '''</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    table <span class="op">=</span> dataframe.style <span class="op">\</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    .set_caption(title) <span class="op">\</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    .hide(axis<span class="op">=</span><span class="st">"index"</span>) <span class="op">\</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    .<span class="bu">format</span>(precision<span class="op">=</span><span class="dv">2</span>) <span class="op">\</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    .set_properties(<span class="op">**</span>{<span class="st">'width'</span>: width, <span class="st">'text-align'</span>: <span class="st">'center'</span>}) <span class="op">\</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    .set_table_attributes(<span class="st">"style='width: 100%'"</span>) <span class="op">\</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    .set_table_styles([</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>        {</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        <span class="st">'selector'</span>: <span class="st">'th'</span>,</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        <span class="st">'props'</span>: [(<span class="st">'text-align'</span>, <span class="st">'center'</span>)]</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        },</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        {</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">'selector'</span>: <span class="st">'caption'</span>,</span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">'props'</span>: [(<span class="st">'text-align'</span>, <span class="st">'center'</span>), (<span class="st">'font-size'</span>, <span class="st">'16px'</span>)]</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        }])</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> table</span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_line_graph(data, x, y, hue, title, y_label, caption, yticks, subtitle<span class="op">=</span><span class="st">''</span>, grouping<span class="op">=</span><span class="va">False</span>, group_name<span class="op">=</span><span class="st">''</span>, legend_n_cols<span class="op">=</span><span class="dv">1</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''</span></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="co">    Creates and shows a line graph based on the above parameters.</span></span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="co">    This function will create a line graph based on any arbritrary data.</span></span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="co">    '''</span></span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    palette <span class="op">=</span> sns.color_palette(<span class="st">"colorblind"</span>, n_colors<span class="op">=</span>data[hue].nunique())</span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    set_figure_size(grouping)</span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    plot_line(data, x, y, hue, grouping, group_name, palette)</span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    set_title_and_subtitle(title, subtitle)</span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    set_axes(y_label, yticks)</span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    style_legend(grouping, legend_n_cols)</span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    add_caption(caption, grouping)</span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    set_grid_and_display()</span>
-<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_line(data, x, y, hue, grouping, group_name, palette):</span>
-<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''</span></span>
-<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="co">    Handles the plotting of lines on the graph, accounts for grouping scenarios</span></span>
-<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="co">    '''</span></span>
-<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> grouping:</span>
-<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>        sns.lineplot(data<span class="op">=</span>data, x<span class="op">=</span>x, y<span class="op">=</span>y, hue<span class="op">=</span>hue, style<span class="op">=</span>group_name, dashes<span class="op">=</span><span class="va">True</span>, palette<span class="op">=</span>palette)</span>
-<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>        sns.lineplot(data<span class="op">=</span>data, x<span class="op">=</span>x, y<span class="op">=</span>y, hue<span class="op">=</span>hue, palette<span class="op">=</span>palette)</span>
-<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> set_figure_size(grouping):</span>
-<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''</span></span>
-<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a><span class="co">    Sets the figure size based on grouping</span></span>
-<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a><span class="co">    '''</span></span>
-<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> grouping:</span>
-<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>        plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">10</span>))</span>
-<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
-<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>        plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">10</span>))</span>
-<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> set_title_and_subtitle(title, subtitle):</span>
-<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''</span></span>
-<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a><span class="co">    Inserts title and subtitle elements into the graph</span></span>
-<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a><span class="co">    '''</span></span>
-<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>    plt.gca().text(<span class="dv">0</span>, <span class="fl">1.07</span>, title, transform<span class="op">=</span>plt.gca().transAxes, fontsize<span class="op">=</span><span class="dv">14</span>, verticalalignment<span class="op">=</span><span class="st">'bottom'</span>, ha<span class="op">=</span><span class="st">'left'</span>)</span>
-<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> subtitle:</span>
-<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>        plt.gca().text(<span class="dv">0</span>, <span class="fl">1.05</span>, subtitle, transform<span class="op">=</span>plt.gca().transAxes, verticalalignment<span class="op">=</span><span class="st">'top'</span>, ha<span class="op">=</span><span class="st">'left'</span>)</span>
-<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> set_axes(y_label, yticks):</span>
-<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''</span></span>
-<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a><span class="co">    Formats the axes on the graph</span></span>
-<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a><span class="co">    '''</span></span>
-<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(y_label)</span>
-<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">''</span>)</span>
-<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a>    plt.yticks(yticks)</span>
-<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> style_legend(grouping, legend_n_cols):</span>
-<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''</span></span>
-<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a><span class="co">    Styles the legend on the graph</span></span>
-<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a><span class="co">    '''</span></span>
-<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>    loc <span class="op">=</span> <span class="st">'upper center'</span></span>
-<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>    bbox_to_anchor <span class="op">=</span> (<span class="fl">0.5</span> <span class="cf">if</span> <span class="kw">not</span> grouping <span class="cf">else</span> <span class="fl">0.25</span>, <span class="op">-</span><span class="fl">0.10</span>)</span>
-<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>    plt.legend(loc<span class="op">=</span>loc, bbox_to_anchor<span class="op">=</span>bbox_to_anchor, ncol<span class="op">=</span>legend_n_cols)</span>
-<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> add_caption(caption, grouping):</span>
-<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''</span></span>
-<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a><span class="co">    Controls adding a caption under the graph</span></span>
-<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a><span class="co">    '''</span></span>
-<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a>    plt.text(x<span class="op">=</span><span class="dv">1</span>, y<span class="op">=-</span><span class="fl">0.3</span> <span class="cf">if</span> <span class="kw">not</span> grouping <span class="cf">else</span> <span class="op">-</span><span class="fl">0.4</span>, s<span class="op">=</span>caption, transform<span class="op">=</span>plt.gca().transAxes, ha<span class="op">=</span><span class="st">'right'</span>, va<span class="op">=</span><span class="st">'bottom'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
-<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> set_grid_and_display():</span>
-<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a>    <span class="co">'''</span></span>
-<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a><span class="co">    Controls setting the grid lines on the graph and displaying the graph in a cell</span></span>
-<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a><span class="co">    '''</span></span>
-<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a>    plt.grid(<span class="va">True</span>, which<span class="op">=</span><span class="st">'both'</span>, color<span class="op">=</span><span class="st">'lightgray'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>)</span>
-<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a>    sns.despine(left<span class="op">=</span><span class="va">True</span>, bottom<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a>    plt.tight_layout()</span>
-<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">def</span> format_table(dataframe, title, width):</span>
+<span id="cb3-2"><a href="#cb3-2"></a>    <span class="co">'''</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="co">    Formats a dataframe and returns a styled pandas table</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co">    '''</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a>    table <span class="op">=</span> dataframe.style <span class="op">\</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a>    .set_caption(title) <span class="op">\</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a>    .hide(axis<span class="op">=</span><span class="st">"index"</span>) <span class="op">\</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a>    .<span class="bu">format</span>(precision<span class="op">=</span><span class="dv">2</span>) <span class="op">\</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a>    .set_properties(<span class="op">**</span>{<span class="st">'width'</span>: width, <span class="st">'text-align'</span>: <span class="st">'center'</span>}) <span class="op">\</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a>    .set_table_attributes(<span class="st">"style='width: 100%'"</span>) <span class="op">\</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a>    .set_table_styles([</span>
+<span id="cb3-12"><a href="#cb3-12"></a>        {</span>
+<span id="cb3-13"><a href="#cb3-13"></a>        <span class="st">'selector'</span>: <span class="st">'th'</span>,</span>
+<span id="cb3-14"><a href="#cb3-14"></a>        <span class="st">'props'</span>: [(<span class="st">'text-align'</span>, <span class="st">'center'</span>)]</span>
+<span id="cb3-15"><a href="#cb3-15"></a>        },</span>
+<span id="cb3-16"><a href="#cb3-16"></a>        {</span>
+<span id="cb3-17"><a href="#cb3-17"></a>        <span class="st">'selector'</span>: <span class="st">'caption'</span>,</span>
+<span id="cb3-18"><a href="#cb3-18"></a>        <span class="st">'props'</span>: [(<span class="st">'text-align'</span>, <span class="st">'center'</span>), (<span class="st">'font-size'</span>, <span class="st">'16px'</span>)]</span>
+<span id="cb3-19"><a href="#cb3-19"></a>        }])</span>
+<span id="cb3-20"><a href="#cb3-20"></a></span>
+<span id="cb3-21"><a href="#cb3-21"></a>    <span class="cf">return</span> table</span>
+<span id="cb3-22"><a href="#cb3-22"></a></span>
+<span id="cb3-23"><a href="#cb3-23"></a></span>
+<span id="cb3-24"><a href="#cb3-24"></a><span class="kw">def</span> create_line_graph(data, x, y, hue, title, y_label, caption, yticks, subtitle<span class="op">=</span><span class="st">''</span>, grouping<span class="op">=</span><span class="va">False</span>, group_name<span class="op">=</span><span class="st">''</span>, legend_n_cols<span class="op">=</span><span class="dv">1</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb3-25"><a href="#cb3-25"></a>    <span class="co">'''</span></span>
+<span id="cb3-26"><a href="#cb3-26"></a><span class="co">    Creates and shows a line graph based on the above parameters.</span></span>
+<span id="cb3-27"><a href="#cb3-27"></a><span class="co">    This function will create a line graph based on any arbritrary data.</span></span>
+<span id="cb3-28"><a href="#cb3-28"></a><span class="co">    '''</span></span>
+<span id="cb3-29"><a href="#cb3-29"></a>    <span class="co"># color and size</span></span>
+<span id="cb3-30"><a href="#cb3-30"></a>    palette <span class="op">=</span> sns.color_palette(<span class="st">"viridis"</span>, n_colors<span class="op">=</span>data[hue].nunique())</span>
+<span id="cb3-31"><a href="#cb3-31"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>))</span>
+<span id="cb3-32"><a href="#cb3-32"></a></span>
+<span id="cb3-33"><a href="#cb3-33"></a>    <span class="co"># plot the line based on grouping</span></span>
+<span id="cb3-34"><a href="#cb3-34"></a>    <span class="cf">if</span> grouping:</span>
+<span id="cb3-35"><a href="#cb3-35"></a>        sns.lineplot(data<span class="op">=</span>data, x<span class="op">=</span>x, y<span class="op">=</span>y, hue<span class="op">=</span>hue, style<span class="op">=</span>group_name, dashes<span class="op">=</span><span class="va">True</span>, palette<span class="op">=</span>palette)</span>
+<span id="cb3-36"><a href="#cb3-36"></a>    <span class="cf">else</span>:</span>
+<span id="cb3-37"><a href="#cb3-37"></a>        sns.lineplot(data<span class="op">=</span>data, x<span class="op">=</span>x, y<span class="op">=</span>y, hue<span class="op">=</span>hue, palette<span class="op">=</span>palette)</span>
+<span id="cb3-38"><a href="#cb3-38"></a></span>
+<span id="cb3-39"><a href="#cb3-39"></a>    <span class="co"># add title and subtitle</span></span>
+<span id="cb3-40"><a href="#cb3-40"></a>    plt.gca().text(<span class="dv">0</span>, <span class="fl">1.07</span>, title, transform<span class="op">=</span>plt.gca().transAxes, fontsize<span class="op">=</span><span class="dv">14</span>, verticalalignment<span class="op">=</span><span class="st">'bottom'</span>, ha<span class="op">=</span><span class="st">'left'</span>)</span>
+<span id="cb3-41"><a href="#cb3-41"></a>    <span class="cf">if</span> subtitle:</span>
+<span id="cb3-42"><a href="#cb3-42"></a>        plt.gca().text(<span class="dv">0</span>, <span class="fl">1.05</span>, subtitle, transform<span class="op">=</span>plt.gca().transAxes, verticalalignment<span class="op">=</span><span class="st">'top'</span>, ha<span class="op">=</span><span class="st">'left'</span>)</span>
+<span id="cb3-43"><a href="#cb3-43"></a>        </span>
+<span id="cb3-44"><a href="#cb3-44"></a>    <span class="co"># format axes</span></span>
+<span id="cb3-45"><a href="#cb3-45"></a>    plt.ylabel(y_label)</span>
+<span id="cb3-46"><a href="#cb3-46"></a>    plt.xlabel(<span class="st">''</span>)</span>
+<span id="cb3-47"><a href="#cb3-47"></a>    plt.yticks(yticks)</span>
+<span id="cb3-48"><a href="#cb3-48"></a></span>
+<span id="cb3-49"><a href="#cb3-49"></a>    <span class="co"># create and position legend</span></span>
+<span id="cb3-50"><a href="#cb3-50"></a>    bbox_to_anchor <span class="op">=</span> (<span class="fl">0.5</span> <span class="cf">if</span> <span class="kw">not</span> grouping <span class="cf">else</span> <span class="fl">0.25</span>, <span class="op">-</span><span class="fl">0.10</span>)</span>
+<span id="cb3-51"><a href="#cb3-51"></a>    plt.legend(loc<span class="op">=</span><span class="st">'upper center'</span>, bbox_to_anchor<span class="op">=</span>bbox_to_anchor, ncol<span class="op">=</span>legend_n_cols)</span>
+<span id="cb3-52"><a href="#cb3-52"></a></span>
+<span id="cb3-53"><a href="#cb3-53"></a>    <span class="co"># caption/source text</span></span>
+<span id="cb3-54"><a href="#cb3-54"></a>    plt.text(x<span class="op">=</span><span class="dv">1</span>, y<span class="op">=-</span><span class="fl">0.3</span> <span class="cf">if</span> <span class="kw">not</span> grouping <span class="cf">else</span> <span class="op">-</span><span class="fl">0.4</span>, s<span class="op">=</span>caption, transform<span class="op">=</span>plt.gca().transAxes, ha<span class="op">=</span><span class="st">'right'</span>, va<span class="op">=</span><span class="st">'bottom'</span>, fontsize<span class="op">=</span><span class="dv">12</span>)</span>
+<span id="cb3-55"><a href="#cb3-55"></a>    </span>
+<span id="cb3-56"><a href="#cb3-56"></a>    <span class="co"># display final graph</span></span>
+<span id="cb3-57"><a href="#cb3-57"></a>    plt.grid(<span class="va">True</span>, which<span class="op">=</span><span class="st">'both'</span>, color<span class="op">=</span><span class="st">'lightgray'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>, linewidth<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb3-58"><a href="#cb3-58"></a>    sns.despine(left<span class="op">=</span><span class="va">True</span>, bottom<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-59"><a href="#cb3-59"></a>    plt.tight_layout()</span>
+<span id="cb3-60"><a href="#cb3-60"></a>    plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 </section>
-<section id="deliverable-1---wti-prices-in-current-measure-scenario" class="level4">
-<h4 class="anchored" data-anchor-id="deliverable-1---wti-prices-in-current-measure-scenario">Deliverable #1 - WTI Prices In Current Measure Scenario</h4>
-<div class="cell" data-execution_count="56">
+<section id="wti-prices---current-measures" class="level2">
+<h2 class="anchored" data-anchor-id="wti-prices---current-measures">WTI Prices - Current Measures</h2>
+<div class="cell" data-execution_count="137">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>current_measures_prices <span class="op">=</span> benchmark_prices</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter the benchmark_prices table to:</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># only have WTI prices for the 'Current Measures' Scenario</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># only incluide years that are multiples of 5 starting at 2020</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>current_measures_prices <span class="op">=</span> current_measures_prices[</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    (current_measures_prices[<span class="st">'Variable'</span>] <span class="op">==</span> <span class="st">'West Texas Intermediate (WTI) - 2022 US$/bbl'</span>) <span class="op">&amp;</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    (current_measures_prices[<span class="st">'Scenario'</span>] <span class="op">==</span> <span class="st">'Current Measures'</span>) <span class="op">&amp;</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    (current_measures_prices[<span class="st">'Year'</span>] <span class="op">&gt;=</span> <span class="dv">2020</span>) <span class="op">&amp;</span> </span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    (current_measures_prices[<span class="st">'Year'</span>] <span class="op">%</span> <span class="dv">5</span> <span class="op">==</span> <span class="dv">0</span>)</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove columns other than Year and Value</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>current_measures_prices <span class="op">=</span> current_measures_prices[[<span class="st">'Year'</span>, <span class="st">'Value'</span>]]</span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Update the column names for table</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>current_measures_prices.columns <span class="op">=</span> [<span class="st">'Year'</span>, <span class="st">'Price ($2022/bbl)'</span>]</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Create and style table to show</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>current_measures_table <span class="op">=</span> format_table(</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    dataframe<span class="op">=</span>current_measures_prices,</span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'West Texas Intermediate (WTI) prices ($2022 per barrel) in the Current Measures scenario of the Canadian Energy Regulator’s Canada’s Energy Future (2023) report'</span>,</span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    width<span class="op">=</span><span class="st">'50%'</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize the table</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>current_measures_table</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>current_measures_prices <span class="op">=</span> benchmark_prices</span>
+<span id="cb4-2"><a href="#cb4-2"></a></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="co"># Filter the benchmark_prices table to:</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="co"># only have WTI prices for the 'Current Measures' Scenario</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="co"># only incluide years that are multiples of 5 starting at 2020</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a>current_measures_prices <span class="op">=</span> current_measures_prices[</span>
+<span id="cb4-7"><a href="#cb4-7"></a>    (current_measures_prices[<span class="st">'Variable'</span>] <span class="op">==</span> <span class="st">'West Texas Intermediate (WTI) - 2022 US$/bbl'</span>) <span class="op">&amp;</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a>    (current_measures_prices[<span class="st">'Scenario'</span>] <span class="op">==</span> <span class="st">'Current Measures'</span>) <span class="op">&amp;</span></span>
+<span id="cb4-9"><a href="#cb4-9"></a>    (current_measures_prices[<span class="st">'Year'</span>] <span class="op">&gt;=</span> <span class="dv">2020</span>) <span class="op">&amp;</span> </span>
+<span id="cb4-10"><a href="#cb4-10"></a>    (current_measures_prices[<span class="st">'Year'</span>] <span class="op">%</span> <span class="dv">5</span> <span class="op">==</span> <span class="dv">0</span>)</span>
+<span id="cb4-11"><a href="#cb4-11"></a>]</span>
+<span id="cb4-12"><a href="#cb4-12"></a></span>
+<span id="cb4-13"><a href="#cb4-13"></a><span class="co"># Remove columns other than Year and Value</span></span>
+<span id="cb4-14"><a href="#cb4-14"></a>current_measures_prices <span class="op">=</span> current_measures_prices[[<span class="st">'Year'</span>, <span class="st">'Value'</span>]]</span>
+<span id="cb4-15"><a href="#cb4-15"></a></span>
+<span id="cb4-16"><a href="#cb4-16"></a><span class="co"># Update the column names for table</span></span>
+<span id="cb4-17"><a href="#cb4-17"></a>current_measures_prices.columns <span class="op">=</span> [<span class="st">'Year'</span>, <span class="st">'Price ($2022/bbl)'</span>]</span>
+<span id="cb4-18"><a href="#cb4-18"></a></span>
+<span id="cb4-19"><a href="#cb4-19"></a><span class="co"># Create and style table to show</span></span>
+<span id="cb4-20"><a href="#cb4-20"></a>current_measures_table <span class="op">=</span> format_table(</span>
+<span id="cb4-21"><a href="#cb4-21"></a>    dataframe<span class="op">=</span>current_measures_prices,</span>
+<span id="cb4-22"><a href="#cb4-22"></a>    title<span class="op">=</span><span class="st">'West Texas Intermediate (WTI) prices ($2022 per barrel) in the Current Measures scenario of the Canadian Energy Regulator’s Canada’s Energy Future (2023) report'</span>,</span>
+<span id="cb4-23"><a href="#cb4-23"></a>    width<span class="op">=</span><span class="st">'50%'</span></span>
+<span id="cb4-24"><a href="#cb4-24"></a>)</span>
+<span id="cb4-25"><a href="#cb4-25"></a></span>
+<span id="cb4-26"><a href="#cb4-26"></a><span class="co"># Visualize the table</span></span>
+<span id="cb4-27"><a href="#cb4-27"></a>current_measures_table</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-display" data-execution_count="56">
+<div class="cell-output cell-output-display" data-execution_count="137">
 <style type="text/css">
-#T_fb056 th {
+#T_d9e21 th {
   text-align: center;
 }
-#T_fb056 caption {
+#T_d9e21 caption {
   text-align: center;
   font-size: 16px;
 }
-#T_fb056_row0_col0, #T_fb056_row0_col1, #T_fb056_row1_col0, #T_fb056_row1_col1, #T_fb056_row2_col0, #T_fb056_row2_col1, #T_fb056_row3_col0, #T_fb056_row3_col1, #T_fb056_row4_col0, #T_fb056_row4_col1, #T_fb056_row5_col0, #T_fb056_row5_col1, #T_fb056_row6_col0, #T_fb056_row6_col1 {
+#T_d9e21_row0_col0, #T_d9e21_row0_col1, #T_d9e21_row1_col0, #T_d9e21_row1_col1, #T_d9e21_row2_col0, #T_d9e21_row2_col1, #T_d9e21_row3_col0, #T_d9e21_row3_col1, #T_d9e21_row4_col0, #T_d9e21_row4_col1, #T_d9e21_row5_col0, #T_d9e21_row5_col1, #T_d9e21_row6_col0, #T_d9e21_row6_col1 {
   width: 50%;
   text-align: center;
 }
 </style>
 
-<table id="T_fb056" data-quarto-postprocess="true" class="table table-sm table-striped small">
+<table id="T_d9e21" data-quarto-postprocess="true" class="table table-sm table-striped small">
 <caption>West Texas Intermediate (WTI) prices ($2022 per barrel) in the Current Measures scenario of the Canadian Energy Regulator’s Canada’s Energy Future (2023) report</caption>
 <thead>
 <tr class="header">
-<th id="T_fb056_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Year</th>
-<th id="T_fb056_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Price ($2022/bbl)</th>
+<th id="T_d9e21_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">Year</th>
+<th id="T_d9e21_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">Price ($2022/bbl)</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td id="T_fb056_row0_col0" class="data row0 col0">2020</td>
-<td id="T_fb056_row0_col1" class="data row0 col1">43.66</td>
+<td id="T_d9e21_row0_col0" class="data row0 col0">2020</td>
+<td id="T_d9e21_row0_col1" class="data row0 col1">43.66</td>
 </tr>
 <tr class="even">
-<td id="T_fb056_row1_col0" class="data row1 col0">2025</td>
-<td id="T_fb056_row1_col1" class="data row1 col1">76.67</td>
+<td id="T_d9e21_row1_col0" class="data row1 col0">2025</td>
+<td id="T_d9e21_row1_col1" class="data row1 col1">76.67</td>
 </tr>
 <tr class="odd">
-<td id="T_fb056_row2_col0" class="data row2 col0">2030</td>
-<td id="T_fb056_row2_col1" class="data row2 col1">72.50</td>
+<td id="T_d9e21_row2_col0" class="data row2 col0">2030</td>
+<td id="T_d9e21_row2_col1" class="data row2 col1">72.50</td>
 </tr>
 <tr class="even">
-<td id="T_fb056_row3_col0" class="data row3 col0">2035</td>
-<td id="T_fb056_row3_col1" class="data row3 col1">72.50</td>
+<td id="T_d9e21_row3_col0" class="data row3 col0">2035</td>
+<td id="T_d9e21_row3_col1" class="data row3 col1">72.50</td>
 </tr>
 <tr class="odd">
-<td id="T_fb056_row4_col0" class="data row4 col0">2040</td>
-<td id="T_fb056_row4_col1" class="data row4 col1">72.50</td>
+<td id="T_d9e21_row4_col0" class="data row4 col0">2040</td>
+<td id="T_d9e21_row4_col1" class="data row4 col1">72.50</td>
 </tr>
 <tr class="even">
-<td id="T_fb056_row5_col0" class="data row5 col0">2045</td>
-<td id="T_fb056_row5_col1" class="data row5 col1">72.50</td>
+<td id="T_d9e21_row5_col0" class="data row5 col0">2045</td>
+<td id="T_d9e21_row5_col1" class="data row5 col1">72.50</td>
 </tr>
 <tr class="odd">
-<td id="T_fb056_row6_col0" class="data row6 col0">2050</td>
-<td id="T_fb056_row6_col1" class="data row6 col1">72.50</td>
+<td id="T_d9e21_row6_col0" class="data row6 col0">2050</td>
+<td id="T_d9e21_row6_col1" class="data row6 col1">72.50</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 </section>
-<section id="deliverable-2---crude-oil-prices-in-canada-net-zero-scenario" class="level4">
-<h4 class="anchored" data-anchor-id="deliverable-2---crude-oil-prices-in-canada-net-zero-scenario">Deliverable #2 - Crude Oil Prices in Canada Net-Zero Scenario</h4>
-<div class="cell" data-execution_count="8">
+<section id="crude-oil-prices---canada-net-zero" class="level2">
+<h2 class="anchored" data-anchor-id="crude-oil-prices---canada-net-zero">Crude Oil Prices - Canada Net-Zero</h2>
+<div class="cell" data-execution_count="138">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># filter for Canada Net-zero scenario</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>net_zero_prices <span class="op">=</span> benchmark_prices[benchmark_prices[<span class="st">'Scenario'</span>] <span class="op">==</span> <span class="st">'Canada Net-zero'</span>].copy()</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># strip the 2022 US $/bbl from each of the variable names</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>net_zero_prices[<span class="st">'Variable'</span>] <span class="op">=</span> net_zero_prices[<span class="st">'Variable'</span>].<span class="bu">str</span>.split(<span class="st">'-'</span>).<span class="bu">str</span>[<span class="dv">0</span>].<span class="bu">str</span>.strip()</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># filter out prices for Brent, WTI, and WCS</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>included <span class="op">=</span> [<span class="st">'Brent'</span>, <span class="st">'Western Canadian Select (WCS)'</span>, <span class="st">'West Texas Intermediate (WTI)'</span>]</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>net_zero_prices <span class="op">=</span> net_zero_prices[net_zero_prices[<span class="st">"Variable"</span>].isin(included)]</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Create &amp; Show line graph for crude oil spot prices in Canda Net-zero Scenario</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>create_line_graph(</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span>net_zero_prices,</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">'Year'</span>,</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">'Value'</span>,</span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    hue<span class="op">=</span><span class="st">'Variable'</span>,</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Crude Oil Spot Prices, Canada Net-zero Scenario'</span>,</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    y_label<span class="op">=</span><span class="st">'Price (2022 US$/bbl)'</span>,</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    caption<span class="op">=</span><span class="st">'Data via Canadian Energy Regulator, Energy Futures (2023), graph by Oscar Jaimes'</span>,</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    yticks<span class="op">=</span>[n <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">151</span>) <span class="cf">if</span> n <span class="op">%</span> <span class="dv">50</span> <span class="op">==</span> <span class="dv">0</span>],</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    subtitle<span class="op">=</span><span class="va">None</span>,</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    legend_n_cols<span class="op">=</span><span class="dv">3</span>,</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    grouping<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    group_name<span class="op">=</span><span class="va">None</span></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># filter for Canada Net-zero scenario</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a>net_zero_prices <span class="op">=</span> benchmark_prices[benchmark_prices[<span class="st">'Scenario'</span>] <span class="op">==</span> <span class="st">'Canada Net-zero'</span>].copy()</span>
+<span id="cb5-3"><a href="#cb5-3"></a></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="co"># strip the 2022 US $/bbl from each of the variable names</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a>net_zero_prices[<span class="st">'Variable'</span>] <span class="op">=</span> net_zero_prices[<span class="st">'Variable'</span>].<span class="bu">str</span>.split(<span class="st">'-'</span>).<span class="bu">str</span>[<span class="dv">0</span>].<span class="bu">str</span>.strip()</span>
+<span id="cb5-6"><a href="#cb5-6"></a></span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="co"># filter out prices for Brent, WTI, and WCS</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a>included <span class="op">=</span> [<span class="st">'Brent'</span>, <span class="st">'Western Canadian Select (WCS)'</span>, <span class="st">'West Texas Intermediate (WTI)'</span>]</span>
+<span id="cb5-9"><a href="#cb5-9"></a>net_zero_prices <span class="op">=</span> net_zero_prices[net_zero_prices[<span class="st">"Variable"</span>].isin(included)]</span>
+<span id="cb5-10"><a href="#cb5-10"></a></span>
+<span id="cb5-11"><a href="#cb5-11"></a><span class="co"># Create &amp; Show line graph for crude oil spot prices in Canda Net-zero Scenario</span></span>
+<span id="cb5-12"><a href="#cb5-12"></a>create_line_graph(</span>
+<span id="cb5-13"><a href="#cb5-13"></a>    data<span class="op">=</span>net_zero_prices,</span>
+<span id="cb5-14"><a href="#cb5-14"></a>    x<span class="op">=</span><span class="st">'Year'</span>,</span>
+<span id="cb5-15"><a href="#cb5-15"></a>    y<span class="op">=</span><span class="st">'Value'</span>,</span>
+<span id="cb5-16"><a href="#cb5-16"></a>    hue<span class="op">=</span><span class="st">'Variable'</span>,</span>
+<span id="cb5-17"><a href="#cb5-17"></a>    title<span class="op">=</span><span class="st">'Crude Oil Spot Prices, Canada Net-zero Scenario'</span>,</span>
+<span id="cb5-18"><a href="#cb5-18"></a>    y_label<span class="op">=</span><span class="st">'Price (2022 US$/bbl)'</span>,</span>
+<span id="cb5-19"><a href="#cb5-19"></a>    caption<span class="op">=</span><span class="st">'Data via Canadian Energy Regulator, Energy Futures (2023), graph by Oscar Jaimes'</span>,</span>
+<span id="cb5-20"><a href="#cb5-20"></a>    yticks<span class="op">=</span>[n <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">151</span>) <span class="cf">if</span> n <span class="op">%</span> <span class="dv">50</span> <span class="op">==</span> <span class="dv">0</span>],</span>
+<span id="cb5-21"><a href="#cb5-21"></a>    subtitle<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb5-22"><a href="#cb5-22"></a>    legend_n_cols<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb5-23"><a href="#cb5-23"></a>    grouping<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb5-24"><a href="#cb5-24"></a>    group_name<span class="op">=</span><span class="va">None</span></span>
+<span id="cb5-25"><a href="#cb5-25"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <p><img src="assignment1_files/figure-html/cell-6-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
-<section id="deliverable-3---western-canadian-select-wcs-crude-oil-prices" class="level4">
-<h4 class="anchored" data-anchor-id="deliverable-3---western-canadian-select-wcs-crude-oil-prices">Deliverable #3 - Western Canadian Select (WCS) Crude Oil Prices</h4>
-<div class="cell" data-execution_count="57">
+<section id="wcs-crude-oil-prices" class="level2">
+<h2 class="anchored" data-anchor-id="wcs-crude-oil-prices">WCS Crude Oil Prices</h2>
+<div class="cell" data-execution_count="139">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># filter benchmark prices to only include WCS Data</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>wcs_data <span class="op">=</span> benchmark_prices[</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    benchmark_prices[<span class="st">"Variable"</span>] <span class="op">==</span> <span class="st">'Western Canadian Select (WCS) - 2022 US$/bbl'</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># show line graph for WCS prices across multiple scenarios</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>create_line_graph(</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span>wcs_data,</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">'Year'</span>,</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">'Value'</span>,</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    hue<span class="op">=</span><span class="st">'Scenario'</span>,</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Western Canadian Select Crude Oil Prices'</span>,</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    y_label<span class="op">=</span><span class="st">'Price (2022 US$/bbl)'</span>,</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    caption<span class="op">=</span><span class="st">'Data via Canadian Energy Regulator, Energy Futures (2023), graph by Oscar Jaimes'</span>,</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    yticks<span class="op">=</span>[i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">151</span>) <span class="cf">if</span> i <span class="op">%</span> <span class="dv">50</span> <span class="op">==</span> <span class="dv">0</span>],</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    subtitle<span class="op">=</span><span class="st">'Current Measures, Canada Net-zero, and Global Net-zero Scenarios'</span>,</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    legend_n_cols<span class="op">=</span><span class="dv">3</span>,</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    grouping<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    group_name<span class="op">=</span><span class="va">None</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># filter benchmark prices to only include WCS Data</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a>wcs_data <span class="op">=</span> benchmark_prices[</span>
+<span id="cb6-3"><a href="#cb6-3"></a>    benchmark_prices[<span class="st">"Variable"</span>] <span class="op">==</span> <span class="st">'Western Canadian Select (WCS) - 2022 US$/bbl'</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a>]</span>
+<span id="cb6-5"><a href="#cb6-5"></a></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="co"># show line graph for WCS prices across multiple scenarios</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a>create_line_graph(</span>
+<span id="cb6-8"><a href="#cb6-8"></a>    data<span class="op">=</span>wcs_data,</span>
+<span id="cb6-9"><a href="#cb6-9"></a>    x<span class="op">=</span><span class="st">'Year'</span>,</span>
+<span id="cb6-10"><a href="#cb6-10"></a>    y<span class="op">=</span><span class="st">'Value'</span>,</span>
+<span id="cb6-11"><a href="#cb6-11"></a>    hue<span class="op">=</span><span class="st">'Scenario'</span>,</span>
+<span id="cb6-12"><a href="#cb6-12"></a>    title<span class="op">=</span><span class="st">'Western Canadian Select Crude Oil Prices'</span>,</span>
+<span id="cb6-13"><a href="#cb6-13"></a>    y_label<span class="op">=</span><span class="st">'Price (2022 US$/bbl)'</span>,</span>
+<span id="cb6-14"><a href="#cb6-14"></a>    caption<span class="op">=</span><span class="st">'Data via Canadian Energy Regulator, Energy Futures (2023), graph by Oscar Jaimes'</span>,</span>
+<span id="cb6-15"><a href="#cb6-15"></a>    yticks<span class="op">=</span>[i <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">151</span>) <span class="cf">if</span> i <span class="op">%</span> <span class="dv">50</span> <span class="op">==</span> <span class="dv">0</span>],</span>
+<span id="cb6-16"><a href="#cb6-16"></a>    subtitle<span class="op">=</span><span class="st">'Current Measures, Canada Net-zero, and Global Net-zero Scenarios'</span>,</span>
+<span id="cb6-17"><a href="#cb6-17"></a>    legend_n_cols<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb6-18"><a href="#cb6-18"></a>    grouping<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb6-19"><a href="#cb6-19"></a>    group_name<span class="op">=</span><span class="va">None</span></span>
+<span id="cb6-20"><a href="#cb6-20"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <p><img src="assignment1_files/figure-html/cell-7-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
-<section id="deliverable-4---nova-inventory-transfer-nit-gas-prices" class="level4">
-<h4 class="anchored" data-anchor-id="deliverable-4---nova-inventory-transfer-nit-gas-prices">Deliverable #4 - Nova Inventory Transfer (NIT) Gas Prices</h4>
-<div class="cell" data-execution_count="60">
+<section id="nit-natural-gas-prices" class="level2">
+<h2 class="anchored" data-anchor-id="nit-natural-gas-prices">NIT Natural Gas Prices</h2>
+<div class="cell" data-execution_count="140">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># filter benchmark prices to only include NIT Data</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>nit_data <span class="op">=</span> benchmark_prices[</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    benchmark_prices[<span class="st">"Variable"</span>] <span class="op">==</span> <span class="st">'Nova Inventory Transfer (NIT) - 2022 US$/MMBtu'</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># create line graph of NIT prices across different scenarios</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>create_line_graph(</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span>nit_data,</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">'Year'</span>,</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">'Value'</span>,</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    hue<span class="op">=</span><span class="st">'Scenario'</span>,</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Nova Inventory Transfer (NIT) Natural Gas Prices'</span>,</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    y_label<span class="op">=</span><span class="st">'Price (2022 US$/MMBtu)'</span>,</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    caption<span class="op">=</span><span class="st">'Data via Canadian Energy Regulator, Energy Futures (2023), graph by Oscar Jaimes'</span>,</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    yticks<span class="op">=</span>[n <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">13</span>) <span class="cf">if</span> n <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>],</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    subtitle<span class="op">=</span><span class="st">'Current Policies and Evolving Policies Scenarios'</span>,</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    legend_n_cols<span class="op">=</span><span class="dv">3</span>,</span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    grouping<span class="op">=</span><span class="va">False</span>,</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    group_name<span class="op">=</span><span class="va">None</span></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># filter benchmark prices to only include NIT Data</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a>nit_data <span class="op">=</span> benchmark_prices[</span>
+<span id="cb7-3"><a href="#cb7-3"></a>    benchmark_prices[<span class="st">"Variable"</span>] <span class="op">==</span> <span class="st">'Nova Inventory Transfer (NIT) - 2022 US$/MMBtu'</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a>]</span>
+<span id="cb7-5"><a href="#cb7-5"></a></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="co"># create line graph of NIT prices across different scenarios</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a>create_line_graph(</span>
+<span id="cb7-8"><a href="#cb7-8"></a>    data<span class="op">=</span>nit_data,</span>
+<span id="cb7-9"><a href="#cb7-9"></a>    x<span class="op">=</span><span class="st">'Year'</span>,</span>
+<span id="cb7-10"><a href="#cb7-10"></a>    y<span class="op">=</span><span class="st">'Value'</span>,</span>
+<span id="cb7-11"><a href="#cb7-11"></a>    hue<span class="op">=</span><span class="st">'Scenario'</span>,</span>
+<span id="cb7-12"><a href="#cb7-12"></a>    title<span class="op">=</span><span class="st">'Nova Inventory Transfer (NIT) Natural Gas Prices'</span>,</span>
+<span id="cb7-13"><a href="#cb7-13"></a>    y_label<span class="op">=</span><span class="st">'Price (2022 US$/MMBtu)'</span>,</span>
+<span id="cb7-14"><a href="#cb7-14"></a>    caption<span class="op">=</span><span class="st">'Data via Canadian Energy Regulator, Energy Futures (2023), graph by Oscar Jaimes'</span>,</span>
+<span id="cb7-15"><a href="#cb7-15"></a>    yticks<span class="op">=</span>[n <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">13</span>) <span class="cf">if</span> n <span class="op">%</span> <span class="dv">2</span> <span class="op">==</span> <span class="dv">0</span>],</span>
+<span id="cb7-16"><a href="#cb7-16"></a>    subtitle<span class="op">=</span><span class="st">'Current Policies and Evolving Policies Scenarios'</span>,</span>
+<span id="cb7-17"><a href="#cb7-17"></a>    legend_n_cols<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb7-18"><a href="#cb7-18"></a>    grouping<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb7-19"><a href="#cb7-19"></a>    group_name<span class="op">=</span><span class="va">None</span></span>
+<span id="cb7-20"><a href="#cb7-20"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <p><img src="assignment1_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
-<section id="deliverable-5---challenge-graph---crude-oil-prices-in-current-and-global-net-zero-scenarios" class="level4">
-<h4 class="anchored" data-anchor-id="deliverable-5---challenge-graph---crude-oil-prices-in-current-and-global-net-zero-scenarios">Deliverable #5 - Challenge Graph - Crude Oil Prices in Current and Global Net-zero Scenarios</h4>
-<div class="cell" data-execution_count="61">
+<section id="crude-oil-prices---current-global-net-zero" class="level2">
+<h2 class="anchored" data-anchor-id="crude-oil-prices---current-global-net-zero">Crude Oil Prices - Current &amp; Global Net-zero</h2>
+<div class="cell" data-execution_count="141">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># filter for Current Measures and Global Net-zero scenarios</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>valid_scenarios <span class="op">=</span> [<span class="st">'Current Measures'</span>, <span class="st">'Global Net-zero'</span>]</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>oil_prices <span class="op">=</span> benchmark_prices[benchmark_prices[<span class="st">'Scenario'</span>].isin(valid_scenarios)].copy()</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co"># strip the 2022 US $/bbl from each of the variable names</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>oil_prices[<span class="st">'Variable'</span>] <span class="op">=</span> oil_prices[<span class="st">'Variable'</span>].<span class="bu">str</span>.split(<span class="st">'-'</span>).<span class="bu">str</span>[<span class="dv">0</span>].<span class="bu">str</span>.strip()</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># filter out prices for Brent, WTI, and WCS</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>valid_types <span class="op">=</span> [<span class="st">'Brent'</span>, <span class="st">'Western Canadian Select (WCS)'</span>, <span class="st">'West Texas Intermediate (WTI)'</span>]</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>oil_prices <span class="op">=</span> oil_prices[oil_prices[<span class="st">"Variable"</span>].isin(valid_types)]</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Create line graph to show grouped oil prices across different scenarios"</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>create_line_graph(</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    data<span class="op">=</span>oil_prices,</span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="st">'Year'</span>,</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span><span class="st">'Value'</span>,</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    hue<span class="op">=</span><span class="st">'Variable'</span>,</span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Crude Oil Prices'</span>,</span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    subtitle<span class="op">=</span><span class="st">'Current Measures and Global net-zero Scenarios'</span>,</span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    y_label<span class="op">=</span><span class="st">'Price (2022 US$/bbl)'</span>,</span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    caption<span class="op">=</span><span class="st">'Data via Canadian Energy Regulator, Energy Futures (2023), graph by Oscar Jaimes'</span>,</span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    yticks<span class="op">=</span>[n <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">int</span>(oil_prices[<span class="st">'Value'</span>].<span class="bu">max</span>() <span class="op">+</span> <span class="dv">10</span>)) <span class="cf">if</span> n <span class="op">%</span> <span class="dv">50</span> <span class="op">==</span> <span class="dv">0</span>],</span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    grouping<span class="op">=</span><span class="va">True</span>,</span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    group_name<span class="op">=</span><span class="st">'Scenario'</span>,</span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    legend_n_cols<span class="op">=</span><span class="dv">2</span></span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># filter for Current Measures and Global Net-zero scenarios</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>valid_scenarios <span class="op">=</span> [<span class="st">'Current Measures'</span>, <span class="st">'Global Net-zero'</span>]</span>
+<span id="cb8-3"><a href="#cb8-3"></a>oil_prices <span class="op">=</span> benchmark_prices[benchmark_prices[<span class="st">'Scenario'</span>].isin(valid_scenarios)].copy()</span>
+<span id="cb8-4"><a href="#cb8-4"></a></span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="co"># strip the 2022 US $/bbl from each of the variable names</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a>oil_prices[<span class="st">'Variable'</span>] <span class="op">=</span> oil_prices[<span class="st">'Variable'</span>].<span class="bu">str</span>.split(<span class="st">'-'</span>).<span class="bu">str</span>[<span class="dv">0</span>].<span class="bu">str</span>.strip()</span>
+<span id="cb8-7"><a href="#cb8-7"></a></span>
+<span id="cb8-8"><a href="#cb8-8"></a><span class="co"># filter out prices for Brent, WTI, and WCS</span></span>
+<span id="cb8-9"><a href="#cb8-9"></a>valid_types <span class="op">=</span> [<span class="st">'Brent'</span>, <span class="st">'Western Canadian Select (WCS)'</span>, <span class="st">'West Texas Intermediate (WTI)'</span>]</span>
+<span id="cb8-10"><a href="#cb8-10"></a>oil_prices <span class="op">=</span> oil_prices[oil_prices[<span class="st">"Variable"</span>].isin(valid_types)]</span>
+<span id="cb8-11"><a href="#cb8-11"></a></span>
+<span id="cb8-12"><a href="#cb8-12"></a></span>
+<span id="cb8-13"><a href="#cb8-13"></a><span class="co"># Create line graph to show grouped oil prices across different scenarios"</span></span>
+<span id="cb8-14"><a href="#cb8-14"></a>create_line_graph(</span>
+<span id="cb8-15"><a href="#cb8-15"></a>    data<span class="op">=</span>oil_prices,</span>
+<span id="cb8-16"><a href="#cb8-16"></a>    x<span class="op">=</span><span class="st">'Year'</span>,</span>
+<span id="cb8-17"><a href="#cb8-17"></a>    y<span class="op">=</span><span class="st">'Value'</span>,</span>
+<span id="cb8-18"><a href="#cb8-18"></a>    hue<span class="op">=</span><span class="st">'Variable'</span>,</span>
+<span id="cb8-19"><a href="#cb8-19"></a>    title<span class="op">=</span><span class="st">'Crude Oil Prices'</span>,</span>
+<span id="cb8-20"><a href="#cb8-20"></a>    subtitle<span class="op">=</span><span class="st">'Current Measures and Global net-zero Scenarios'</span>,</span>
+<span id="cb8-21"><a href="#cb8-21"></a>    y_label<span class="op">=</span><span class="st">'Price (2022 US$/bbl)'</span>,</span>
+<span id="cb8-22"><a href="#cb8-22"></a>    caption<span class="op">=</span><span class="st">'Data via Canadian Energy Regulator, Energy Futures (2023), graph by Oscar Jaimes'</span>,</span>
+<span id="cb8-23"><a href="#cb8-23"></a>    yticks<span class="op">=</span>[n <span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">int</span>(oil_prices[<span class="st">'Value'</span>].<span class="bu">max</span>() <span class="op">+</span> <span class="dv">10</span>)) <span class="cf">if</span> n <span class="op">%</span> <span class="dv">50</span> <span class="op">==</span> <span class="dv">0</span>],</span>
+<span id="cb8-24"><a href="#cb8-24"></a>    grouping<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb8-25"><a href="#cb8-25"></a>    group_name<span class="op">=</span><span class="st">'Scenario'</span>,</span>
+<span id="cb8-26"><a href="#cb8-26"></a>    legend_n_cols<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb8-27"><a href="#cb8-27"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <p><img src="assignment1_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
-<section id="interactive-graphs" class="level4">
-<h4 class="anchored" data-anchor-id="interactive-graphs">Interactive Graphs</h4>
-<div class="cell" data-execution_count="62">
+<section id="interactive-graphs" class="level2">
+<h2 class="anchored" data-anchor-id="interactive-graphs">Interactive Graphs</h2>
+<p>As an extension of the challenge graph, I wanted to visualize the data such that a user is able to interact with it. Instead of showing multiple line series on the same graph, I figured it would be a good idea to let a user choose what scenario they want to see prices for and then visually compare the changes.</p>
+<p>The following graphs were created with the plotly library. You can:</p>
+<ul>
+<li>Filter the graph by Scenario</li>
+<li>Select/Unselect legend items to view in the graph</li>
+<li>Zoom into a bounding box on the graph</li>
+<li>Download the plot as a PNG</li>
+<li>You can reset the view by double-clicking on the graph</li>
+</ul>
+<div class="cell" data-execution_count="142">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.io <span class="im">as</span> pio</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>pio.renderers.default <span class="op">=</span> <span class="st">"notebook"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="im">import</span> plotly.io <span class="im">as</span> pio</span>
+<span id="cb9-4"><a href="#cb9-4"></a>pio.renderers.default <span class="op">=</span> <span class="st">"notebook"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="cell" data-execution_count="63">
+<div class="cell" data-execution_count="143">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># strip the 2022 US $/bbl from each of the variable names</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>oil_prices <span class="op">=</span> benchmark_prices</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>oil_prices[<span class="st">'Variable'</span>] <span class="op">=</span> oil_prices[<span class="st">'Variable'</span>].<span class="bu">str</span>.split(<span class="st">'-'</span>).<span class="bu">str</span>[<span class="dv">0</span>].<span class="bu">str</span>.strip()</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># filter out prices for Brent, WTI, and WCS</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>valid_types <span class="op">=</span> [<span class="st">'Brent'</span>, <span class="st">'Western Canadian Select (WCS)'</span>, <span class="st">'West Texas Intermediate (WTI)'</span>, <span class="st">'Canadian Light Sweet (CLS)'</span>]</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>oil_prices <span class="op">=</span> oil_prices[oil_prices[<span class="st">"Variable"</span>].isin(valid_types)]</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> oil_prices</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Create traces, one for each combination of Scenario and Variable</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>traces <span class="op">=</span> []</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>first_scenario <span class="op">=</span> df[<span class="st">'Scenario'</span>].iloc[<span class="dv">0</span>]</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> scenario <span class="kw">in</span> df[<span class="st">'Scenario'</span>].unique():</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> variable <span class="kw">in</span> df[<span class="st">'Variable'</span>].unique():</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>        df_filtered <span class="op">=</span> df[(df[<span class="st">'Scenario'</span>] <span class="op">==</span> scenario) <span class="op">&amp;</span> (df[<span class="st">'Variable'</span>] <span class="op">==</span> variable)]</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>        traces.append(</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>            go.Scatter(</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>                x<span class="op">=</span>df_filtered[<span class="st">'Year'</span>],</span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>                y<span class="op">=</span>df_filtered[<span class="st">'Value'</span>],</span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>                mode<span class="op">=</span><span class="st">'lines+markers'</span>,</span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>                name<span class="op">=</span><span class="ss">f"</span><span class="sc">{</span>scenario<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span>variable<span class="sc">}</span><span class="ss">"</span>,</span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>                visible<span class="op">=</span>(scenario <span class="op">==</span> first_scenario)  <span class="co"># Set all traces to invisible initially</span></span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>            )</span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Create layout with dropdown</span></span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>layout <span class="op">=</span> go.Layout(</span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Oil Prices Over Time by Scenario and Variable'</span>,</span>
-<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    xaxis<span class="op">=</span><span class="bu">dict</span>(title<span class="op">=</span><span class="st">'Year'</span>),</span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    yaxis<span class="op">=</span><span class="bu">dict</span>(title<span class="op">=</span><span class="st">'Price(2022 US $/bbl)'</span>),</span>
-<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    autosize<span class="op">=</span><span class="va">True</span>,  <span class="co"># automatically resize to fit container</span></span>
-<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>    updatemenus<span class="op">=</span>[</span>
-<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>        {</span>
-<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>            <span class="st">'buttons'</span>: [</span>
-<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>                {</span>
-<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'args'</span>: [{<span class="st">'visible'</span>: [scenario <span class="kw">in</span> trace.name <span class="cf">for</span> trace <span class="kw">in</span> traces]}],</span>
-<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'label'</span>: scenario,</span>
-<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'method'</span>: <span class="st">'update'</span></span>
-<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>                }</span>
-<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> scenario <span class="kw">in</span> df[<span class="st">'Scenario'</span>].unique()</span>
-<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>            ],</span>
-<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>            <span class="st">'direction'</span>: <span class="st">'down'</span>,</span>
-<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>            <span class="st">'showactive'</span>: <span class="va">True</span>,</span>
-<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>            <span class="st">'x'</span>: <span class="fl">0.5</span>,  <span class="co"># x position (horizontal)</span></span>
-<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>            <span class="st">'xanchor'</span>: <span class="st">'center'</span>,  <span class="co"># anchor at the center of x position</span></span>
-<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>            <span class="st">'y'</span>: <span class="fl">1.15</span>,  <span class="co"># y position (vertical), higher than 1 to be above the chart</span></span>
-<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>            <span class="st">'yanchor'</span>: <span class="st">'top'</span>  <span class="co"># anchor at the top of y position</span></span>
-<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a>    legend<span class="op">=</span><span class="bu">dict</span>(</span>
-<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a>        x<span class="op">=</span><span class="dv">0</span>,  <span class="co"># Legend x-position</span></span>
-<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a>        y<span class="op">=-</span><span class="fl">0.2</span>,  <span class="co"># Legend y-position</span></span>
-<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a>        orientation<span class="op">=</span><span class="st">"h"</span>,  <span class="co"># Horizontal orientation</span></span>
-<span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a>        xanchor<span class="op">=</span><span class="st">'left'</span>,  <span class="co"># Anchor legend at x = 0</span></span>
-<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a>        yanchor<span class="op">=</span><span class="st">'top'</span>  <span class="co"># Anchor legend at y = 0</span></span>
-<span id="cb10-57"><a href="#cb10-57" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb10-58"><a href="#cb10-58" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb10-59"><a href="#cb10-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-60"><a href="#cb10-60" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the figure</span></span>
-<span id="cb10-61"><a href="#cb10-61" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> go.Figure(data<span class="op">=</span>traces, layout<span class="op">=</span>layout)</span>
-<span id="cb10-62"><a href="#cb10-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-63"><a href="#cb10-63" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the first scenario by default</span></span>
-<span id="cb10-64"><a href="#cb10-64" aria-hidden="true" tabindex="-1"></a>first_scenario <span class="op">=</span> df[<span class="st">'Scenario'</span>].iloc[<span class="dv">0</span>]</span>
-<span id="cb10-65"><a href="#cb10-65" aria-hidden="true" tabindex="-1"></a>fig.update_layout(</span>
-<span id="cb10-66"><a href="#cb10-66" aria-hidden="true" tabindex="-1"></a>    updatemenus<span class="op">=</span>[</span>
-<span id="cb10-67"><a href="#cb10-67" aria-hidden="true" tabindex="-1"></a>        {</span>
-<span id="cb10-68"><a href="#cb10-68" aria-hidden="true" tabindex="-1"></a>            <span class="st">'buttons'</span>: [</span>
-<span id="cb10-69"><a href="#cb10-69" aria-hidden="true" tabindex="-1"></a>                {</span>
-<span id="cb10-70"><a href="#cb10-70" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'args'</span>: [{<span class="st">'visible'</span>: [scenario <span class="kw">in</span> trace.name <span class="cf">for</span> trace <span class="kw">in</span> traces]}],</span>
-<span id="cb10-71"><a href="#cb10-71" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'label'</span>: scenario,</span>
-<span id="cb10-72"><a href="#cb10-72" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'method'</span>: <span class="st">'update'</span></span>
-<span id="cb10-73"><a href="#cb10-73" aria-hidden="true" tabindex="-1"></a>                }</span>
-<span id="cb10-74"><a href="#cb10-74" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> scenario <span class="kw">in</span> df[<span class="st">'Scenario'</span>].unique()</span>
-<span id="cb10-75"><a href="#cb10-75" aria-hidden="true" tabindex="-1"></a>            ],</span>
-<span id="cb10-76"><a href="#cb10-76" aria-hidden="true" tabindex="-1"></a>            <span class="st">'direction'</span>: <span class="st">'down'</span>,</span>
-<span id="cb10-77"><a href="#cb10-77" aria-hidden="true" tabindex="-1"></a>            <span class="st">'showactive'</span>: <span class="va">True</span>,</span>
-<span id="cb10-78"><a href="#cb10-78" aria-hidden="true" tabindex="-1"></a>            <span class="st">'active'</span>: <span class="bu">list</span>(df[<span class="st">'Scenario'</span>].unique()).index(first_scenario)</span>
-<span id="cb10-79"><a href="#cb10-79" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb10-80"><a href="#cb10-80" aria-hidden="true" tabindex="-1"></a>    ]</span>
-<span id="cb10-81"><a href="#cb10-81" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb10-82"><a href="#cb10-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-83"><a href="#cb10-83" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the figure</span></span>
-<span id="cb10-84"><a href="#cb10-84" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># strip the 2022 US $/bbl from each of the variable names</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a>oil_prices <span class="op">=</span> benchmark_prices</span>
+<span id="cb10-3"><a href="#cb10-3"></a>oil_prices[<span class="st">'Variable'</span>] <span class="op">=</span> oil_prices[<span class="st">'Variable'</span>].<span class="bu">str</span>.split(<span class="st">'-'</span>).<span class="bu">str</span>[<span class="dv">0</span>].<span class="bu">str</span>.strip()</span>
+<span id="cb10-4"><a href="#cb10-4"></a></span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="co"># filter out prices for Brent, WTI, and WCS</span></span>
+<span id="cb10-6"><a href="#cb10-6"></a>valid_types <span class="op">=</span> [<span class="st">'Brent'</span>, <span class="st">'Western Canadian Select (WCS)'</span>, <span class="st">'West Texas Intermediate (WTI)'</span>, <span class="st">'Canadian Light Sweet (CLS)'</span>]</span>
+<span id="cb10-7"><a href="#cb10-7"></a>oil_prices <span class="op">=</span> oil_prices[oil_prices[<span class="st">"Variable"</span>].isin(valid_types)]</span>
+<span id="cb10-8"><a href="#cb10-8"></a></span>
+<span id="cb10-9"><a href="#cb10-9"></a>df <span class="op">=</span> oil_prices</span>
+<span id="cb10-10"><a href="#cb10-10"></a></span>
+<span id="cb10-11"><a href="#cb10-11"></a><span class="co"># Create traces, one for each combination of Scenario and Variable</span></span>
+<span id="cb10-12"><a href="#cb10-12"></a>traces <span class="op">=</span> []</span>
+<span id="cb10-13"><a href="#cb10-13"></a>first_scenario <span class="op">=</span> df[<span class="st">'Scenario'</span>].iloc[<span class="dv">0</span>]</span>
+<span id="cb10-14"><a href="#cb10-14"></a><span class="cf">for</span> scenario <span class="kw">in</span> df[<span class="st">'Scenario'</span>].unique():</span>
+<span id="cb10-15"><a href="#cb10-15"></a>    <span class="cf">for</span> variable <span class="kw">in</span> df[<span class="st">'Variable'</span>].unique():</span>
+<span id="cb10-16"><a href="#cb10-16"></a>        df_filtered <span class="op">=</span> df[(df[<span class="st">'Scenario'</span>] <span class="op">==</span> scenario) <span class="op">&amp;</span> (df[<span class="st">'Variable'</span>] <span class="op">==</span> variable)]</span>
+<span id="cb10-17"><a href="#cb10-17"></a>        traces.append(</span>
+<span id="cb10-18"><a href="#cb10-18"></a>            go.Scatter(</span>
+<span id="cb10-19"><a href="#cb10-19"></a>                x<span class="op">=</span>df_filtered[<span class="st">'Year'</span>],</span>
+<span id="cb10-20"><a href="#cb10-20"></a>                y<span class="op">=</span>df_filtered[<span class="st">'Value'</span>],</span>
+<span id="cb10-21"><a href="#cb10-21"></a>                mode<span class="op">=</span><span class="st">'lines+markers'</span>,</span>
+<span id="cb10-22"><a href="#cb10-22"></a>                name<span class="op">=</span><span class="ss">f"</span><span class="sc">{</span>scenario<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span>variable<span class="sc">}</span><span class="ss">"</span>,</span>
+<span id="cb10-23"><a href="#cb10-23"></a>                visible<span class="op">=</span>(scenario <span class="op">==</span> first_scenario)  <span class="co"># Set all traces to invisible initially</span></span>
+<span id="cb10-24"><a href="#cb10-24"></a>            )</span>
+<span id="cb10-25"><a href="#cb10-25"></a>        )</span>
+<span id="cb10-26"><a href="#cb10-26"></a></span>
+<span id="cb10-27"><a href="#cb10-27"></a><span class="co"># Create layout with dropdown</span></span>
+<span id="cb10-28"><a href="#cb10-28"></a>layout <span class="op">=</span> go.Layout(</span>
+<span id="cb10-29"><a href="#cb10-29"></a>    title<span class="op">=</span><span class="st">'Oil Prices Over Time by Scenario and Variable'</span>,</span>
+<span id="cb10-30"><a href="#cb10-30"></a>    xaxis<span class="op">=</span><span class="bu">dict</span>(title<span class="op">=</span><span class="st">'Year'</span>),</span>
+<span id="cb10-31"><a href="#cb10-31"></a>    yaxis<span class="op">=</span><span class="bu">dict</span>(title<span class="op">=</span><span class="st">'Price(2022 US $/bbl)'</span>),</span>
+<span id="cb10-32"><a href="#cb10-32"></a>    autosize<span class="op">=</span><span class="va">True</span>,  <span class="co"># automatically resize to fit container</span></span>
+<span id="cb10-33"><a href="#cb10-33"></a>    updatemenus<span class="op">=</span>[</span>
+<span id="cb10-34"><a href="#cb10-34"></a>        {</span>
+<span id="cb10-35"><a href="#cb10-35"></a>            <span class="st">'buttons'</span>: [</span>
+<span id="cb10-36"><a href="#cb10-36"></a>                {</span>
+<span id="cb10-37"><a href="#cb10-37"></a>                    <span class="st">'args'</span>: [{<span class="st">'visible'</span>: [scenario <span class="kw">in</span> trace.name <span class="cf">for</span> trace <span class="kw">in</span> traces]}],</span>
+<span id="cb10-38"><a href="#cb10-38"></a>                    <span class="st">'label'</span>: scenario,</span>
+<span id="cb10-39"><a href="#cb10-39"></a>                    <span class="st">'method'</span>: <span class="st">'update'</span></span>
+<span id="cb10-40"><a href="#cb10-40"></a>                }</span>
+<span id="cb10-41"><a href="#cb10-41"></a>                <span class="cf">for</span> scenario <span class="kw">in</span> df[<span class="st">'Scenario'</span>].unique()</span>
+<span id="cb10-42"><a href="#cb10-42"></a>            ],</span>
+<span id="cb10-43"><a href="#cb10-43"></a>            <span class="st">'direction'</span>: <span class="st">'down'</span>,</span>
+<span id="cb10-44"><a href="#cb10-44"></a>            <span class="st">'showactive'</span>: <span class="va">True</span>,</span>
+<span id="cb10-45"><a href="#cb10-45"></a>            <span class="st">'x'</span>: <span class="fl">0.5</span>,  <span class="co"># x position (horizontal)</span></span>
+<span id="cb10-46"><a href="#cb10-46"></a>            <span class="st">'xanchor'</span>: <span class="st">'center'</span>,  <span class="co"># anchor at the center of x position</span></span>
+<span id="cb10-47"><a href="#cb10-47"></a>            <span class="st">'y'</span>: <span class="fl">1.15</span>,  <span class="co"># y position (vertical), higher than 1 to be above the chart</span></span>
+<span id="cb10-48"><a href="#cb10-48"></a>            <span class="st">'yanchor'</span>: <span class="st">'top'</span>  <span class="co"># anchor at the top of y position</span></span>
+<span id="cb10-49"><a href="#cb10-49"></a>        }</span>
+<span id="cb10-50"><a href="#cb10-50"></a>    ],</span>
+<span id="cb10-51"><a href="#cb10-51"></a>    legend<span class="op">=</span><span class="bu">dict</span>(</span>
+<span id="cb10-52"><a href="#cb10-52"></a>        x<span class="op">=</span><span class="dv">0</span>,  <span class="co"># Legend x-position</span></span>
+<span id="cb10-53"><a href="#cb10-53"></a>        y<span class="op">=-</span><span class="fl">0.2</span>,  <span class="co"># Legend y-position</span></span>
+<span id="cb10-54"><a href="#cb10-54"></a>        orientation<span class="op">=</span><span class="st">"h"</span>,  <span class="co"># Horizontal orientation</span></span>
+<span id="cb10-55"><a href="#cb10-55"></a>        xanchor<span class="op">=</span><span class="st">'left'</span>,  <span class="co"># Anchor legend at x = 0</span></span>
+<span id="cb10-56"><a href="#cb10-56"></a>        yanchor<span class="op">=</span><span class="st">'top'</span>  <span class="co"># Anchor legend at y = 0</span></span>
+<span id="cb10-57"><a href="#cb10-57"></a>    )</span>
+<span id="cb10-58"><a href="#cb10-58"></a>)</span>
+<span id="cb10-59"><a href="#cb10-59"></a></span>
+<span id="cb10-60"><a href="#cb10-60"></a><span class="co"># Create the figure</span></span>
+<span id="cb10-61"><a href="#cb10-61"></a>fig <span class="op">=</span> go.Figure(data<span class="op">=</span>traces, layout<span class="op">=</span>layout)</span>
+<span id="cb10-62"><a href="#cb10-62"></a></span>
+<span id="cb10-63"><a href="#cb10-63"></a><span class="co"># Show the first scenario by default</span></span>
+<span id="cb10-64"><a href="#cb10-64"></a>first_scenario <span class="op">=</span> df[<span class="st">'Scenario'</span>].iloc[<span class="dv">0</span>]</span>
+<span id="cb10-65"><a href="#cb10-65"></a>fig.update_layout(</span>
+<span id="cb10-66"><a href="#cb10-66"></a>    updatemenus<span class="op">=</span>[</span>
+<span id="cb10-67"><a href="#cb10-67"></a>        {</span>
+<span id="cb10-68"><a href="#cb10-68"></a>            <span class="st">'buttons'</span>: [</span>
+<span id="cb10-69"><a href="#cb10-69"></a>                {</span>
+<span id="cb10-70"><a href="#cb10-70"></a>                    <span class="st">'args'</span>: [{<span class="st">'visible'</span>: [scenario <span class="kw">in</span> trace.name <span class="cf">for</span> trace <span class="kw">in</span> traces]}],</span>
+<span id="cb10-71"><a href="#cb10-71"></a>                    <span class="st">'label'</span>: scenario,</span>
+<span id="cb10-72"><a href="#cb10-72"></a>                    <span class="st">'method'</span>: <span class="st">'update'</span></span>
+<span id="cb10-73"><a href="#cb10-73"></a>                }</span>
+<span id="cb10-74"><a href="#cb10-74"></a>                <span class="cf">for</span> scenario <span class="kw">in</span> df[<span class="st">'Scenario'</span>].unique()</span>
+<span id="cb10-75"><a href="#cb10-75"></a>            ],</span>
+<span id="cb10-76"><a href="#cb10-76"></a>            <span class="st">'direction'</span>: <span class="st">'down'</span>,</span>
+<span id="cb10-77"><a href="#cb10-77"></a>            <span class="st">'showactive'</span>: <span class="va">True</span>,</span>
+<span id="cb10-78"><a href="#cb10-78"></a>            <span class="st">'active'</span>: <span class="bu">list</span>(df[<span class="st">'Scenario'</span>].unique()).index(first_scenario)</span>
+<span id="cb10-79"><a href="#cb10-79"></a>        }</span>
+<span id="cb10-80"><a href="#cb10-80"></a>    ]</span>
+<span id="cb10-81"><a href="#cb10-81"></a>)</span>
+<span id="cb10-82"><a href="#cb10-82"></a></span>
+<span id="cb10-83"><a href="#cb10-83"></a><span class="co"># Show the figure</span></span>
+<span id="cb10-84"><a href="#cb10-84"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 
-<div>                            <div id="f603e47f-1cdb-4be2-b729-11d131f9ae60" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("f603e47f-1cdb-4be2-b729-11d131f9ae60")) {                    Plotly.newPlot(                        "f603e47f-1cdb-4be2-b729-11d131f9ae60",                        [{"mode":"lines+markers","name":"Current Measures - Brent","visible":true,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[80.8665756264198,93.5456355215549,101.095032141505,130.315020512094,83.262915326185,105.633733989938,143.135843691189,140.694974846012,134.848792714513,120.982067039344,63.3786749727695,52.463337464405,63.7320769987563,81.8328285263673,72.6518989303432,46.4711179883946,75.8521205164993,100.94,85.0,80.0,79.1666666666667,78.3333333333333,77.5,76.6666666666667,75.8333333333334,75.0,75.0,75.0,75.0,75.0,75.0,75.0,75.0,75.0,75.0,75.0,75.0,75.0,75.0,75.0,75.0,75.0,75.0,75.0,75.0,75.0],"type":"scatter"},{"mode":"lines+markers","name":"Current Measures - Canadian Light Sweet (CLS)","visible":true,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[65.7579446012748,74.3952768227681,82.3612303338737,110.793138099574,66.8933553332186,87.1363563637734,111.477519963389,100.300214698307,104.66530554729,97.9250801991823,69.5929831266362,63.3302290379649,72.7811846819254,78.7070695937494,77.7671165578603,50.5954436433972,85.9314966663854,119.73,103.95,96.285,96.4166666666667,94.6,92.8,91.7333333333334,90.6666666666667,88.9,88.9,88.2,88.9,88.9,88.9,89.6,89.6,90.3,90.3,90.3,90.3,91.0,91.0,91.0,91.0,91.0,90.3,90.3,90.3,89.6],"type":"scatter"},{"mode":"lines+markers","name":"Current Measures - West Texas Intermediate (WTI)","visible":true,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[83.8725402193511,94.7953061950207,100.959932609239,133.895158117158,83.5443726850737,105.464859574605,122.544423314893,119.045274800294,122.003078854833,114.046957716327,58.9571886644627,51.9715686404359,59.7664732416328,74.7768874064137,64.352373640663,43.662117812555,72.984527301882,94.91,80.0,76.0,76.6666666666667,75.8333333333333,75.0,74.1666666666667,73.3333333333334,72.5,72.5,72.5,72.5,72.5,72.5,72.5,72.5,72.5,72.5,72.5,72.5,72.5,72.5,72.5,72.5,72.5,72.5,72.5,72.5,72.5],"type":"scatter"},{"mode":"lines+markers","name":"Current Measures - Western Canadian Select (WCS)","visible":true,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[54.3307758303938,65.3548664552633,69.9433316597046,107.483199559043,70.6085924705493,87.0800648919957,101.243730394196,93.3088139035118,91.7070087440543,88.4906295292333,42.4262053085169,35.0722346674421,45.4763599082138,46.2675968702545,49.8964862436196,29.6056373661847,58.8327407882522,78.1846153846154,63.0,61.0,64.1666666666667,63.3333333333333,62.5,61.6666666666667,60.8333333333334,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0],"type":"scatter"},{"mode":"lines+markers","name":"Canada Net-zero - Brent","visible":false,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[80.8665756264198,93.5456355215549,101.095032141505,130.315020512094,83.262915326185,105.633733989938,143.135843691189,140.694974846012,134.848792714513,120.982067039344,63.3786749727695,52.463337464405,63.7320769987563,81.8328285263673,72.6518989303432,46.4711179883946,75.8521205164993,100.94,85.0,80.0,77.3333333333333,74.6666666666667,72.0,69.3333333333333,66.6666666666666,64.0,63.8,63.6,63.4,63.2,63.0,62.8,62.6,62.4,62.2,62.0,61.8,61.6,61.4,61.2,61.0,60.8,60.6,60.3999999999999,60.1999999999999,60.0],"type":"scatter"},{"mode":"lines+markers","name":"Canada Net-zero - Canadian Light Sweet (CLS)","visible":false,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[65.7579446012748,74.3952768227681,82.3612303338737,110.793138099574,66.8933553332186,87.1363563637734,111.477519963389,100.300214698307,104.66530554729,97.9250801991823,69.5929831266362,63.3302290379649,72.7811846819254,78.7070695937494,77.7671165578603,50.5954436433972,85.9314966663854,119.73,103.95,96.285,94.0333333333333,89.87,86.43,82.3466666666666,79.55,76.11,75.852,75.594,75.92,75.66,75.98,76.296,76.032,76.342,76.076,75.81,76.112,75.844,75.576,75.308,75.0399999999999,74.7719999999999,74.5039999999999,73.6819999999999,73.4159999999999,72.6],"type":"scatter"},{"mode":"lines+markers","name":"Canada Net-zero - West Texas Intermediate (WTI)","visible":false,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[83.8725402193511,94.7953061950207,100.959932609239,133.895158117158,83.5443726850737,105.464859574605,122.544423314893,119.045274800294,122.003078854833,114.046957716327,58.9571886644627,51.9715686404359,59.7664732416328,74.7768874064137,64.352373640663,43.662117812555,72.984527301882,94.91,80.0,76.0,74.8333333333333,72.1666666666667,69.5,66.8333333333333,64.1666666666666,61.5,61.3,61.1,60.9,60.7,60.5,60.3,60.1,59.9,59.7,59.5,59.3,59.1,58.9,58.7,58.5,58.3,58.1,57.8999999999999,57.6999999999999,57.5],"type":"scatter"},{"mode":"lines+markers","name":"Canada Net-zero - Western Canadian Select (WCS)","visible":false,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[54.3307758303938,65.3548664552633,69.9433316597046,107.483199559043,70.6085924705493,87.0800648919957,101.243730394196,93.3088139035118,91.7070087440543,88.4906295292333,42.4262053085169,35.0722346674421,45.4763599082138,46.2675968702545,49.8964862436196,29.6056373661847,58.8327407882522,78.1846153846154,63.0,61.0,62.3333333333333,59.6666666666667,57.0,54.3333333333333,51.6666666666666,49.0,48.8,48.6,48.4,48.2,48.0,47.8,47.6,47.4,47.2,47.0,46.8,46.6,46.4,46.2,46.0,45.8,45.6,45.3999999999999,45.1999999999999,45.0],"type":"scatter"},{"mode":"lines+markers","name":"Global Net-zero - Brent","visible":false,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[80.8665756264198,93.5456355215549,101.095032141505,130.315020512094,83.262915326185,105.633733989938,143.135843691189,140.694974846012,134.848792714513,120.982067039344,63.3786749727695,52.463337464405,63.7320769987563,81.8328285263673,72.6518989303432,46.4711179883946,75.8521205164993,100.94,85.0,80.0,72.5,65.0,57.5,50.0,42.5,35.0,34.45,33.9,33.35,32.8,32.25,31.7,31.15,30.6,30.05,29.5,28.95,28.4,27.85,27.3,26.75,26.2,25.65,25.1,24.55,24.0],"type":"scatter"},{"mode":"lines+markers","name":"Global Net-zero - Canadian Light Sweet (CLS)","visible":false,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[65.7579446012748,74.3952768227681,82.3612303338737,110.793138099574,66.8933553332186,87.1363563637734,111.477519963389,100.300214698307,104.66530554729,97.9250801991823,69.5929831266362,63.3302290379649,72.7811846819254,78.7070695937494,77.7671165578603,50.5954436433972,85.9314966663854,119.73,103.95,96.285,72.3333333333333,69.6666666666667,67.0,64.3333333333333,61.6666666666666,59.0,58.8,58.6,58.4,58.2,58.0,57.8,57.6,57.4,57.2,57.0,56.8,56.6,56.4,56.2,56.0,55.8,55.6,55.3999999999999,55.1999999999999,55.0],"type":"scatter"},{"mode":"lines+markers","name":"Global Net-zero - West Texas Intermediate (WTI)","visible":false,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[83.8725402193511,94.7953061950207,100.959932609239,133.895158117158,83.5443726850737,105.464859574605,122.544423314893,119.045274800294,122.003078854833,114.046957716327,58.9571886644627,51.9715686404359,59.7664732416328,74.7768874064137,64.352373640663,43.662117812555,72.984527301882,94.91,80.0,76.0,70.0,62.5,55.0,47.5,40.0,32.5,31.95,31.4,30.85,30.3,29.75,29.2,28.65,28.1,27.55,27.0,26.45,25.9,25.35,24.8,24.25,23.7,23.15,22.6,22.05,21.5],"type":"scatter"},{"mode":"lines+markers","name":"Global Net-zero - Western Canadian Select (WCS)","visible":false,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[54.3307758303938,65.3548664552633,69.9433316597046,107.483199559043,70.6085924705493,87.0800648919957,101.243730394196,93.3088139035118,91.7070087440543,88.4906295292333,42.4262053085169,35.0722346674421,45.4763599082138,46.2675968702545,49.8964862436196,29.6056373661847,58.8327407882522,78.1846153846154,63.0,61.0,57.5,50.0,42.5,35.0,27.5,20.0,19.45,18.9,18.35,17.8,18.0,17.95,17.75,17.6,17.3,17.0,16.45,15.9,15.35,14.8,14.25,13.7,13.15,12.6,12.05,11.5],"type":"scatter"}],                        {"autosize":true,"legend":{"orientation":"h","x":0,"xanchor":"left","y":-0.2,"yanchor":"top"},"title":{"text":"Oil Prices Over Time by Scenario and Variable"},"updatemenus":[{"buttons":[{"args":[{"visible":[true,true,true,true,false,false,false,false,false,false,false,false]}],"label":"Current Measures","method":"update"},{"args":[{"visible":[false,false,false,false,true,true,true,true,false,false,false,false]}],"label":"Canada Net-zero","method":"update"},{"args":[{"visible":[false,false,false,false,false,false,false,false,true,true,true,true]}],"label":"Global Net-zero","method":"update"}],"direction":"down","showactive":true,"x":0.5,"xanchor":"center","y":1.15,"yanchor":"top","active":0}],"xaxis":{"title":{"text":"Year"}},"yaxis":{"title":{"text":"Price(2022 US $\u002fbbl)"}},"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}}},                        {"responsive": true}                    ).then(function(){
+<div>                            <div id="27851041-f726-4755-9ba9-11ce9cff6a31" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("27851041-f726-4755-9ba9-11ce9cff6a31")) {                    Plotly.newPlot(                        "27851041-f726-4755-9ba9-11ce9cff6a31",                        [{"mode":"lines+markers","name":"Current Measures - Brent","visible":true,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[80.8665756264198,93.5456355215549,101.095032141505,130.315020512094,83.262915326185,105.633733989938,143.135843691189,140.694974846012,134.848792714513,120.982067039344,63.3786749727695,52.463337464405,63.7320769987563,81.8328285263673,72.6518989303432,46.4711179883946,75.8521205164993,100.94,85.0,80.0,79.1666666666667,78.3333333333333,77.5,76.6666666666667,75.8333333333334,75.0,75.0,75.0,75.0,75.0,75.0,75.0,75.0,75.0,75.0,75.0,75.0,75.0,75.0,75.0,75.0,75.0,75.0,75.0,75.0,75.0],"type":"scatter"},{"mode":"lines+markers","name":"Current Measures - Canadian Light Sweet (CLS)","visible":true,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[65.7579446012748,74.3952768227681,82.3612303338737,110.793138099574,66.8933553332186,87.1363563637734,111.477519963389,100.300214698307,104.66530554729,97.9250801991823,69.5929831266362,63.3302290379649,72.7811846819254,78.7070695937494,77.7671165578603,50.5954436433972,85.9314966663854,119.73,103.95,96.285,96.4166666666667,94.6,92.8,91.7333333333334,90.6666666666667,88.9,88.9,88.2,88.9,88.9,88.9,89.6,89.6,90.3,90.3,90.3,90.3,91.0,91.0,91.0,91.0,91.0,90.3,90.3,90.3,89.6],"type":"scatter"},{"mode":"lines+markers","name":"Current Measures - West Texas Intermediate (WTI)","visible":true,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[83.8725402193511,94.7953061950207,100.959932609239,133.895158117158,83.5443726850737,105.464859574605,122.544423314893,119.045274800294,122.003078854833,114.046957716327,58.9571886644627,51.9715686404359,59.7664732416328,74.7768874064137,64.352373640663,43.662117812555,72.984527301882,94.91,80.0,76.0,76.6666666666667,75.8333333333333,75.0,74.1666666666667,73.3333333333334,72.5,72.5,72.5,72.5,72.5,72.5,72.5,72.5,72.5,72.5,72.5,72.5,72.5,72.5,72.5,72.5,72.5,72.5,72.5,72.5,72.5],"type":"scatter"},{"mode":"lines+markers","name":"Current Measures - Western Canadian Select (WCS)","visible":true,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[54.3307758303938,65.3548664552633,69.9433316597046,107.483199559043,70.6085924705493,87.0800648919957,101.243730394196,93.3088139035118,91.7070087440543,88.4906295292333,42.4262053085169,35.0722346674421,45.4763599082138,46.2675968702545,49.8964862436196,29.6056373661847,58.8327407882522,78.1846153846154,63.0,61.0,64.1666666666667,63.3333333333333,62.5,61.6666666666667,60.8333333333334,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0,60.0],"type":"scatter"},{"mode":"lines+markers","name":"Canada Net-zero - Brent","visible":false,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[80.8665756264198,93.5456355215549,101.095032141505,130.315020512094,83.262915326185,105.633733989938,143.135843691189,140.694974846012,134.848792714513,120.982067039344,63.3786749727695,52.463337464405,63.7320769987563,81.8328285263673,72.6518989303432,46.4711179883946,75.8521205164993,100.94,85.0,80.0,77.3333333333333,74.6666666666667,72.0,69.3333333333333,66.6666666666666,64.0,63.8,63.6,63.4,63.2,63.0,62.8,62.6,62.4,62.2,62.0,61.8,61.6,61.4,61.2,61.0,60.8,60.6,60.3999999999999,60.1999999999999,60.0],"type":"scatter"},{"mode":"lines+markers","name":"Canada Net-zero - Canadian Light Sweet (CLS)","visible":false,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[65.7579446012748,74.3952768227681,82.3612303338737,110.793138099574,66.8933553332186,87.1363563637734,111.477519963389,100.300214698307,104.66530554729,97.9250801991823,69.5929831266362,63.3302290379649,72.7811846819254,78.7070695937494,77.7671165578603,50.5954436433972,85.9314966663854,119.73,103.95,96.285,94.0333333333333,89.87,86.43,82.3466666666666,79.55,76.11,75.852,75.594,75.92,75.66,75.98,76.296,76.032,76.342,76.076,75.81,76.112,75.844,75.576,75.308,75.0399999999999,74.7719999999999,74.5039999999999,73.6819999999999,73.4159999999999,72.6],"type":"scatter"},{"mode":"lines+markers","name":"Canada Net-zero - West Texas Intermediate (WTI)","visible":false,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[83.8725402193511,94.7953061950207,100.959932609239,133.895158117158,83.5443726850737,105.464859574605,122.544423314893,119.045274800294,122.003078854833,114.046957716327,58.9571886644627,51.9715686404359,59.7664732416328,74.7768874064137,64.352373640663,43.662117812555,72.984527301882,94.91,80.0,76.0,74.8333333333333,72.1666666666667,69.5,66.8333333333333,64.1666666666666,61.5,61.3,61.1,60.9,60.7,60.5,60.3,60.1,59.9,59.7,59.5,59.3,59.1,58.9,58.7,58.5,58.3,58.1,57.8999999999999,57.6999999999999,57.5],"type":"scatter"},{"mode":"lines+markers","name":"Canada Net-zero - Western Canadian Select (WCS)","visible":false,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[54.3307758303938,65.3548664552633,69.9433316597046,107.483199559043,70.6085924705493,87.0800648919957,101.243730394196,93.3088139035118,91.7070087440543,88.4906295292333,42.4262053085169,35.0722346674421,45.4763599082138,46.2675968702545,49.8964862436196,29.6056373661847,58.8327407882522,78.1846153846154,63.0,61.0,62.3333333333333,59.6666666666667,57.0,54.3333333333333,51.6666666666666,49.0,48.8,48.6,48.4,48.2,48.0,47.8,47.6,47.4,47.2,47.0,46.8,46.6,46.4,46.2,46.0,45.8,45.6,45.3999999999999,45.1999999999999,45.0],"type":"scatter"},{"mode":"lines+markers","name":"Global Net-zero - Brent","visible":false,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[80.8665756264198,93.5456355215549,101.095032141505,130.315020512094,83.262915326185,105.633733989938,143.135843691189,140.694974846012,134.848792714513,120.982067039344,63.3786749727695,52.463337464405,63.7320769987563,81.8328285263673,72.6518989303432,46.4711179883946,75.8521205164993,100.94,85.0,80.0,72.5,65.0,57.5,50.0,42.5,35.0,34.45,33.9,33.35,32.8,32.25,31.7,31.15,30.6,30.05,29.5,28.95,28.4,27.85,27.3,26.75,26.2,25.65,25.1,24.55,24.0],"type":"scatter"},{"mode":"lines+markers","name":"Global Net-zero - Canadian Light Sweet (CLS)","visible":false,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[65.7579446012748,74.3952768227681,82.3612303338737,110.793138099574,66.8933553332186,87.1363563637734,111.477519963389,100.300214698307,104.66530554729,97.9250801991823,69.5929831266362,63.3302290379649,72.7811846819254,78.7070695937494,77.7671165578603,50.5954436433972,85.9314966663854,119.73,103.95,96.285,72.3333333333333,69.6666666666667,67.0,64.3333333333333,61.6666666666666,59.0,58.8,58.6,58.4,58.2,58.0,57.8,57.6,57.4,57.2,57.0,56.8,56.6,56.4,56.2,56.0,55.8,55.6,55.3999999999999,55.1999999999999,55.0],"type":"scatter"},{"mode":"lines+markers","name":"Global Net-zero - West Texas Intermediate (WTI)","visible":false,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[83.8725402193511,94.7953061950207,100.959932609239,133.895158117158,83.5443726850737,105.464859574605,122.544423314893,119.045274800294,122.003078854833,114.046957716327,58.9571886644627,51.9715686404359,59.7664732416328,74.7768874064137,64.352373640663,43.662117812555,72.984527301882,94.91,80.0,76.0,70.0,62.5,55.0,47.5,40.0,32.5,31.95,31.4,30.85,30.3,29.75,29.2,28.65,28.1,27.55,27.0,26.45,25.9,25.35,24.8,24.25,23.7,23.15,22.6,22.05,21.5],"type":"scatter"},{"mode":"lines+markers","name":"Global Net-zero - Western Canadian Select (WCS)","visible":false,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[54.3307758303938,65.3548664552633,69.9433316597046,107.483199559043,70.6085924705493,87.0800648919957,101.243730394196,93.3088139035118,91.7070087440543,88.4906295292333,42.4262053085169,35.0722346674421,45.4763599082138,46.2675968702545,49.8964862436196,29.6056373661847,58.8327407882522,78.1846153846154,63.0,61.0,57.5,50.0,42.5,35.0,27.5,20.0,19.45,18.9,18.35,17.8,18.0,17.95,17.75,17.6,17.3,17.0,16.45,15.9,15.35,14.8,14.25,13.7,13.15,12.6,12.05,11.5],"type":"scatter"}],                        {"autosize":true,"legend":{"orientation":"h","x":0,"xanchor":"left","y":-0.2,"yanchor":"top"},"title":{"text":"Oil Prices Over Time by Scenario and Variable"},"updatemenus":[{"buttons":[{"args":[{"visible":[true,true,true,true,false,false,false,false,false,false,false,false]}],"label":"Current Measures","method":"update"},{"args":[{"visible":[false,false,false,false,true,true,true,true,false,false,false,false]}],"label":"Canada Net-zero","method":"update"},{"args":[{"visible":[false,false,false,false,false,false,false,false,true,true,true,true]}],"label":"Global Net-zero","method":"update"}],"direction":"down","showactive":true,"x":0.5,"xanchor":"center","y":1.15,"yanchor":"top","active":0}],"xaxis":{"title":{"text":"Year"}},"yaxis":{"title":{"text":"Price(2022 US $\u002fbbl)"}},"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}}},                        {"responsive": true}                    ).then(function(){
                             
-var gd = document.getElementById('f603e47f-1cdb-4be2-b729-11d131f9ae60');
+var gd = document.getElementById('27851041-f726-4755-9ba9-11ce9cff6a31');
 var x = new MutationObserver(function (mutations, observer) {{
         var display = window.getComputedStyle(gd).display;
         if (!display || display === 'none') {{
@@ -618,99 +619,99 @@ if (outputEl) {{
                         })                };                });            </script>        </div>
 </div>
 </div>
-<div class="cell" data-execution_count="64">
+<div class="cell" data-execution_count="144">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># strip the 2022 US $/bbl from each of the variable names</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>oil_prices <span class="op">=</span> benchmark_prices</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>oil_prices[<span class="st">'Variable'</span>] <span class="op">=</span> oil_prices[<span class="st">'Variable'</span>].<span class="bu">str</span>.split(<span class="st">'-'</span>).<span class="bu">str</span>[<span class="dv">0</span>].<span class="bu">str</span>.strip()</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co"># filter out prices for Brent, WTI, and WCS</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>valid_types <span class="op">=</span> [<span class="st">'Brent'</span>, <span class="st">'Western Canadian Select (WCS)'</span>, <span class="st">'West Texas Intermediate (WTI)'</span>, <span class="st">'Canadian Light Sweet (CLS)'</span>]</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>oil_prices <span class="op">=</span> oil_prices[<span class="op">~</span>oil_prices[<span class="st">"Variable"</span>].isin(valid_types)]</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> oil_prices</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Create traces, one for each combination of Scenario and Variable</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>traces <span class="op">=</span> []</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>first_scenario <span class="op">=</span> df[<span class="st">'Scenario'</span>].iloc[<span class="dv">0</span>]</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> scenario <span class="kw">in</span> df[<span class="st">'Scenario'</span>].unique():</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> variable <span class="kw">in</span> df[<span class="st">'Variable'</span>].unique():</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>        df_filtered <span class="op">=</span> df[(df[<span class="st">'Scenario'</span>] <span class="op">==</span> scenario) <span class="op">&amp;</span> (df[<span class="st">'Variable'</span>] <span class="op">==</span> variable)]</span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>        traces.append(</span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>            go.Scatter(</span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>                x<span class="op">=</span>df_filtered[<span class="st">'Year'</span>],</span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>                y<span class="op">=</span>df_filtered[<span class="st">'Value'</span>],</span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>                mode<span class="op">=</span><span class="st">'lines+markers'</span>,</span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>                name<span class="op">=</span><span class="ss">f"</span><span class="sc">{</span>scenario<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span>variable<span class="sc">}</span><span class="ss">"</span>,</span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>                visible<span class="op">=</span>(scenario <span class="op">==</span> first_scenario)  <span class="co"># Set all traces to invisible initially</span></span>
-<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>            )</span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Create layout with dropdown</span></span>
-<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>layout <span class="op">=</span> go.Layout(</span>
-<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Natural Gas Prices Over Time by Scenario and Variable'</span>,</span>
-<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>    xaxis<span class="op">=</span><span class="bu">dict</span>(title<span class="op">=</span><span class="st">'Year'</span>),</span>
-<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>    yaxis<span class="op">=</span><span class="bu">dict</span>(title<span class="op">=</span><span class="st">'Price (2022 US$/MMBtu)'</span>),</span>
-<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>    autosize<span class="op">=</span><span class="va">True</span>,  <span class="co"># automatically resize to fit container</span></span>
-<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>    updatemenus<span class="op">=</span>[</span>
-<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>        {</span>
-<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>            <span class="st">'buttons'</span>: [</span>
-<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>                {</span>
-<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'args'</span>: [{<span class="st">'visible'</span>: [scenario <span class="kw">in</span> trace.name <span class="cf">for</span> trace <span class="kw">in</span> traces]}],</span>
-<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'label'</span>: scenario,</span>
-<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'method'</span>: <span class="st">'update'</span></span>
-<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>                }</span>
-<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> scenario <span class="kw">in</span> df[<span class="st">'Scenario'</span>].unique()</span>
-<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>            ],</span>
-<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>            <span class="st">'direction'</span>: <span class="st">'down'</span>,</span>
-<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>            <span class="st">'showactive'</span>: <span class="va">True</span>,</span>
-<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>            <span class="st">'x'</span>: <span class="fl">0.5</span>,  <span class="co"># x position (horizontal)</span></span>
-<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a>            <span class="st">'xanchor'</span>: <span class="st">'center'</span>,  <span class="co"># anchor at the center of x position</span></span>
-<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a>            <span class="st">'y'</span>: <span class="fl">1.15</span>,  <span class="co"># y position (vertical), higher than 1 to be above the chart</span></span>
-<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>            <span class="st">'yanchor'</span>: <span class="st">'top'</span>  <span class="co"># anchor at the top of y position</span></span>
-<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a>    ],</span>
-<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a>    legend<span class="op">=</span><span class="bu">dict</span>(</span>
-<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>        x<span class="op">=</span><span class="dv">0</span>,  <span class="co"># Legend x-position</span></span>
-<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a>        y<span class="op">=-</span><span class="fl">0.2</span>,  <span class="co"># Legend y-position</span></span>
-<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a>        orientation<span class="op">=</span><span class="st">"h"</span>,  <span class="co"># Horizontal orientation</span></span>
-<span id="cb11-55"><a href="#cb11-55" aria-hidden="true" tabindex="-1"></a>        xanchor<span class="op">=</span><span class="st">'left'</span>,  <span class="co"># Anchor legend at x = 0</span></span>
-<span id="cb11-56"><a href="#cb11-56" aria-hidden="true" tabindex="-1"></a>        yanchor<span class="op">=</span><span class="st">'top'</span>  <span class="co"># Anchor legend at y = 0</span></span>
-<span id="cb11-57"><a href="#cb11-57" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb11-58"><a href="#cb11-58" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb11-59"><a href="#cb11-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-60"><a href="#cb11-60" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the figure</span></span>
-<span id="cb11-61"><a href="#cb11-61" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> go.Figure(data<span class="op">=</span>traces, layout<span class="op">=</span>layout)</span>
-<span id="cb11-62"><a href="#cb11-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-63"><a href="#cb11-63" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the first scenario by default</span></span>
-<span id="cb11-64"><a href="#cb11-64" aria-hidden="true" tabindex="-1"></a>first_scenario <span class="op">=</span> df[<span class="st">'Scenario'</span>].iloc[<span class="dv">0</span>]</span>
-<span id="cb11-65"><a href="#cb11-65" aria-hidden="true" tabindex="-1"></a>fig.update_layout(</span>
-<span id="cb11-66"><a href="#cb11-66" aria-hidden="true" tabindex="-1"></a>    updatemenus<span class="op">=</span>[</span>
-<span id="cb11-67"><a href="#cb11-67" aria-hidden="true" tabindex="-1"></a>        {</span>
-<span id="cb11-68"><a href="#cb11-68" aria-hidden="true" tabindex="-1"></a>            <span class="st">'buttons'</span>: [</span>
-<span id="cb11-69"><a href="#cb11-69" aria-hidden="true" tabindex="-1"></a>                {</span>
-<span id="cb11-70"><a href="#cb11-70" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'args'</span>: [{<span class="st">'visible'</span>: [scenario <span class="kw">in</span> trace.name <span class="cf">for</span> trace <span class="kw">in</span> traces]}],</span>
-<span id="cb11-71"><a href="#cb11-71" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'label'</span>: scenario,</span>
-<span id="cb11-72"><a href="#cb11-72" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'method'</span>: <span class="st">'update'</span></span>
-<span id="cb11-73"><a href="#cb11-73" aria-hidden="true" tabindex="-1"></a>                }</span>
-<span id="cb11-74"><a href="#cb11-74" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> scenario <span class="kw">in</span> df[<span class="st">'Scenario'</span>].unique()</span>
-<span id="cb11-75"><a href="#cb11-75" aria-hidden="true" tabindex="-1"></a>            ],</span>
-<span id="cb11-76"><a href="#cb11-76" aria-hidden="true" tabindex="-1"></a>            <span class="st">'direction'</span>: <span class="st">'down'</span>,</span>
-<span id="cb11-77"><a href="#cb11-77" aria-hidden="true" tabindex="-1"></a>            <span class="st">'showactive'</span>: <span class="va">True</span>,</span>
-<span id="cb11-78"><a href="#cb11-78" aria-hidden="true" tabindex="-1"></a>            <span class="st">'active'</span>: <span class="bu">list</span>(df[<span class="st">'Scenario'</span>].unique()).index(first_scenario)</span>
-<span id="cb11-79"><a href="#cb11-79" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb11-80"><a href="#cb11-80" aria-hidden="true" tabindex="-1"></a>    ]</span>
-<span id="cb11-81"><a href="#cb11-81" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb11-82"><a href="#cb11-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-83"><a href="#cb11-83" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the figure</span></span>
-<span id="cb11-84"><a href="#cb11-84" aria-hidden="true" tabindex="-1"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># strip the 2022 US $/bbl from each of the variable names</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a>oil_prices <span class="op">=</span> benchmark_prices</span>
+<span id="cb11-3"><a href="#cb11-3"></a>oil_prices[<span class="st">'Variable'</span>] <span class="op">=</span> oil_prices[<span class="st">'Variable'</span>].<span class="bu">str</span>.split(<span class="st">'-'</span>).<span class="bu">str</span>[<span class="dv">0</span>].<span class="bu">str</span>.strip()</span>
+<span id="cb11-4"><a href="#cb11-4"></a></span>
+<span id="cb11-5"><a href="#cb11-5"></a><span class="co"># filter out prices for Brent, WTI, and WCS</span></span>
+<span id="cb11-6"><a href="#cb11-6"></a>valid_types <span class="op">=</span> [<span class="st">'Brent'</span>, <span class="st">'Western Canadian Select (WCS)'</span>, <span class="st">'West Texas Intermediate (WTI)'</span>, <span class="st">'Canadian Light Sweet (CLS)'</span>]</span>
+<span id="cb11-7"><a href="#cb11-7"></a>oil_prices <span class="op">=</span> oil_prices[<span class="op">~</span>oil_prices[<span class="st">"Variable"</span>].isin(valid_types)]</span>
+<span id="cb11-8"><a href="#cb11-8"></a></span>
+<span id="cb11-9"><a href="#cb11-9"></a>df <span class="op">=</span> oil_prices</span>
+<span id="cb11-10"><a href="#cb11-10"></a></span>
+<span id="cb11-11"><a href="#cb11-11"></a><span class="co"># Create traces, one for each combination of Scenario and Variable</span></span>
+<span id="cb11-12"><a href="#cb11-12"></a>traces <span class="op">=</span> []</span>
+<span id="cb11-13"><a href="#cb11-13"></a>first_scenario <span class="op">=</span> df[<span class="st">'Scenario'</span>].iloc[<span class="dv">0</span>]</span>
+<span id="cb11-14"><a href="#cb11-14"></a><span class="cf">for</span> scenario <span class="kw">in</span> df[<span class="st">'Scenario'</span>].unique():</span>
+<span id="cb11-15"><a href="#cb11-15"></a>    <span class="cf">for</span> variable <span class="kw">in</span> df[<span class="st">'Variable'</span>].unique():</span>
+<span id="cb11-16"><a href="#cb11-16"></a>        df_filtered <span class="op">=</span> df[(df[<span class="st">'Scenario'</span>] <span class="op">==</span> scenario) <span class="op">&amp;</span> (df[<span class="st">'Variable'</span>] <span class="op">==</span> variable)]</span>
+<span id="cb11-17"><a href="#cb11-17"></a>        traces.append(</span>
+<span id="cb11-18"><a href="#cb11-18"></a>            go.Scatter(</span>
+<span id="cb11-19"><a href="#cb11-19"></a>                x<span class="op">=</span>df_filtered[<span class="st">'Year'</span>],</span>
+<span id="cb11-20"><a href="#cb11-20"></a>                y<span class="op">=</span>df_filtered[<span class="st">'Value'</span>],</span>
+<span id="cb11-21"><a href="#cb11-21"></a>                mode<span class="op">=</span><span class="st">'lines+markers'</span>,</span>
+<span id="cb11-22"><a href="#cb11-22"></a>                name<span class="op">=</span><span class="ss">f"</span><span class="sc">{</span>scenario<span class="sc">}</span><span class="ss"> - </span><span class="sc">{</span>variable<span class="sc">}</span><span class="ss">"</span>,</span>
+<span id="cb11-23"><a href="#cb11-23"></a>                visible<span class="op">=</span>(scenario <span class="op">==</span> first_scenario)</span>
+<span id="cb11-24"><a href="#cb11-24"></a>            )</span>
+<span id="cb11-25"><a href="#cb11-25"></a>        )</span>
+<span id="cb11-26"><a href="#cb11-26"></a></span>
+<span id="cb11-27"><a href="#cb11-27"></a><span class="co"># Create layout with dropdown</span></span>
+<span id="cb11-28"><a href="#cb11-28"></a>layout <span class="op">=</span> go.Layout(</span>
+<span id="cb11-29"><a href="#cb11-29"></a>    title<span class="op">=</span><span class="st">'Natural Gas Prices Over Time by Scenario and Variable'</span>,</span>
+<span id="cb11-30"><a href="#cb11-30"></a>    xaxis<span class="op">=</span><span class="bu">dict</span>(title<span class="op">=</span><span class="st">'Year'</span>),</span>
+<span id="cb11-31"><a href="#cb11-31"></a>    yaxis<span class="op">=</span><span class="bu">dict</span>(title<span class="op">=</span><span class="st">'Price (2022 US$/MMBtu)'</span>),</span>
+<span id="cb11-32"><a href="#cb11-32"></a>    autosize<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb11-33"><a href="#cb11-33"></a>    updatemenus<span class="op">=</span>[</span>
+<span id="cb11-34"><a href="#cb11-34"></a>        {</span>
+<span id="cb11-35"><a href="#cb11-35"></a>            <span class="st">'buttons'</span>: [</span>
+<span id="cb11-36"><a href="#cb11-36"></a>                {</span>
+<span id="cb11-37"><a href="#cb11-37"></a>                    <span class="st">'args'</span>: [{<span class="st">'visible'</span>: [scenario <span class="kw">in</span> trace.name <span class="cf">for</span> trace <span class="kw">in</span> traces]}],</span>
+<span id="cb11-38"><a href="#cb11-38"></a>                    <span class="st">'label'</span>: scenario,</span>
+<span id="cb11-39"><a href="#cb11-39"></a>                    <span class="st">'method'</span>: <span class="st">'update'</span></span>
+<span id="cb11-40"><a href="#cb11-40"></a>                }</span>
+<span id="cb11-41"><a href="#cb11-41"></a>                <span class="cf">for</span> scenario <span class="kw">in</span> df[<span class="st">'Scenario'</span>].unique()</span>
+<span id="cb11-42"><a href="#cb11-42"></a>            ],</span>
+<span id="cb11-43"><a href="#cb11-43"></a>            <span class="st">'direction'</span>: <span class="st">'down'</span>,</span>
+<span id="cb11-44"><a href="#cb11-44"></a>            <span class="st">'showactive'</span>: <span class="va">True</span>,</span>
+<span id="cb11-45"><a href="#cb11-45"></a>            <span class="st">'x'</span>: <span class="fl">0.5</span>,</span>
+<span id="cb11-46"><a href="#cb11-46"></a>            <span class="st">'xanchor'</span>: <span class="st">'center'</span>,</span>
+<span id="cb11-47"><a href="#cb11-47"></a>            <span class="st">'y'</span>: <span class="fl">1.12</span>,</span>
+<span id="cb11-48"><a href="#cb11-48"></a>            <span class="st">'yanchor'</span>: <span class="st">'top'</span></span>
+<span id="cb11-49"><a href="#cb11-49"></a>        }</span>
+<span id="cb11-50"><a href="#cb11-50"></a>    ],</span>
+<span id="cb11-51"><a href="#cb11-51"></a>    legend<span class="op">=</span><span class="bu">dict</span>(</span>
+<span id="cb11-52"><a href="#cb11-52"></a>        x<span class="op">=</span><span class="dv">0</span>,  </span>
+<span id="cb11-53"><a href="#cb11-53"></a>        y<span class="op">=-</span><span class="fl">0.2</span>,</span>
+<span id="cb11-54"><a href="#cb11-54"></a>        orientation<span class="op">=</span><span class="st">"h"</span>,</span>
+<span id="cb11-55"><a href="#cb11-55"></a>        xanchor<span class="op">=</span><span class="st">'left'</span>,</span>
+<span id="cb11-56"><a href="#cb11-56"></a>        yanchor<span class="op">=</span><span class="st">'top'</span></span>
+<span id="cb11-57"><a href="#cb11-57"></a>    )</span>
+<span id="cb11-58"><a href="#cb11-58"></a>)</span>
+<span id="cb11-59"><a href="#cb11-59"></a></span>
+<span id="cb11-60"><a href="#cb11-60"></a><span class="co"># Create the figure</span></span>
+<span id="cb11-61"><a href="#cb11-61"></a>fig <span class="op">=</span> go.Figure(data<span class="op">=</span>traces, layout<span class="op">=</span>layout)</span>
+<span id="cb11-62"><a href="#cb11-62"></a></span>
+<span id="cb11-63"><a href="#cb11-63"></a><span class="co"># Show the first scenario by default</span></span>
+<span id="cb11-64"><a href="#cb11-64"></a>first_scenario <span class="op">=</span> df[<span class="st">'Scenario'</span>].iloc[<span class="dv">0</span>]</span>
+<span id="cb11-65"><a href="#cb11-65"></a>fig.update_layout(</span>
+<span id="cb11-66"><a href="#cb11-66"></a>    updatemenus<span class="op">=</span>[</span>
+<span id="cb11-67"><a href="#cb11-67"></a>        {</span>
+<span id="cb11-68"><a href="#cb11-68"></a>            <span class="st">'buttons'</span>: [</span>
+<span id="cb11-69"><a href="#cb11-69"></a>                {</span>
+<span id="cb11-70"><a href="#cb11-70"></a>                    <span class="st">'args'</span>: [{<span class="st">'visible'</span>: [scenario <span class="kw">in</span> trace.name <span class="cf">for</span> trace <span class="kw">in</span> traces]}],</span>
+<span id="cb11-71"><a href="#cb11-71"></a>                    <span class="st">'label'</span>: scenario,</span>
+<span id="cb11-72"><a href="#cb11-72"></a>                    <span class="st">'method'</span>: <span class="st">'update'</span></span>
+<span id="cb11-73"><a href="#cb11-73"></a>                }</span>
+<span id="cb11-74"><a href="#cb11-74"></a>                <span class="cf">for</span> scenario <span class="kw">in</span> df[<span class="st">'Scenario'</span>].unique()</span>
+<span id="cb11-75"><a href="#cb11-75"></a>            ],</span>
+<span id="cb11-76"><a href="#cb11-76"></a>            <span class="st">'direction'</span>: <span class="st">'down'</span>,</span>
+<span id="cb11-77"><a href="#cb11-77"></a>            <span class="st">'showactive'</span>: <span class="va">True</span>,</span>
+<span id="cb11-78"><a href="#cb11-78"></a>            <span class="st">'active'</span>: <span class="bu">list</span>(df[<span class="st">'Scenario'</span>].unique()).index(first_scenario)</span>
+<span id="cb11-79"><a href="#cb11-79"></a>        }</span>
+<span id="cb11-80"><a href="#cb11-80"></a>    ]</span>
+<span id="cb11-81"><a href="#cb11-81"></a>)</span>
+<span id="cb11-82"><a href="#cb11-82"></a></span>
+<span id="cb11-83"><a href="#cb11-83"></a><span class="co"># Show the figure</span></span>
+<span id="cb11-84"><a href="#cb11-84"></a>fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 
-<div>                            <div id="d0ff8160-0b64-43d5-b3ef-753823e129e5" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("d0ff8160-0b64-43d5-b3ef-753823e129e5")) {                    Plotly.newPlot(                        "d0ff8160-0b64-43d5-b3ef-753823e129e5",                        [{"mode":"lines+markers","name":"Current Measures - Henry Hub","visible":true,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[12.5999507828116,9.45888665761374,9.52643642374702,11.6655123513011,5.29331774606107,5.70987463721634,5.05689356459457,3.42444088304015,4.55027031859492,5.21450968557224,3.18589287420458,3.01058475161537,3.51844368955468,3.61990464623026,2.90201088360245,2.26280569720415,4.18369010043042,6.42,3.2,3.7,3.75,3.75,3.75,3.75,3.75,3.75,3.7825,3.815,3.8475,3.88,3.9125,3.945,3.9775,4.01,4.0425,4.075,4.1075,4.14,4.1725,4.205,4.2375,4.27,4.3025,4.335,4.3675,4.4],"type":"scatter"},{"mode":"lines+markers","name":"Current Measures - Nova Inventory Transfer (NIT)","visible":true,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[10.5804306456603,8.09234759308421,8.17115565357305,9.18440214557235,4.14068627428696,4.53472657673113,4.16320286299805,2.6658497137102,3.37512225810971,4.35459386704237,2.55522539221494,1.96599309784067,1.99140111063038,1.35249184584427,1.5282231621323,1.86335003372447,3.11583262722593,4.17692307692308,2.22,2.45,2.66,2.77,2.79,2.92,2.97,3.0,3.0325,3.075,3.1075,3.14,3.1725,3.205,3.2375,3.27,3.3025,3.335,3.3675,3.4,3.4325,3.465,3.4975,3.53,3.5625,3.595,3.6275,3.66],"type":"scatter"},{"mode":"lines+markers","name":"Canada Net-zero - Henry Hub","visible":false,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[12.5999507828116,9.45888665761374,9.52643642374702,11.6655123513011,5.29331774606107,5.70987463721634,5.05689356459457,3.42444088304015,4.55027031859492,5.21450968557224,3.18589287420458,3.01058475161537,3.51844368955468,3.61990464623026,2.90201088360245,2.26280569720415,4.18369010043042,6.42,3.2,3.7,3.75,3.74,3.73,3.72,3.71,3.7,3.645,3.59,3.535,3.48,3.425,3.37,3.315,3.26,3.205,3.15,3.095,3.04,2.985,2.93,2.875,2.82,2.765,2.71,2.655,2.6],"type":"scatter"},{"mode":"lines+markers","name":"Canada Net-zero - Nova Inventory Transfer (NIT)","visible":false,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[10.5804306456603,8.09234759308421,8.17115565357305,9.18440214557235,4.14068627428696,4.53472657673113,4.16320286299805,2.6658497137102,3.37512225810971,4.35459386704237,2.55522539221494,1.96599309784067,1.99140111063038,1.35249184584427,1.5282231621323,1.86335003372447,3.11583262722593,4.17692307692308,2.22,2.45,2.66,2.76,2.77,2.89,2.93,2.95,2.915,2.88,2.855,2.82,2.785,2.75,2.725,2.69,2.655,2.62,2.595,2.56,2.525,2.49,2.465,2.43,2.395,2.36,2.335,2.3],"type":"scatter"},{"mode":"lines+markers","name":"Global Net-zero - Henry Hub","visible":false,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[12.5999507828116,9.45888665761374,9.52643642374702,11.6655123513011,5.29331774606107,5.70987463721634,5.05689356459457,3.42444088304015,4.55027031859492,5.21450968557224,3.18589287420458,3.01058475161537,3.51844368955468,3.61990464623026,2.90201088360245,2.26280569720415,4.18369010043042,6.42,3.2,3.7,3.66666666666667,3.33333333333333,3.0,2.66666666666667,2.33333333333333,2.0,1.99,1.98,1.97,1.96,1.95,1.94,1.93,1.92,1.91,1.9,1.89,1.88,1.87,1.86,1.85,1.84,1.83,1.82,1.81,1.8],"type":"scatter"},{"mode":"lines+markers","name":"Global Net-zero - Nova Inventory Transfer (NIT)","visible":false,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[10.5804306456603,8.09234759308421,8.17115565357305,9.18440214557235,4.14068627428696,4.53472657673113,4.16320286299805,2.6658497137102,3.37512225810971,4.35459386704237,2.55522539221494,1.96599309784067,1.99140111063038,1.35249184584427,1.5282231621323,1.86335003372447,3.11583262722593,4.17692307692308,2.22,2.45,2.57666666666667,2.35333333333333,2.19,2.02666666666667,1.86333333333333,1.7,1.69,1.68,1.67,1.66,1.65,1.64,1.63,1.62,1.61,1.6,1.59,1.58,1.57,1.56,1.55,1.54,1.53,1.52,1.51,1.5],"type":"scatter"}],                        {"autosize":true,"legend":{"orientation":"h","x":0,"xanchor":"left","y":-0.2,"yanchor":"top"},"title":{"text":"Natural Gas Prices Over Time by Scenario and Variable"},"updatemenus":[{"buttons":[{"args":[{"visible":[true,true,false,false,false,false]}],"label":"Current Measures","method":"update"},{"args":[{"visible":[false,false,true,true,false,false]}],"label":"Canada Net-zero","method":"update"},{"args":[{"visible":[false,false,false,false,true,true]}],"label":"Global Net-zero","method":"update"}],"direction":"down","showactive":true,"x":0.5,"xanchor":"center","y":1.15,"yanchor":"top","active":0}],"xaxis":{"title":{"text":"Year"}},"yaxis":{"title":{"text":"Price (2022 US$\u002fMMBtu)"}},"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}}},                        {"responsive": true}                    ).then(function(){
+<div>                            <div id="00363fbe-7811-4ba6-9261-0786d466b7f2" class="plotly-graph-div" style="height:525px; width:100%;"></div>            <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("00363fbe-7811-4ba6-9261-0786d466b7f2")) {                    Plotly.newPlot(                        "00363fbe-7811-4ba6-9261-0786d466b7f2",                        [{"mode":"lines+markers","name":"Current Measures - Henry Hub","visible":true,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[12.5999507828116,9.45888665761374,9.52643642374702,11.6655123513011,5.29331774606107,5.70987463721634,5.05689356459457,3.42444088304015,4.55027031859492,5.21450968557224,3.18589287420458,3.01058475161537,3.51844368955468,3.61990464623026,2.90201088360245,2.26280569720415,4.18369010043042,6.42,3.2,3.7,3.75,3.75,3.75,3.75,3.75,3.75,3.7825,3.815,3.8475,3.88,3.9125,3.945,3.9775,4.01,4.0425,4.075,4.1075,4.14,4.1725,4.205,4.2375,4.27,4.3025,4.335,4.3675,4.4],"type":"scatter"},{"mode":"lines+markers","name":"Current Measures - Nova Inventory Transfer (NIT)","visible":true,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[10.5804306456603,8.09234759308421,8.17115565357305,9.18440214557235,4.14068627428696,4.53472657673113,4.16320286299805,2.6658497137102,3.37512225810971,4.35459386704237,2.55522539221494,1.96599309784067,1.99140111063038,1.35249184584427,1.5282231621323,1.86335003372447,3.11583262722593,4.17692307692308,2.22,2.45,2.66,2.77,2.79,2.92,2.97,3.0,3.0325,3.075,3.1075,3.14,3.1725,3.205,3.2375,3.27,3.3025,3.335,3.3675,3.4,3.4325,3.465,3.4975,3.53,3.5625,3.595,3.6275,3.66],"type":"scatter"},{"mode":"lines+markers","name":"Canada Net-zero - Henry Hub","visible":false,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[12.5999507828116,9.45888665761374,9.52643642374702,11.6655123513011,5.29331774606107,5.70987463721634,5.05689356459457,3.42444088304015,4.55027031859492,5.21450968557224,3.18589287420458,3.01058475161537,3.51844368955468,3.61990464623026,2.90201088360245,2.26280569720415,4.18369010043042,6.42,3.2,3.7,3.75,3.74,3.73,3.72,3.71,3.7,3.645,3.59,3.535,3.48,3.425,3.37,3.315,3.26,3.205,3.15,3.095,3.04,2.985,2.93,2.875,2.82,2.765,2.71,2.655,2.6],"type":"scatter"},{"mode":"lines+markers","name":"Canada Net-zero - Nova Inventory Transfer (NIT)","visible":false,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[10.5804306456603,8.09234759308421,8.17115565357305,9.18440214557235,4.14068627428696,4.53472657673113,4.16320286299805,2.6658497137102,3.37512225810971,4.35459386704237,2.55522539221494,1.96599309784067,1.99140111063038,1.35249184584427,1.5282231621323,1.86335003372447,3.11583262722593,4.17692307692308,2.22,2.45,2.66,2.76,2.77,2.89,2.93,2.95,2.915,2.88,2.855,2.82,2.785,2.75,2.725,2.69,2.655,2.62,2.595,2.56,2.525,2.49,2.465,2.43,2.395,2.36,2.335,2.3],"type":"scatter"},{"mode":"lines+markers","name":"Global Net-zero - Henry Hub","visible":false,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[12.5999507828116,9.45888665761374,9.52643642374702,11.6655123513011,5.29331774606107,5.70987463721634,5.05689356459457,3.42444088304015,4.55027031859492,5.21450968557224,3.18589287420458,3.01058475161537,3.51844368955468,3.61990464623026,2.90201088360245,2.26280569720415,4.18369010043042,6.42,3.2,3.7,3.66666666666667,3.33333333333333,3.0,2.66666666666667,2.33333333333333,2.0,1.99,1.98,1.97,1.96,1.95,1.94,1.93,1.92,1.91,1.9,1.89,1.88,1.87,1.86,1.85,1.84,1.83,1.82,1.81,1.8],"type":"scatter"},{"mode":"lines+markers","name":"Global Net-zero - Nova Inventory Transfer (NIT)","visible":false,"x":[2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026,2027,2028,2029,2030,2031,2032,2033,2034,2035,2036,2037,2038,2039,2040,2041,2042,2043,2044,2045,2046,2047,2048,2049,2050],"y":[10.5804306456603,8.09234759308421,8.17115565357305,9.18440214557235,4.14068627428696,4.53472657673113,4.16320286299805,2.6658497137102,3.37512225810971,4.35459386704237,2.55522539221494,1.96599309784067,1.99140111063038,1.35249184584427,1.5282231621323,1.86335003372447,3.11583262722593,4.17692307692308,2.22,2.45,2.57666666666667,2.35333333333333,2.19,2.02666666666667,1.86333333333333,1.7,1.69,1.68,1.67,1.66,1.65,1.64,1.63,1.62,1.61,1.6,1.59,1.58,1.57,1.56,1.55,1.54,1.53,1.52,1.51,1.5],"type":"scatter"}],                        {"autosize":true,"legend":{"orientation":"h","x":0,"xanchor":"left","y":-0.2,"yanchor":"top"},"title":{"text":"Natural Gas Prices Over Time by Scenario and Variable"},"updatemenus":[{"buttons":[{"args":[{"visible":[true,true,false,false,false,false]}],"label":"Current Measures","method":"update"},{"args":[{"visible":[false,false,true,true,false,false]}],"label":"Canada Net-zero","method":"update"},{"args":[{"visible":[false,false,false,false,true,true]}],"label":"Global Net-zero","method":"update"}],"direction":"down","showactive":true,"x":0.5,"xanchor":"center","y":1.12,"yanchor":"top","active":0}],"xaxis":{"title":{"text":"Year"}},"yaxis":{"title":{"text":"Price (2022 US$\u002fMMBtu)"}},"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}}},                        {"responsive": true}                    ).then(function(){
                             
-var gd = document.getElementById('d0ff8160-0b64-43d5-b3ef-753823e129e5');
+var gd = document.getElementById('00363fbe-7811-4ba6-9261-0786d466b7f2');
 var x = new MutationObserver(function (mutations, observer) {{
         var display = window.getComputedStyle(gd).display;
         if (!display || display === 'none') {{
