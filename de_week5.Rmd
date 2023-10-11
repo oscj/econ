@@ -1,0 +1,170 @@
+---
+title: "Data Assignment #5"
+output: html_document
+date: "2023-10-11"
+---
+
+```{r, message=FALSE}
+#load packages
+library(kableExtra)
+library(readxl)
+library(janitor)
+library(tidyverse)
+library(lubridate)
+library(scales)
+library(viridis)
+#set default chunk options
+knitr::opts_chunk$set(message=F,warning=F)
+
+```
+
+```{r pressure, echo=TRUE}
+#download the data - remember to use the mode="wb" so that you get the windows binary file
+if(!file.exists("os_data.rdata"))
+   download.file("https://econ366.aleach.ca/resources/os_data.rdata",destfile = "os_data.rdata",mode="wb")
+load("os_data.rdata")
+
+os_data %>% select(reporting_year) %>% distinct()
+
+```
+
+```{r}
+ggplot(os_data %>% filter(mine,reporting_year==2022),
+       aes(project_name,production/365/1000))+
+  geom_col(size=0.25,position = position_dodge(width = .25),color="black")+
+  theme_minimal()+
+  theme(axis.text.x = element_text(hjust = 0.5,vjust=0.5)
+        )+
+  labs(x=NULL,y="Bitumen Production (thousands of barrels per day)",
+       title="2022 Bitumen Production, Oil Sands Mining Projects",
+       #subtitle="Excluding Electricity,by NAICS 4-Digit Code",
+       caption="Data via Government of Alberta, graph by Oscar Jaimes")
+
+```
+
+```{r}
+ggplot(os_data %>% filter(mine),
+       aes(reporting_year,production/365/1000))+
+  geom_col(size=0.25,position = position_dodge(width = .25),color="black")+
+  scale_x_continuous(breaks = pretty_breaks(6),expand=c(0,0))+
+  facet_wrap(~project_name,nrow = 1)+
+  theme_minimal()+
+  theme(axis.text.x = element_text(angle=90,hjust = 0.5,vjust=0.5)
+        )+
+  labs(x=NULL,y="Bitumen Production (thousands of barrels per day)",
+       title="Bitumen Production, Oil Sands Mining Projects",
+       #subtitle="Excluding Electricity,by NAICS 4-Digit Code",
+       caption="Data via Government of Alberta, graph by Oscar Jaimes")
+```
+
+
+
+
+
+```{r}
+ggplot(os_data %>% filter(big_project,!mine),
+       aes(reporting_year,production/365/1000))+
+  geom_col(size=0.25,position = position_dodge(width = .25),color="black")+
+  scale_x_continuous(breaks = pretty_breaks(6),expand=c(0,0))+
+  facet_wrap(~project_name,nrow = 1)+
+  theme_minimal()+
+  theme(axis.text.x = element_text(angle=90,hjust = 0.5,vjust=0.5)
+        )+
+  labs(x=NULL,y="Bitumen Production (thousands of barrels per day)",
+       title="Bitumen Production, Larger Oil Sands In Situ Projects",
+       #subtitle="Excluding Electricity,by NAICS 4-Digit Code",
+       caption="Data via Government of Alberta, graph by Oscar Jaimes")
+```
+
+
+
+```{r}
+os_data %>% 
+  select(reporting_year,mine,production,royalty_payable)%>%#pick the variables I need
+  group_by(mine,reporting_year)%>% #group by project type and year
+  summarize(royalties=sum(royalty_payable,na.rm=T)/sum(production,na.rm = T))%>% #royalties per barrel
+  ungroup()%>%
+  #the na.rm = T means that you don't count any missing values in your summation. REALLY useful.
+  pivot_wider(names_from=reporting_year,values_from = royalties)%>%
+  #push data to wide format with one column for each year
+  #create labels for the mine column
+  mutate(mine=ifelse(mine,"Mine","In Situ"))%>%
+  #rename the mine column
+  rename("Project Type"=mine)%>%
+  #make a table
+  kbl(escape = FALSE,digits=2,align=c("l",rep('c', 7))) %>%
+  kable_styling(fixed_thead = T,bootstrap_options = c("hover", "condensed","responsive"),full_width = T)%>%
+  add_header_above(header = c("Royalties payable ($/bbl) by Project Type"=8))%>%
+  I() 
+```
+
+
+
+
+```{r}
+os_data %>% 
+  group_by(mine,reporting_year)%>% #group by project type and year
+  summarize(revenue=sum(gross_revenue,na.rm=T),
+            production=sum(production,na.rm=T),
+            royalties=sum(royalty_payable,na.rm=T),
+            capital_costs=sum(capital_costs,na.rm=T),
+            operating_costs=sum(operating_costs,na.rm=T),
+            other=sum(other_costs-other_net_proceeds,na.rm=T),
+            #profit_or_loss=sum(gross_revenue,na.rm=T)-sum(royalty_payable,na.rm=T)-sum(capital_costs,na.rm=T)-
+            #  sum(operating_costs,na.rm=T)-sum(other_costs-other_net_proceeds,na.rm=T)
+            )%>%
+    ungroup()%>%
+  pivot_longer(cols=-c(mine,reporting_year,production),names_to = "item")%>%
+  mutate(value=value/production)%>%
+  mutate(item=stringr::str_to_title(gsub("_"," ",item)))%>%
+  mutate(mine=ifelse(mine,"Mine","In Situ"))%>%
+ggplot() +
+  facet_grid(rows=vars(mine),cols=vars(item),scales = "free_y")+
+  geom_col(aes(reporting_year,value,group=item),size=0.25,position = "stack",color="black",fill="dodgerblue")+
+  #geom_col( aes(reporting_year,op_costs_bbl,fill="Operating Costs"),size=0.25,position = "stack",color="black")+
+  scale_x_continuous(breaks = pretty_breaks(6),expand=c(0,0))+
+  scale_y_continuous(breaks = pretty_breaks(6),expand=c(0,0))+
+  theme_minimal()+
+  scale_fill_viridis("",discrete = T,option="magma",begin =0.4,direction=-1)+
+  theme(axis.text.x = element_text(angle=90,hjust = 0.5,vjust=0.5),
+        panel.spacing = unit(2, "lines"),
+        legend.position = "none")+
+  labs(x=NULL,y="Costs and Revenue (dollars per barrel, before taxes)",
+       title="Oil Sands Project Trends",
+       caption="Data via Government of Alberta, graph by Oscar Jaimes")
+```
+
+
+```{r}
+  #test<-
+  os_data %>% 
+  group_by(mine,reporting_year)%>% #group by project type and year
+  summarize(production=sum(production,na.rm=T),
+            royalties=sum(royalty_payable,na.rm=T),
+            capital_costs=sum(capital_costs,na.rm=T),
+            operating_costs=sum(operating_costs,na.rm=T),
+            other=sum(other_costs-other_net_proceeds,na.rm=T),
+            profit_or_loss=sum(gross_revenue,na.rm=T)-sum(royalty_payable,na.rm=T)-sum(capital_costs,na.rm=T)-
+              sum(operating_costs,na.rm=T)-sum(other_costs-other_net_proceeds,na.rm=T))%>%
+    ungroup()%>%
+  
+  pivot_longer(cols=-c(mine,reporting_year,production),names_to = "item")%>%
+  mutate(value=value/production)%>%
+  mutate(item=stringr::str_to_title(gsub("_"," ",item)))%>%
+  mutate(item=as_factor(item),item=fct_relevel(item,c("Profit Or Loss","Royalties","Capital Costs","Operating Costs","Other")))%>%
+  mutate(mine=ifelse(mine,"Mine","In Situ"))%>%
+ggplot() +
+  facet_wrap(~mine,nrow = 1)+
+  geom_col(aes(reporting_year,value,fill=item,group=item),size=0.25,position = "stack",color="black")+
+  #geom_col( aes(reporting_year,op_costs_bbl,fill="Operating Costs"),size=0.25,position = "stack",color="black")+
+  scale_x_continuous(breaks = pretty_breaks(6),expand=c(0,0))+
+  scale_y_continuous(breaks = pretty_breaks(6),expand=c(0,0))+
+  expand_limits(y=c(0,80))+
+  theme_minimal()+
+  scale_fill_viridis("",discrete = T,option="magma",begin =0.4,direction=-1)+
+  theme(axis.text.x = element_text(angle=90,hjust = 0.5,vjust=0.5),
+        panel.spacing = unit(2, "lines"))+
+  labs(x=NULL,y="Costs and Operating Net Revenue (dollars per barrel, before taxes)",
+       title="Oil Sands Project Profitability",
+       caption="Data via Government of Alberta, graph by Oscar Jaimes")
+```
