@@ -1,0 +1,91 @@
+---
+title: "Data Assignment 2"
+author: "Oscar Jaimes"
+date: "2023-10-30"
+output: html_document
+---
+
+```{r, message=FALSE}
+#load packages
+library(kableExtra)
+library(readxl)
+library(janitor)
+library(tidyverse)
+library(lubridate)
+library(scales)
+library(viridis)
+library(wesanderson)
+#set default chunk options
+knitr::opts_chunk$set(message=F,warning=F)
+
+```
+
+## Fetch Data From CER
+```{r}
+# Enbridge Canadian Mainline Data
+
+if(!file.exists("enbridge_mainline.csv"))
+   download.file("https://www.cer-rec.gc.ca/open/energy/throughput-capacity/enbridge-mainline-throughput-and-capacity.csv",destfile = "enbridge_mainline.csv",mode="wb")
+
+enbridge_mainline_profile <- read.csv("enbridge_mainline.csv")
+
+```
+
+## Deliverable 1 - The Enbridge Mainline
+```{r, fig.width=10, fig.height=6}
+
+# want to work with date objects
+enbridge_mainline_profile$Date <- as.Date(enbridge_mainline_profile$Date)
+
+enbridge_mainline_profile <- enbridge_mainline_profile %>%
+  # mutate data to get a product/trade_type combined variable
+  mutate(pair = paste(Product, "(", trade_type, ")", sep = "")) %>%
+  # mutate data to have proper titles
+  mutate(pair = str_to_title(pair)) %>%
+  # filter data to only include ex-Gretna
+  filter(Key.Point == "ex-Gretna")  %>%
+  # filter out unwanted product/trade_type combination
+  filter(!(pair == "domestic light / ngl(intracanada / export)"))
+
+enb_capacity<-enbridge_mainline_profile%>%
+  group_by(Date)%>%
+  summarize(capacity=mean(Available.Capacity..1000.m3.d.,na.rm=T))
+
+mainline_throughput_area_chart <- enbridge_mainline_profile %>%
+  ggplot() +
+  # color palette
+  scale_fill_manual(values = wes_palette("Moonrise2", n = 4))+
+  # area charts
+  geom_area(
+    aes(Date, Throughput, group=pair, fill=pair), 
+    position = "stack", 
+    colour=NA, 
+    linewidth=0.5
+  )+
+  # capacity line
+  geom_line(data=enb_capacity,aes(Date,capacity),linewidth=.85, lty="21")+  
+  # axis
+  scale_x_date(breaks = "2 years", date_labels = "%b %Y")+
+  scale_y_continuous(
+    sec.axis = sec_axis(trans = ~.*1/.16, 
+    name="Shipments (Monthly, Thousands of Barrels per Day)")
+  )+
+  # theme
+  theme_minimal()+ 
+  theme(legend.position = "bottom")+
+  guides(fill=guide_legend(nrow=1, title=NULL))+
+  labs(
+    y="Shipments (Monthly, Thousands of Cubic Meters per Day)",x="",
+    title="Enbridge Canadian Mainline Shipments by Product",
+    caption = "Source: CER Data for Enbridge Mainline (ex-Gretna), graph by Oscar Jaimes"
+  )
+
+# show graph
+mainline_throughput_area_chart
+```
+
+
+
+
+
+
