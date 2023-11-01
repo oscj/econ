@@ -3,6 +3,11 @@ title: "Data Assignment 2"
 author: "Oscar Jaimes"
 date: "2023-10-30"
 output: html_document
+format: 
+  html:
+    code-fold: true
+    page-layout: "full"
+toc: true
 ---
 
 ```{r, message=FALSE}
@@ -21,20 +26,27 @@ knitr::opts_chunk$set(message=F,warning=F)
 ```
 
 ## Fetch Data From CER
-```{r}
-# Enbridge Canadian Mainline Data
 
+### Enbridge Canadian Mainline Profile
+```{r}
 if(!file.exists("enbridge_mainline.csv"))
    download.file("https://www.cer-rec.gc.ca/open/energy/throughput-capacity/enbridge-mainline-throughput-and-capacity.csv",destfile = "enbridge_mainline.csv",mode="wb")
 
 enbridge_mainline_profile <- read.csv("enbridge_mainline.csv")
-
 ```
 
-## Deliverable 1 - The Enbridge Mainline
-```{r, fig.width=10, fig.height=6}
+### Keystone Pipeline Profile
+```{r}
+if(!file.exists("keystone_pipeline.csv"))
+   download.file("https://www.cer-rec.gc.ca/open/energy/throughput-capacity/keystone-throughput-and-capacity.csv",destfile = "keystone_pipeline.csv",mode="wb")
 
-# want to work with date objects
+keystone_profile <- read.csv("keystone_pipeline.csv")
+```
+
+
+## The Enbridge Mainline
+```{r, fig.width=10, fig.height=6}
+# parse dates to Date objects
 enbridge_mainline_profile$Date <- as.Date(enbridge_mainline_profile$Date)
 
 enbridge_mainline_profile <- enbridge_mainline_profile %>%
@@ -47,6 +59,7 @@ enbridge_mainline_profile <- enbridge_mainline_profile %>%
   # filter out unwanted product/trade_type combination
   filter(!(pair == "domestic light / ngl(intracanada / export)"))
 
+# available capacity data, averaged by month
 enb_capacity<-enbridge_mainline_profile%>%
   group_by(Date)%>%
   summarize(capacity=mean(Available.Capacity..1000.m3.d.,na.rm=T))
@@ -54,26 +67,34 @@ enb_capacity<-enbridge_mainline_profile%>%
 mainline_throughput_area_chart <- enbridge_mainline_profile %>%
   ggplot() +
   # color palette
-  scale_fill_manual(values = wes_palette("Moonrise2", n = 4))+
+  scale_fill_manual(values = wes_palette("Chevalier1", n = 4))+
   # area charts
   geom_area(
     aes(Date, Throughput, group=pair, fill=pair), 
     position = "stack", 
-    colour=NA, 
     linewidth=0.5
   )+
   # capacity line
-  geom_line(data=enb_capacity,aes(Date,capacity),linewidth=.85, lty="21")+  
+  geom_line(data=enb_capacity,aes(Date,capacity, color="Available Capacity"),linewidth=.85, lty="21")+
   # axis
+  coord_cartesian(ylim = c(0, 500)) +
   scale_x_date(breaks = "2 years", date_labels = "%b %Y")+
   scale_y_continuous(
+    breaks = seq(0, 500, by = 100),
     sec.axis = sec_axis(trans = ~.*1/.16, 
     name="Shipments (Monthly, Thousands of Barrels per Day)")
-  )+
+  ) +
   # theme
   theme_minimal()+ 
-  theme(legend.position = "bottom")+
+  theme(
+    legend.position = "bottom",
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+  )+
+  # area chart legend
   guides(fill=guide_legend(nrow=1, title=NULL))+
+  # capacity line legend
+  scale_color_manual(values = "grey", name = "") +
   labs(
     y="Shipments (Monthly, Thousands of Cubic Meters per Day)",x="",
     title="Enbridge Canadian Mainline Shipments by Product",
@@ -84,8 +105,59 @@ mainline_throughput_area_chart <- enbridge_mainline_profile %>%
 mainline_throughput_area_chart
 ```
 
+## The Keystone Pipeline
 
+```{r, fig.width=10, fig.height=6}
+# parse dates to Date objects
+keystone_profile$Date <- as.Date(keystone_profile$Date, format="%m/%d/%Y")
 
+# capitalize product strings
+keystone_profile <- keystone_profile %>%
+  mutate(Product = str_to_title(Product))
 
+keystone_throughput_area_chart <- keystone_profile %>%
+  ggplot() +
+  # color palette
+  scale_fill_manual(values = wes_palette("Chevalier1", n = 2))+
+  # area charts
+  geom_area(
+    aes(Date, Throughput, group=Product, fill=Product), 
+    position = "stack", 
+    linewidth=0.5
+  )+
+  # axis
+  coord_cartesian(ylim = c(0, 100)) +
+  scale_x_date(breaks = "2 years", date_labels = "%b %Y")+
+  scale_y_continuous(
+    breaks = seq(0, 100, by = 25),
+    sec.axis = sec_axis(trans = ~.*1/.16, 
+    name="Shipments (Monthly, Thousands of Barrels per Day)")
+  ) +
+  # theme
+  theme_minimal()+ 
+  theme(
+    legend.position = "bottom",
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+  )+
+  # area chart legend
+  guides(fill=guide_legend(nrow=1, title=NULL))+
+  # capacity line legend
+  scale_color_manual(values = "grey", name = "") +
+  labs(
+    y="Shipments (Monthly, Thousands of Cubic Meters per Day)",x="",
+    title="Keystone Pipeline Shipments by Product",
+    caption = "Source: CER Data for Keystone (Canada-US Border), graph by Oscar Jaimes"
+  )
+
+# show graph
+keystone_throughput_area_chart
+```
+
+## The Trans-Mountain Pipeline
+
+## Canadian Exports of Crude by Rail
+
+## US Imports of Canadian Crude
 
 
