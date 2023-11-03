@@ -1,7 +1,7 @@
 ---
 title: "Data Assignment 2"
 author: "Oscar Jaimes"
-date: "2023-10-30"
+date: "2023-11-03"
 output: html_document
 format: 
   html:
@@ -12,88 +12,89 @@ toc: true
 
 ```{r, message=FALSE}
 #load packages
-library(kableExtra)
 library(readxl)
 library(janitor)
 library(tidyverse)
-library(lubridate)
 library(scales)
-library(viridis)
 library(wesanderson)
 #set default chunk options
 knitr::opts_chunk$set(message=F,warning=F)
 
 ```
 
-## Fetch Data From CER
 
-### Enbridge Canadian Mainline Profile
+## The Enbridge Mainline
+### Fetch data from CER
 ```{r}
-if(!file.exists("enbridge_mainline.csv"))
-   download.file("https://www.cer-rec.gc.ca/open/energy/throughput-capacity/enbridge-mainline-throughput-and-capacity.csv",destfile = "enbridge_mainline.csv",mode="wb")
-
+if(!file.exists("enbridge_mainline.csv")){
+   download.file(
+     "https://www.cer-rec.gc.ca/open/energy/throughput-capacity/enbridge-mainline-throughput-and-capacity.csv",
+     destfile = "enbridge_mainline.csv",
+     mode="wb"
+    )
+}
 enbridge_mainline_profile <- read.csv("enbridge_mainline.csv")
 ```
 
-### Keystone Pipeline Profile
+### Parse & Filtering
 ```{r}
-if(!file.exists("keystone_pipeline.csv"))
-   download.file("https://www.cer-rec.gc.ca/open/energy/throughput-capacity/keystone-throughput-and-capacity.csv",destfile = "keystone_pipeline.csv",mode="wb")
-
-keystone_profile <- read.csv("keystone_pipeline.csv")
-```
-
-
-## The Enbridge Mainline
-```{r, fig.width=10, fig.height=6}
-# parse dates to Date objects
 enbridge_mainline_profile$Date <- as.Date(enbridge_mainline_profile$Date)
 
+# filter and manipulate for target data
 enbridge_mainline_profile <- enbridge_mainline_profile %>%
-  # mutate data to get a product/trade_type combined variable
   mutate(pair = paste(Product, "(", trade_type, ")", sep = "")) %>%
-  # mutate data to have proper titles
   mutate(pair = str_to_title(pair)) %>%
-  # filter data to only include ex-Gretna
+  mutate(pair = str_replace_all(pair, "Ngl", "NGL ")) %>%
+  mutate(pair = str_replace_all(pair, "Domestic Light", "Light")) %>%
   filter(Key.Point == "ex-Gretna")  %>%
-  # filter out unwanted product/trade_type combination
-  filter(!(pair == "domestic light / ngl(intracanada / export)"))
+  filter(!(pair == "Light / NGL (intracanada / export)"))
 
 # available capacity data, averaged by month
 enb_capacity<-enbridge_mainline_profile%>%
   group_by(Date)%>%
-  summarize(capacity=mean(Available.Capacity..1000.m3.d.,na.rm=T))
+  summarize(
+    capacity=mean(
+      Available.Capacity..1000.m3.d.,
+      na.rm=T
+    ))
 
+# switch to same order as example
+desired_order <- c("Domestic Heavy(Intracanada / Export)", "Foreign Light(Import)", "Light / NGL (Export)", "Light / NGL (Intracanada)")
+enbridge_mainline_profile$pair <- factor(enbridge_mainline_profile$pair, levels = desired_order)
+```
+
+### Graph
+```{r, fig.width=10, fig.height=7}
 mainline_throughput_area_chart <- enbridge_mainline_profile %>%
   ggplot() +
-  # color palette
   scale_fill_manual(values = wes_palette("Chevalier1", n = 4))+
-  # area charts
   geom_area(
     aes(Date, Throughput, group=pair, fill=pair), 
-    position = "stack", 
+    position = "stack",
+    colour="black",
     linewidth=0.5
   )+
-  # capacity line
   geom_line(data=enb_capacity,aes(Date,capacity, color="Available Capacity"),linewidth=.85, lty="21")+
-  # axis
   coord_cartesian(ylim = c(0, 500)) +
-  scale_x_date(breaks = "2 years", date_labels = "%b %Y")+
+  scale_x_date(
+    breaks=pretty_breaks(n=7),
+    expand=c(0,0),
+    date_labels = "%b\n%Y"
+  )+
   scale_y_continuous(
-    breaks = seq(0, 500, by = 100),
+    breaks = seq(0, 590, by = 100),
     sec.axis = sec_axis(trans = ~.*1/.16, 
     name="Shipments (Monthly, Thousands of Barrels per Day)")
   ) +
-  # theme
   theme_minimal()+ 
   theme(
     legend.position = "bottom",
+    plot.title = element_text(hjust = 0.5, size=12),
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
+    plot.caption = element_text(hjust = 0, vjust = 1)
   )+
-  # area chart legend
   guides(fill=guide_legend(nrow=1, title=NULL))+
-  # capacity line legend
   scale_color_manual(values = "grey", name = "") +
   labs(
     y="Shipments (Monthly, Thousands of Cubic Meters per Day)",x="",
@@ -101,63 +102,270 @@ mainline_throughput_area_chart <- enbridge_mainline_profile %>%
     caption = "Source: CER Data for Enbridge Mainline (ex-Gretna), graph by Oscar Jaimes"
   )
 
-# show graph
 mainline_throughput_area_chart
 ```
 
 ## The Keystone Pipeline
 
-```{r, fig.width=10, fig.height=6}
-# parse dates to Date objects
+### Fetch data from CER
+```{r}
+if(!file.exists("keystone_pipeline.csv")){
+   download.file(
+     "https://www.cer-rec.gc.ca/open/energy/throughput-capacity/keystone-throughput-and-capacity.csv",
+     destfile = "keystone_pipeline.csv",
+     mode="wb"
+  )
+}
+keystone_profile <- read.csv("keystone_pipeline.csv")
+```
+
+### Parse & Format
+```{r}
 keystone_profile$Date <- as.Date(keystone_profile$Date, format="%m/%d/%Y")
 
-# capitalize product strings
 keystone_profile <- keystone_profile %>%
   mutate(Product = str_to_title(Product))
+```
 
+
+### Graph
+```{r, fig.width=10, fig.height=7}
 keystone_throughput_area_chart <- keystone_profile %>%
   ggplot() +
-  # color palette
   scale_fill_manual(values = wes_palette("Chevalier1", n = 2))+
-  # area charts
   geom_area(
     aes(Date, Throughput, group=Product, fill=Product), 
-    position = "stack", 
+    position = "stack",
+    colour="black",
     linewidth=0.5
   )+
-  # axis
   coord_cartesian(ylim = c(0, 100)) +
-  scale_x_date(breaks = "2 years", date_labels = "%b %Y")+
+  scale_x_date(
+    breaks=pretty_breaks(),
+    expand=c(0,0),
+    date_labels = "%b\n%Y"
+  )+
   scale_y_continuous(
     breaks = seq(0, 100, by = 25),
     sec.axis = sec_axis(trans = ~.*1/.16, 
     name="Shipments (Monthly, Thousands of Barrels per Day)")
   ) +
-  # theme
   theme_minimal()+ 
   theme(
+    plot.margin = unit(c(1,1,0.2,1), "cm"),
     legend.position = "bottom",
+    plot.title = element_text(hjust = 0.5, size=12),
     panel.grid.major.x = element_blank(),
     panel.grid.minor.x = element_blank(),
+    plot.caption = element_text(hjust = 0, vjust = 1)
   )+
-  # area chart legend
   guides(fill=guide_legend(nrow=1, title=NULL))+
-  # capacity line legend
-  scale_color_manual(values = "grey", name = "") +
   labs(
     y="Shipments (Monthly, Thousands of Cubic Meters per Day)",x="",
     title="Keystone Pipeline Shipments by Product",
     caption = "Source: CER Data for Keystone (Canada-US Border), graph by Oscar Jaimes"
   )
 
-# show graph
 keystone_throughput_area_chart
 ```
 
 ## The Trans-Mountain Pipeline
 
+### Fetch data from CER
+```{r}
+if(!file.exists("transmountain_pipeline.csv")){
+   download.file(
+     "https://www.cer-rec.gc.ca/open/energy/throughput-capacity/trans-mountain-throughput-and-capacity.csv",
+     destfile = "transmountain_pipeline.csv",
+     mode="wb"
+  )
+}
+transmountain_profile <- read.csv("transmountain_pipeline.csv")
+```
+
+### Parse & Filter
+```{r}
+transmountain_profile$Date <- as.Date(transmountain_profile$Date)
+transmountain_profile <-transmountain_profile %>%
+  mutate(Trade.Type = str_to_title(Trade.Type)) %>%
+  mutate(Key.Point = paste(Key.Point, " (", Trade.Type, ")", sep = "")) %>%
+  mutate(Product = str_to_title(Product))%>%
+  filter(!Key.Point == "system (All)")
+```
+
+### Graph
+```{r, fig.width=10, fig.height=7}
+transmountain_chart <- transmountain_profile %>%
+  ggplot() +
+  scale_fill_manual(values = wes_palette("Chevalier1", n = 3))+
+  geom_area(
+    aes(Date,Throughput, group=Product, fill=Product), 
+    position = "stack", 
+    colour="black",
+    linewidth=0.5
+  )+
+  facet_wrap(~Key.Point,ncol = 1, scales = "free_y")+
+  scale_y_continuous(
+    sec.axis = sec_axis(trans = ~.*1/.16, 
+    name="Shipments (Monthly, Thousands of Barrels per Day)")
+  ) +
+  scale_x_date(
+    breaks=pretty_breaks(n=7),
+    expand=c(0,0),
+    date_labels = "%b\n%Y"
+  )+
+  theme_minimal()+ 
+  theme(
+    legend.position = "bottom",
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    plot.title = element_text(hjust = 0.5, size=12),
+    strip.background = element_rect(fill = "white", color = "black", size = 1.5),
+    strip.text.x = element_text(size = 10),
+    strip.text.y = element_text(size = 10),
+    plot.caption = element_text(hjust = 0, vjust = 1) 
+  )+
+  guides(fill=guide_legend(nrow=1, title=NULL))+
+  scale_color_manual(values = "grey", name = "") +
+  labs(
+    y="Shipments (Monthly, Thousands of Cubic Meters per Day)",x="",
+    title="Trans-Mountain Pipeline Shipments by Product and Destination",
+    caption = "Source: CER Data for Trans-Mountain, graph by Oscar Jaimes"
+  )
+
+transmountain_chart
+```
+
 ## Canadian Exports of Crude by Rail
 
+### Fetch data from CER
+```{r}
+if(!file.exists("crude_exports_by_rail.xlsx")){
+  download.file(
+    "https://www.cer-rec.gc.ca/en/data-analysis/energy-commodities/crude-oil-petroleum-products/statistics/canadian-crude-oil-exports-rail-monthly-data.xlsx",
+    destfile = "crude_exports_by_rail.xlsx",
+    mode="wb"
+  )
+}
+
+oil_by_rail<-read_excel(
+  path="crude_exports_by_rail.xlsx",
+  sheet= "CrudeOilExportsByRail",
+  col_names = TRUE,
+  na= "",
+  trim_ws= TRUE,
+  skip= 7
+)
+
+#fix data format & dates
+oil_by_rail <- oil_by_rail %>% clean_names () %>%
+  select(-1)%>%slice(1:(n()-5))%>%
+  fill(year) %>%
+  mutate(
+    mth_num=match(month,month.name),
+    date=ymd(paste(year,"-",mth_num,"-1",sep = ""))
+  )
+```
+
+### Parse
+```{r}
+oil_by_rail <- oil_by_rail %>%
+  # Create a new column that combines Year and Month into a date string
+  mutate(Date = as.Date(paste(year, month, "01", sep = "-"), format="%Y-%B-%d"))
+```
+
+### Graph
+```{r, fig.width=10, fig.height=7}
+exports_by_rail_chart <- oil_by_rail %>%
+  ggplot() +
+  scale_color_manual(values = wes_palette("Chevalier1", n = 1))+
+  geom_line(aes(Date, volume_m3_per_day / 1000, color = "lineColor"), linewidth=1.25, show.legend = FALSE) +
+  scale_color_manual(values = wes_palette("Chevalier1", n = 1)) +
+  scale_x_date(
+    breaks=pretty_breaks(n=24),
+    expand=c(0,0),
+    date_labels = "%b\n%Y"
+  )+
+  scale_y_continuous(
+    breaks = seq(0, 70, by = 10),
+    sec.axis = sec_axis(trans = ~.*1/.16, 
+    name="Exports (Monthly, Thousands of Barrels per Day)")
+  ) +
+  theme_minimal()+ 
+  theme(
+    legend.position = "bottom",
+    plot.title = element_text(hjust = 0.5, size=12),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    plot.caption = element_text(hjust = 0, vjust = 1) 
+  )+
+  labs(
+    y="Exports (Monthly, Thousands of Cubic Meters per Day)",x="",
+    title="Canadian Oil Exports by Rail",
+    caption = "Source: CER Data, graph by Oscar Jaimes"
+  )
+
+exports_by_rail_chart
+```
+
+
+
+
 ## US Imports of Canadian Crude
+
+### Fetch Data
+```{r}
+if(!file.exists("us_import_data.csv")){
+   download.file(
+     "https://econ366.aleach.ca/resources/assignment_2/assignment_2_data.csv",
+     destfile = "us_import_data.csv",
+     mode="wb"
+  )
+}
+us_import_data <- read.csv("us_import_data.csv")
+```
+
+
+### Graph
+```{r, fig.width=11, fig.height=8}
+us_import_data$period <- as.Date(us_import_data$period)
+
+us_import_chart <- us_import_data %>%
+  ggplot() +
+  scale_fill_manual(values = wes_palette("Chevalier1", n = 3))+
+  geom_area(
+    aes(period,quantity, group=origin_name, fill=origin_name), 
+    position = "stack", 
+    color="black",
+    linewidth=0.15
+  )+
+  facet_grid(rows = vars(grade_name),cols = vars(destination_name), scales = "free_y")+
+  scale_x_date(
+    breaks=pretty_breaks(n=5),
+    expand=c(0,0),
+    date_labels = "%Y"
+  )+
+  theme_minimal()+ 
+  theme(
+    legend.position = "bottom",
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    plot.title = element_text(hjust = 0.5, size=12),
+    strip.background = element_rect(fill = "white", color = "black", size = 1.5),
+    strip.text.x = element_text(size = 10),
+    strip.text.y = element_text(size = 10),
+    plot.caption = element_text(hjust = 0, vjust = 1) 
+  )+
+  guides(fill=guide_legend(nrow=1, title=NULL))+
+  scale_color_manual(values = "grey", name = "") +
+  labs(
+    y="Imports (Thousands of Barrels per Day)",x="",
+    title="US Crude Imports from Canada and the Rest of the World (ROW)\nImports by Refining PADD and Grade",
+    caption = "Data via US Energy Information Administration,current to July 2023, graph by Oscar Jaimes"
+  )
+
+us_import_chart
+```
+
 
 
