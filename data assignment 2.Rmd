@@ -74,7 +74,7 @@ mainline_throughput_area_chart <- enbridge_mainline_profile %>%
     colour="black",
     linewidth=0.5
   )+
-  geom_line(data=enb_capacity,aes(Date,capacity, color="Available Capacity"),linewidth=.85, lty="21")+
+  geom_line(data=enb_capacity,aes(Date,capacity, color="Available Capacity"),linewidth=.85, ww="21")+
   coord_cartesian(ylim = c(0, 500)) +
   scale_x_date(
     breaks=pretty_breaks(n=7),
@@ -368,4 +368,69 @@ us_import_chart
 ```
 
 
+```{r, fig.width=11, fig.height=8}
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+library(plotly)
+library(scales)
+library(wesanderson)
 
+# Your existing data preparation code
+us_import_data$period <- as.Date(us_import_data$period)
+
+# Recategorize 'origin_name' into 'Canada' and 'ROW'
+us_import_data <- us_import_data %>%
+  mutate(origin_category = ifelse(origin_name == "Canada", "Canada", "ROW"))
+
+# Prepare the ggplot chart
+us_import_chart <- us_import_data %>%
+  ggplot() +
+  scale_fill_manual(values = c("Canada" = "blue", "ROW" = "red")) +
+  geom_area(
+    aes(period, quantity, group = origin_category, fill = origin_category, text = paste("Date:", format(period, "%Y-%m-%d"), "<br>Quantity:", quantity)), 
+    position = "stack", 
+    color = "black",
+    linewidth = 0.15
+  ) +
+  facet_grid(rows = vars(grade_name), cols = vars(destination_name), scales = "free_y") +
+  scale_x_date(
+    breaks = pretty_breaks(n = 5),
+    expand = c(0, 0),
+    date_labels = "%Y"
+  ) +
+  theme_minimal() + 
+  theme(
+    legend.position = "bottom",
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    plot.title = element_text(hjust = 0.5, size = 12),
+    strip.background = element_rect(fill = "white", color = "black", size = 1.5),
+    strip.text.x = element_text(size = 10),
+    strip.text.y = element_text(size = 10),
+    plot.caption = element_text(hjust = 0, vjust = 1) 
+  ) +
+  guides(fill = guide_legend(nrow = 1, title = NULL)) +
+  labs(
+    y = "Imports (Thousands of Barrels per Day)", x = "",
+    title = "US Crude Imports from Canada and the Rest of the World (ROW)",
+    caption = "Data via US Energy Information Administration, current to July 2023, graph by Oscar Jaimes"
+  )
+
+# Convert the ggplot object to a plotly interactive graph
+us_import_chart_interactive <- ggplotly(us_import_chart, tooltip = "text")
+
+# Customize interactivity features
+us_import_chart_interactive <- us_import_chart_interactive %>%
+  layout(
+    legend = list(orientation = 'h', y = -0.3),
+    hovermode = 'closest',
+    xaxis = list(title = ""),
+    margin = list(l = 60, r = 60, t = 70, b = 80)
+  )
+
+# View the interactive chart
+us_import_chart_interactive
+
+
+```

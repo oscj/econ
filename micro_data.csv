@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en-US"  prefix="og: http://ogp.me/ns#  fb: http://www.facebook.com/2008/fbml website: http://ogp.me/ns/website#">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<base href="https://www.aeso.ca/"><!--[if lte IE 6]></base><![endif]-->
+	<title> Micro-  and Small Distributed Generation Reporting &raquo; AESO</title>
+	<meta name="generator" content="SilverStripe - https://www.silverstripe.org" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description" content="View quarterly reporting on micro-generation in Alberta." /><meta property="og:title" content=" Micro-  and Small Distributed Generation Reporting" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://www.aeso.ca/market/market-and-system-reporting/micro-and-small-distributed-generation-reporting/" />
+<meta property="og:description" content="View quarterly reporting on micro-generation in Alberta." />
+<meta property="og:site_name" content="AESO" />
+<meta property="og:locale" content="en_US" />
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	
+	<link rel="shortcut icon" href="/themes/aeso/images/favicon.ico" />
+    <style>
+        
+    </style>
+<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+<link rel="stylesheet" type="text/css" href="/themes/aeso/css/site.css?m=1695326973" />
+</head>
+
+<body class="App\Web\BlockPage" dir="ltr">
+
+
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-K67XSG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script type="application/javascript" src="/themes/aeso/javascript/scripts.min.js"></script>
+<script type="application/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jcarousel/0.3.4/jquery.jcarousel.min.js"></script>
+<script type="application/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jcarousel/0.3.4/jquery.jcarousel-pagination.min.js"></script>
+<script type="application/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery-dateFormat/1.0/jquery.dateFormat.js"></script>
+<script type="application/javascript" src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script type="application/javascript" src="//code.highcharts.com/stock/highstock.js"></script>
+<script type="application/javascript" src="//code.highcharts.com/stock/highcharts-more.js"></script>
+<script type="application/javascript" src="//www.google.com/recaptcha/api.js"></script>
+<script type="application/javascript" src="/themes/aeso/javascript/sorttable.js"></script>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-K67XSG');</script>
+<!-- End Google Tag Manager -->
+
+
+
+<div class="shell">
+	<div id="browser-unsupported" class="ie-10">
+	<section class="text">
+	<h2>Your browser is no longer supported</h2>
+	<p>To get the best experience with <a href="http://www.aeso.ca">www.aeso.ca</a>, we suggest using a newer version of Internet Explorer/Edge, or using another supported browser such as Google Chrome.</p>
+	<p><strong>ETS users may continue to <a href="https://ets.aeso.ca/">log in</a> using Internet Explorer 9 using the upper right hand link marked ETS Login.</strong></p>
+	</section>
+</div>
+<!--[if lte IE 9]>
+<div id="browser-unsupported">
+	<section class="text">
+	<h2>Your browser is no longer supported</h2>
+	<p>To get the best experience with <a href="http://www.aeso.ca">www.aeso.ca</a>, we suggest using a newer version of Internet Explorer/Edge, or using another supported browser such as Google Chrome.</p>
+	<p><strong>ETS users may continue to <a href="https://ets.aeso.ca/">log in</a> using Internet Explorer 9 using the upper right hand link marked ETS Login.</strong></p>
+	</section>
+</div>
+<![endif]-->
+
+<div id="search">
+	<div class="wrapper">
+		<div class="container">
+			<form action="/search" method="GET">
+				<fieldset>
+					<button type="submit" id="search-submit" class="icon-AESO-icon-search"></button>
+					<input type="search" name="Search" placeholder="SEARCH" id="searchtext" />
+					<button type="submit" id="search-close" class="icon-AESO-icon-closeX"></button>
+					<ul class="results">
+					</ul>
+				</fieldset>
+			</form>
+			<ul class="secondmenu">
+				<li><a href="https://ets.aeso.ca/" target="_blank">ETS login</a></li>
+				<li><a href="https://aesoengage.aeso.ca/" target="_blank">AESO Engage</a></li>
+                <li><a href="/aeso/library/">Library</a></li>
+				<li><a href="/aeso/careers/">Careers</a></li>
+				<li><a href="/aeso/contact/">Contact us</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+<header class="header" role="banner">
+	<div class="wrapper">
+		<div class="logo">
+			<a href="https://www.aeso.ca/" rel="home">
+				<img src="/themes/aeso/images/logo.png" class="logo desktop" alt="AESO"><img src="/themes/aeso/images/logo-mobile.png" class="logo mobile" alt="AESO">
+			</a>
+			<div class="mobile-buttons">
+				<a href="" id="mobile-search-toggle"><span>Search</span></a>
+				<a href="" id="mobile-menu-toggle"><span>Menu</span></a>
+			</div>
+		</div>
+		<nav id="mainmenu">
+			<ul class="primarymenu">
+				
+					<li class="link drop"><a href="/aeso/" title="AESO"><span>AESO</span></a>
+						
+							<ul class="drop second-level" >
+								<li class="link"><a href="/aeso/" title="AESO"><span>AESO</span></a>
+								
+								<li class="link drop"><a href="/aeso/about-the-aeso/" title="About the AESO"><span>About the AESO</span></a>
+									
+									<ul class="drop third-level" >
+										<li class="link"><a href="/aeso/about-the-aeso/" title="About the AESO"><span>About the AESO</span></a></li>
+										
+											<li class="link drop"><a href="/aeso/about-the-aeso/aeso-board/" title="AESO Board"><span>AESO Board</span></a>
+                                                
+                                                <ul class="drop fourth-level" >
+                                                    <li class="link"><a href="/aeso/about-the-aeso/aeso-board/" title="AESO Board"><span>AESO Board</span></a></li>
+                                                    
+                                                        <li class="link"><a href="/aeso/about-the-aeso/aeso-board/board-of-directors/" title="Board of Directors"><span>Board of Directors</span></a></li>
+                                                    
+                                                        <li class="link"><a href="/aeso/about-the-aeso/aeso-board/corporate-governance/" title="Corporate Governance"><span>Corporate Governance</span></a></li>
+                                                    
+                                                </ul>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/aeso/about-the-aeso/aeso-executive/" title="AESO Executive"><span>AESO Executive</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/aeso/about-the-aeso/2022-strategic-plan/" title="2022 Strategic Plan "><span>2022 Strategic Plan </span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/aeso/about-the-aeso/industry-roundtables/" title="Industry Roundtables "><span>Industry Roundtables </span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/aeso/about-the-aeso/conduct/" title="AESO Conduct"><span>AESO Conduct</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/aeso/about-the-aeso/aeso-20th-anniversary/" title="AESO 20th Anniversary"><span>AESO 20th Anniversary</span></a>
+                                                
+                                            </li>
+										
+									</ul>
+									
+								</li>
+								
+								<li class="link drop"><a href="/aeso/business-planning/" title="Business Planning"><span>Business Planning</span></a>
+									
+									<ul class="drop third-level" >
+										<li class="link"><a href="/aeso/business-planning/" title="Business Planning"><span>Business Planning</span></a></li>
+										
+											<li class="link"><a href="/aeso/business-planning/2022-2/" title="2023 Budget Development Process"><span>2023</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/aeso/business-planning/2022/" title="2022 Budget Review Process"><span>2022</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/aeso/business-planning/2021/" title="2021 Budget Review Process"><span>2021</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/aeso/business-planning/2020/" title="2020 Budget Review Process"><span>2020</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/aeso/business-planning/2019/" title="2019 Budget Review Process"><span>2019</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/aeso/business-planning/2018/" title="2018 Budget Review Process"><span>2018</span></a>
+                                                
+                                            </li>
+										
+									</ul>
+									
+								</li>
+								
+								<li class="link drop"><a href="/aeso/financial-reporting/" title="Financial Reporting"><span>Financial Reporting</span></a>
+									
+									<ul class="drop third-level" >
+										<li class="link"><a href="/aeso/financial-reporting/" title="Financial Reporting"><span>Financial Reporting</span></a></li>
+										
+											<li class="link"><a href="/aeso/financial-reporting/redtape/" title="Red Tape Reduction"><span>Red Tape Reduction</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/aeso/financial-reporting/cost-management/" title="Cost Management"><span>Cost Management</span></a>
+                                                
+                                            </li>
+										
+									</ul>
+									
+								</li>
+								
+								<li class="link drop"><a href="/aeso/understanding-electricity-in-alberta/" title="Understanding Electricity in Alberta"><span>Understanding Electricity in Alberta</span></a>
+									
+									<ul class="drop third-level" >
+										<li class="link"><a href="/aeso/understanding-electricity-in-alberta/" title="Understanding Electricity in Alberta"><span>Understanding Electricity in Alberta</span></a></li>
+										
+											<li class="link drop"><a href="/aeso/understanding-electricity-in-alberta/continuing-education/" title="Continuing Education"><span>Continuing Education</span></a>
+                                                
+                                                <ul class="drop fourth-level" >
+                                                    <li class="link"><a href="/aeso/understanding-electricity-in-alberta/continuing-education/" title="Continuing Education"><span>Continuing Education</span></a></li>
+                                                    
+                                                        <li class="link"><a href="/aeso/understanding-electricity-in-alberta/continuing-education/guide-to-understanding-albertas-electricity-market/" title="Guide to understanding Alberta’s electricity market"><span>Guide to understanding Alberta’s electricity market</span></a></li>
+                                                    
+                                                </ul>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/aeso/understanding-electricity-in-alberta/glossary-of-terms/" title="Glossary of Terms"><span>Glossary of Terms</span></a>
+                                                
+                                            </li>
+										
+											<li class="link drop"><a href="/aeso/understanding-electricity-in-alberta/grid-alerts-and-electricity-conservation/" title="Grid Alerts &amp; Electricity Conservation"><span>Grid Alerts &amp; Electricity Conservation</span></a>
+                                                
+                                                <ul class="drop fourth-level" >
+                                                    <li class="link"><a href="/aeso/understanding-electricity-in-alberta/grid-alerts-and-electricity-conservation/" title="Grid Alerts &amp; Electricity Conservation"><span>Grid Alerts &amp; Electricity Conservation</span></a></li>
+                                                    
+                                                        <li class="link"><a href="/aeso/understanding-electricity-in-alberta/grid-alerts-and-electricity-conservation/grid-alert-notifications/" title="Grid Alert Notifications"><span>Grid Alert Notifications</span></a></li>
+                                                    
+                                                </ul>
+                                                
+                                            </li>
+										
+									</ul>
+									
+								</li>
+								
+								<li class="link "><a href="/aeso/media/" title="Media"><span>Media</span></a>
+									
+								</li>
+								
+							</ul>
+
+							<div class="feature">
+								
+							</div>
+						
+					</li>
+				
+					<li class="link drop"><a href="/grid/" title="Grid"><span>Grid</span></a>
+						
+							<ul class="drop second-level" >
+								<li class="link"><a href="/grid/" title="Grid"><span>Grid</span></a>
+								
+								<li class="link drop"><a href="/grid/about-the-grid/" title="About the Grid"><span>About the Grid</span></a>
+									
+									<ul class="drop third-level" >
+										<li class="link"><a href="/grid/about-the-grid/" title="About the Grid"><span>About the Grid</span></a></li>
+										
+											<li class="link drop"><a href="/grid/about-the-grid/grid-operations/" title="Grid Operations"><span>Grid Operations</span></a>
+                                                
+                                                <ul class="drop fourth-level" >
+                                                    <li class="link"><a href="/grid/about-the-grid/grid-operations/" title="Grid Operations"><span>Grid Operations</span></a></li>
+                                                    
+                                                        <li class="link"><a href="/grid/about-the-grid/grid-operations/outages/" title="Outages"><span>Outages</span></a></li>
+                                                    
+                                                </ul>
+                                                
+                                            </li>
+										
+									</ul>
+									
+								</li>
+								
+								<li class="link drop"><a href="/grid/connecting-to-the-grid/" title="Connecting to the Grid"><span>Connecting to the Grid</span></a>
+									
+									<ul class="drop third-level" >
+										<li class="link"><a href="/grid/connecting-to-the-grid/" title="Connecting to the Grid"><span>Connecting to the Grid</span></a></li>
+										
+											<li class="link"><a href="/grid/connecting-to-the-grid/cluster-assessments/" title="Cluster Assessments"><span>Cluster Assessments</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/grid/connecting-to-the-grid/connection-process/" title="Connection Process"><span>Connection Process</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/grid/connecting-to-the-grid/behind-the-fence-process/" title="Behind the Fence (BTF) Process"><span>Behind the Fence (BTF) Process</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/grid/connecting-to-the-grid/contract-process/" title="Contract Process"><span>Contract Process</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/grid/connecting-to-the-grid/dfo-connection-projects/" title="DFO Connection Projects"><span>DFO Connection Projects</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/grid/connecting-to-the-grid/connection-process-templates/" title="Connection process templates"><span>Templates</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/grid/connecting-to-the-grid/project-data-update-package-submissions/" title="Project Data Update Package Submissions"><span>Project Data Update Package Submissions</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/grid/connecting-to-the-grid/market-participant-choice/" title="Market Participant Choice"><span>Market Participant Choice</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/grid/connecting-to-the-grid/transmission-capability-map/" title="Transmission Capability Map"><span>Transmission Capability Map</span></a>
+                                                
+                                            </li>
+										
+									</ul>
+									
+								</li>
+								
+								<li class="link drop"><a href="/grid/transmission-projects/" title="Transmission Projects"><span>Transmission Projects</span></a>
+									
+									<ul class="drop third-level" >
+										<li class="link"><a href="/grid/transmission-projects/" title="Transmission Projects"><span>Transmission Projects</span></a></li>
+										
+											<li class="link"><a href="/grid/transmission-projects/connection-project-reporting/" title="Connection Project Reporting "><span>Connection Project Reporting </span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/grid/transmission-projects/system-project-reporting/" title="System Project Reporting"><span>System Project Reporting</span></a>
+                                                
+                                            </li>
+										
+											<li class="link drop"><a href="/grid/transmission-projects/competitive-process/" title="Competitive Process"><span>Competitive Process</span></a>
+                                                
+                                                <ul class="drop fourth-level" >
+                                                    <li class="link"><a href="/grid/transmission-projects/competitive-process/" title="Competitive Process"><span>Competitive Process</span></a></li>
+                                                    
+                                                        <li class="link"><a href="/grid/transmission-projects/competitive-process/fort-mcmurray-west-500-kv-transmission-project/" title="Fort McMurray West 500 kV Transmission Project"><span>Fort McMurray West 500 kV Transmission Project</span></a></li>
+                                                    
+                                                        <li class="link"><a href="/grid/transmission-projects/competitive-process/fort-mcmurray-east-500-kv-transmission-project/" title="Fort McMurray East 500 kV Transmission Project"><span>Fort McMurray East 500 kV Transmission Project</span></a></li>
+                                                    
+                                                </ul>
+                                                
+                                            </li>
+										
+									</ul>
+									
+								</li>
+								
+								<li class="link drop"><a href="/grid/grid-related-initiatives/" title="Grid-Related Initiatives "><span>Grid-Related Initiatives </span></a>
+									
+									<ul class="drop third-level" >
+										<li class="link"><a href="/grid/grid-related-initiatives/" title="Grid-Related Initiatives "><span>Grid-Related Initiatives </span></a></li>
+										
+											<li class="link drop"><a href="/grid/grid-related-initiatives/distributed-energy-resources/" title="Distributed Energy Resources"><span>Distributed Energy Resources</span></a>
+                                                
+                                                <ul class="drop fourth-level" >
+                                                    <li class="link"><a href="/grid/grid-related-initiatives/distributed-energy-resources/" title="Distributed Energy Resources"><span>Distributed Energy Resources</span></a></li>
+                                                    
+                                                        <li class="link"><a href="/grid/grid-related-initiatives/distributed-energy-resources/progress-updates/" title="Progress Updates"><span>Progress Updates</span></a></li>
+                                                    
+                                                        <li class="link"><a href="/grid/grid-related-initiatives/distributed-energy-resources/der-roadmap-integration-papers/" title="DER Roadmap Integration Papers"><span>DER Roadmap Integration Papers</span></a></li>
+                                                    
+                                                </ul>
+                                                
+                                            </li>
+										
+											<li class="link drop"><a href="/grid/grid-related-initiatives/energy-storage/" title="Energy Storage"><span>Energy Storage</span></a>
+                                                
+                                                <ul class="drop fourth-level" >
+                                                    <li class="link"><a href="/grid/grid-related-initiatives/energy-storage/" title="Energy Storage"><span>Energy Storage</span></a></li>
+                                                    
+                                                        <li class="link"><a href="/grid/grid-related-initiatives/energy-storage/progress-updates/" title="Progress updates"><span>Progress updates</span></a></li>
+                                                    
+                                                        <li class="link"><a href="/grid/grid-related-initiatives/energy-storage/energy-storage-industry-learnings-forum/" title="Energy Storage Industry Learnings Forum (ESILF)"><span>ESILF</span></a></li>
+                                                    
+                                                </ul>
+                                                
+                                            </li>
+										
+											<li class="link drop"><a href="/grid/grid-related-initiatives/loss-factors/" title="Loss factors"><span>Loss factors</span></a>
+                                                
+                                                <ul class="drop fourth-level" >
+                                                    <li class="link"><a href="/grid/grid-related-initiatives/loss-factors/" title="Loss factors"><span>Loss factors</span></a></li>
+                                                    
+                                                        <li class="link"><a href="/grid/grid-related-initiatives/loss-factors/previous-loss-factors-and-calibration-factors/" title="Previous loss factors and calibration factors"><span>Previous loss factors and calibration factors</span></a></li>
+                                                    
+                                                        <li class="link"><a href="/grid/grid-related-initiatives/loss-factors/loss-factors-archive/" title="Loss factors archive"><span>Loss factors archive</span></a></li>
+                                                    
+                                                </ul>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/grid/grid-related-initiatives/system-transmission-project-criteria/" title="System Transmission Project Criteria"><span>System Transmission Project Criteria</span></a>
+                                                
+                                            </li>
+										
+											<li class="link drop"><a href="/grid/grid-related-initiatives/technology-integration/" title="Technology Integration"><span>Technology Integration</span></a>
+                                                
+                                                <ul class="drop fourth-level" >
+                                                    <li class="link"><a href="/grid/grid-related-initiatives/technology-integration/" title="Technology Integration"><span>Technology Integration</span></a></li>
+                                                    
+                                                        <li class="link"><a href="/grid/grid-related-initiatives/technology-integration/aeso-technology-summit-2021/" title="AESO Technology Summit 2021"><span>AESO Technology Summit 2021</span></a></li>
+                                                    
+                                                </ul>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/grid/grid-related-initiatives/transmission-distribution-tx-dx-coordinated-planning-framework/" title="Transmission/Distribution (TX/DX) Coordinated Planning Framework"><span>Tx/Dx Coordinated Planning Framework</span></a>
+                                                
+                                            </li>
+										
+									</ul>
+									
+								</li>
+								
+								<li class="link drop"><a href="/grid/grid-planning/transmission-costs/" title="Grid Planning"><span>Grid Planning</span></a>
+									
+									<ul class="drop third-level" >
+										<li class="link"><a href="/grid/grid-planning/transmission-costs/" title="Grid Planning"><span>Grid Planning</span></a></li>
+										
+											<li class="link"><a href="/grid/grid-planning/transmission-costs/" title="Transmission costs"><span>Transmission costs</span></a>
+                                                
+                                            </li>
+										
+											<li class="link drop"><a href="/grid/grid-planning/forecasting/" title="Forecasting"><span>Forecasting</span></a>
+                                                
+                                                <ul class="drop fourth-level" >
+                                                    <li class="link"><a href="/grid/grid-planning/forecasting/" title="Forecasting"><span>Forecasting</span></a></li>
+                                                    
+                                                        <li class="link"><a href="/grid/grid-planning/forecasting/wind-and-solar-power-forecasting/" title="Wind and Solar Power Forecasting"><span>Wind and Solar Power Forecasting</span></a></li>
+                                                    
+                                                        <li class="link"><a href="/grid/grid-planning/forecasting/2021-long-term-outlook/" title="2021 Long-Term Outlook"><span>2021 LTO</span></a></li>
+                                                    
+                                                        <li class="link"><a href="/grid/grid-planning/forecasting/2019-long-term-outlook/" title="2019 Long-Term Outlook"><span>2019 LTO</span></a></li>
+                                                    
+                                                        <li class="link"><a href="/grid/grid-planning/forecasting/2017-long-term-outlook/" title="2017 Long-Term Outlook "><span>2017 LTO</span></a></li>
+                                                    
+                                                </ul>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/grid/grid-planning/long-term-transmission-plan/" title="Long-term Transmission Plan"><span>Long-term Transmission Plan</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/grid/grid-planning/base-cases/" title="Base Cases"><span>Base Cases</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/grid/grid-planning/transmission-utilization-map/" title="Transmission Utilization "><span>Transmission Utilization </span></a>
+                                                
+                                            </li>
+										
+									</ul>
+									
+								</li>
+								
+							</ul>
+
+							<div class="feature">
+								
+								<a href="/grid/transmission-projects/" class="page">Transmission Projects</a>
+								<ul>
+									
+									<li><a href="/grid/transmission-projects/opal-gas-project-connection-2456/"><span>Abbreviated Needs Approval Process: Notice of Approval for the Opal Gas Project Connection</span></a></li>
+									
+									<li><a href="/grid/transmission-projects/drywood-expansion-power-plant-connection/"><span>Cancellation Notice for the Drywood Expansion Power Plant Connection</span></a></li>
+									
+									<li><a href="/grid/transmission-projects/city-of-edmonton-transmission-reinforcement-7078/"><span>Notice of Filing: City of Edmonton Transmission Reinforcement</span></a></li>
+									
+								</ul>
+								
+							</div>
+						
+					</li>
+				
+					<li class="section drop"><a href="/market/" title="Market"><span>Market</span></a>
+						
+							<ul class="drop second-level" >
+								<li class="section"><a href="/market/" title="Market"><span>Market</span></a>
+								
+								<li class="link drop"><a href="/market/market-participation/understanding-the-market/" title="Market Participation"><span>Market Participation</span></a>
+									
+									<ul class="drop third-level" >
+										<li class="link"><a href="/market/market-participation/understanding-the-market/" title="Market Participation"><span>Market Participation</span></a></li>
+										
+											<li class="link"><a href="/market/market-participation/understanding-the-market/" title="Understanding the Market"><span>Understanding the Market</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/market/market-participation/joining-the-energy-market/" title="Joining the Energy Market"><span>Joining the Energy Market</span></a>
+                                                
+                                            </li>
+										
+											<li class="link drop"><a href="/market/market-participation/ancillary-services/" title="Ancillary Services"><span>Ancillary Services</span></a>
+                                                
+                                                <ul class="drop fourth-level" >
+                                                    <li class="link"><a href="/market/market-participation/ancillary-services/" title="Ancillary Services"><span>Ancillary Services</span></a></li>
+                                                    
+                                                        <li class="link"><a href="/market/market-participation/ancillary-services/operating-reserve/" title="Operating Reserve"><span>Operating Reserve</span></a></li>
+                                                    
+                                                        <li class="link"><a href="/market/market-participation/ancillary-services/transmission-must-run-service/" title="Transmission Must-Run service"><span>Transmission Must-Run service</span></a></li>
+                                                    
+                                                        <li class="link"><a href="/market/market-participation/ancillary-services/black-start-services/" title="Black Start services"><span>Black Start services</span></a></li>
+                                                    
+                                                        <li class="link"><a href="/market/market-participation/ancillary-services/load-shed-service-for-imports/" title="Load Shed Service for imports"><span>Load Shed Service for imports</span></a></li>
+                                                    
+                                                        <li class="link"><a href="/market/market-participation/ancillary-services/fast-frequency-response/" title="Fast Frequency Response"><span>Fast Frequency Response</span></a></li>
+                                                    
+                                                </ul>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/market/market-participation/demand-opportunity-service/" title="Demand Opportunity Service"><span>Demand Opportunity Service</span></a>
+                                                
+                                            </li>
+										
+											<li class="link drop"><a href="/market/market-participation/system-tools/" title="AESO System Tools"><span>System Tools</span></a>
+                                                
+                                                <ul class="drop fourth-level" >
+                                                    <li class="link"><a href="/market/market-participation/system-tools/" title="AESO System Tools"><span>System Tools</span></a></li>
+                                                    
+                                                        <li class="link"><a href="/market/market-participation/system-tools/energy-trading-system-tools/" title="Energy Trading System (ETS)"><span>Energy Trading System (ETS)</span></a></li>
+                                                    
+                                                        <li class="link"><a href="/market/market-participation/system-tools/automated-dispatch-and-message-system-tools/" title="Automated Dispatch and Message System (ADaMS) tools"><span>Automated Dispatch and Message System (ADaMS) tools</span></a></li>
+                                                    
+                                                </ul>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/market/market-participation/energy-market-trading-charge/" title="Energy Market Trading Charge"><span>Energy Market Trading Charge</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/market/market-participation/settlement-credit/" title="Settlement and Credit"><span>Settlement and Credit</span></a>
+                                                
+                                            </li>
+										
+									</ul>
+									
+								</li>
+								
+								<li class="link "><a href="/market/market-updates/" title="Market Updates"><span>Market Updates</span></a>
+									
+								</li>
+								
+								<li class="link drop"><a href="/market/market-related-initiatives/" title="Market-Related Initiatives"><span>Market-Related Initiatives</span></a>
+									
+									<ul class="drop third-level" >
+										<li class="link"><a href="/market/market-related-initiatives/" title="Market-Related Initiatives"><span>Market-Related Initiatives</span></a></li>
+										
+											<li class="link"><a href="/market/market-related-initiatives/mothballing/" title="Mothballing"><span>Mothballing</span></a>
+                                                
+                                            </li>
+										
+											<li class="link drop"><a href="/market/market-related-initiatives/renewable-electricity-program/" title="Renewable Electricity Program"><span>Renewable Electricity Program</span></a>
+                                                
+                                                <ul class="drop fourth-level" >
+                                                    <li class="link"><a href="/market/market-related-initiatives/renewable-electricity-program/" title="Renewable Electricity Program"><span>Renewable Electricity Program</span></a></li>
+                                                    
+                                                        <li class="link"><a href="/market/market-related-initiatives/renewable-electricity-program/rep-results/" title="REP results"><span>REP results</span></a></li>
+                                                    
+                                                        <li class="link"><a href="/market/market-related-initiatives/renewable-electricity-program/rep-news-and-updates/" title="REP news and updates"><span>REP news and updates</span></a></li>
+                                                    
+                                                        <li class="link"><a href="/market/market-related-initiatives/renewable-electricity-program/about-the-program/" title="About the program"><span>About the program</span></a></li>
+                                                    
+                                                </ul>
+                                                
+                                            </li>
+										
+									</ul>
+									
+								</li>
+								
+								<li class="section drop"><a href="/market/market-and-system-reporting/" title="Market and System Reporting"><span>Market and System Reporting</span></a>
+									
+									<ul class="drop third-level" >
+										<li class="section"><a href="/market/market-and-system-reporting/" title="Market and System Reporting"><span>Market and System Reporting</span></a></li>
+										
+											<li class="link"><a href="/market/market-and-system-reporting/annual-market-statistic-reports/" title="Annual Market Statistics Reports"><span>Annual Market Statistics Reports</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/market/market-and-system-reporting/delivered-cost-of-electricity/" title="Delivered Cost of Electricity"><span>Delivered Cost of Electricity</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/market/market-and-system-reporting/system-flexibility-assessment/" title="System Flexibility Assessment"><span>System Flexibility Assessment</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/market/market-and-system-reporting/long-term-adequacy-metrics/" title="Long-Term Adequacy Metrics"><span>Long-Term Adequacy Metrics</span></a>
+                                                
+                                            </li>
+										
+											<li class="current"><a href="/market/market-and-system-reporting/micro-and-small-distributed-generation-reporting/" title=" Micro-  and Small Distributed Generation Reporting"><span> Micro-  and Small Distributed Generation Reporting</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/market/market-and-system-reporting/constrained-down-generation/" title="Constrained Down Generation"><span>Constrained Down Generation</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/market/market-and-system-reporting/pool-participant-lists/" title="Pool Participant Lists"><span>Pool Participant Lists</span></a>
+                                                
+                                            </li>
+										
+											<li class="link drop"><a href="/market/market-and-system-reporting/data-requests/" title="Data Requests"><span>Data Requests</span></a>
+                                                
+                                                <ul class="drop fourth-level" >
+                                                    <li class="link"><a href="/market/market-and-system-reporting/data-requests/" title="Data Requests"><span>Data Requests</span></a></li>
+                                                    
+                                                        <li class="link"><a href="/market/market-and-system-reporting/data-requests/historical-generation-data/" title="Historical Generation Data (CSD)"><span>Historical Generation Data (CSD)</span></a></li>
+                                                    
+                                                </ul>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/market/market-and-system-reporting/aeso-application-programming-interface-api/" title="AESO Application Programming Interface (API)"><span>AESO Application Programming Interface (API)</span></a>
+                                                
+                                            </li>
+										
+									</ul>
+									
+								</li>
+								
+							</ul>
+
+							<div class="feature">
+								
+								<a href="/market/market-updates/" class="page">Market Updates</a>
+								<ul>
+									
+									<li><a href="/market/market-updates/2023/new-asset-fox-coulee-solar-fcs1-notice/"><span>Nov. 23, 2023: New Asset Fox Coulee Solar (FCS1) Notice</span></a></li>
+									
+									<li><a href="/market/market-participation/settlement-credit/"><span>Nov. 22, 2023: Independent Settlement Operations Audit Completed </span></a></li>
+									
+									<li><a href="/market/market-updates/2023/new-asset-wembley-wem1-notice/"><span>Nov. 16, 2023: New Asset Wembley (WEM1) Notice</span></a></li>
+									
+								</ul>
+								
+							</div>
+						
+					</li>
+				
+					<li class="link drop"><a href="/rules-standards-and-tariff/" title="Rules, Standards and Tariff"><span>Rules, Standards and Tariff</span></a>
+						
+							<ul class="drop second-level" >
+								<li class="link"><a href="/rules-standards-and-tariff/" title="Rules, Standards and Tariff"><span>Rules, Standards and Tariff</span></a>
+								
+								<li class="link "><a href="/rules-standards-and-tariff/iso-rules/" title="ISO rules"><span>ISO rules</span></a>
+									
+								</li>
+								
+								<li class="link drop"><a href="/rules-standards-and-tariff/alberta-reliability-standards/" title="Alberta Reliability Standards"><span>Alberta Reliability Standards</span></a>
+									
+									<ul class="drop third-level" >
+										<li class="link"><a href="/rules-standards-and-tariff/alberta-reliability-standards/" title="Alberta Reliability Standards"><span>Alberta Reliability Standards</span></a></li>
+										
+											<li class="link"><a href="/rules-standards-and-tariff/alberta-reliability-standards/non-applicable-standards/" title="Non-applicable standards"><span>Non-applicable standards</span></a>
+                                                
+                                            </li>
+										
+									</ul>
+									
+								</li>
+								
+								<li class="link drop"><a href="/rules-standards-and-tariff/tariff/" title="Tariff"><span>Tariff</span></a>
+									
+									<ul class="drop third-level" >
+										<li class="link"><a href="/rules-standards-and-tariff/tariff/" title="Tariff"><span>Tariff</span></a></li>
+										
+											<li class="link"><a href="/rules-standards-and-tariff/tariff/tariff-related-initiatives/" title="Tariff-Related Initiatives"><span>Tariff-Related Initiatives</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/rules-standards-and-tariff/tariff/guoc-rates/" title="GUOC Rates"><span>GUOC Rates</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/rules-standards-and-tariff/tariff/current-applications/" title="Current applications"><span>Current applications</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/rules-standards-and-tariff/tariff/tariff-related-decisions/" title="Tariff Related Decisions"><span>Tariff Related Decisions</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/rules-standards-and-tariff/tariff/deferral-accounts-rider-c-and-dar/" title="Deferral Accounts - Rider C &amp; DAR"><span>Deferral Accounts - Rider C &amp; DAR</span></a>
+                                                
+                                            </li>
+										
+									</ul>
+									
+								</li>
+								
+								<li class="link drop"><a href="/rules-standards-and-tariff/compliance-monitoring/" title="Compliance Monitoring"><span>Compliance Monitoring</span></a>
+									
+									<ul class="drop third-level" >
+										<li class="link"><a href="/rules-standards-and-tariff/compliance-monitoring/" title="Compliance Monitoring"><span>Compliance Monitoring</span></a></li>
+										
+											<li class="link"><a href="/rules-standards-and-tariff/compliance-monitoring/iso-rules/" title="ISO Rules"><span>ISO Rules</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/rules-standards-and-tariff/compliance-monitoring/ars-compliance-monitoring/" title="ARS Compliance Monitoring"><span>ARS Compliance Monitoring</span></a>
+                                                
+                                            </li>
+										
+											<li class="link"><a href="/rules-standards-and-tariff/compliance-monitoring/load-settlement/" title="Load settlement"><span>Load settlement</span></a>
+                                                
+                                            </li>
+										
+									</ul>
+									
+								</li>
+								
+								<li class="link "><a href="/rules-standards-and-tariff/consolidated-authoritative-document-glossary/" title="Consolidated Authoritative Document Glossary"><span>Consolidated Authoritative Document Glossary</span></a>
+									
+								</li>
+								
+								<li class="link "><a href="/rules-standards-and-tariff/information-documents/" title="Information Documents"><span>Information Documents</span></a>
+									
+								</li>
+								
+								<li class="link "><a href="/rules-standards-and-tariff/iso-rule-proposals/" title="ISO Rule Proposals"><span>ISO Rule Proposals</span></a>
+									
+								</li>
+								
+								<li class="link "><a href="/rules-standards-and-tariff/requests-for-information-waivers-or-variances-regarding-authoritative-documents/" title="Requests for Information, Waivers or Variances Regarding Authoritative Documents"><span>Requests for Information, Waivers or Variances Regarding Authoritative Documents</span></a>
+									
+								</li>
+								
+								<li class="link "><a href="/rules-standards-and-tariff/iso-fees/" title="ISO fees"><span>ISO fees</span></a>
+									
+								</li>
+								
+							</ul>
+
+							<div class="feature">
+								
+							</div>
+						
+					</li>
+				
+					<li class="link drop"><a href="/stakeholder-engagement/" title="Stakeholder Engagement"><span>Stakeholder Engagement</span></a>
+						
+							<ul class="drop second-level" >
+								<li class="link"><a href="/stakeholder-engagement/" title="Stakeholder Engagement"><span>Stakeholder Engagement</span></a>
+								
+								<li class="link "><a href="/stakeholder-engagement/active-engagements/" title="Active Engagements"><span>Active Engagements</span></a>
+									
+								</li>
+								
+								<li class="link drop"><a href="/stakeholder-engagement/engagement-framework/" title="Engagement Framework"><span>Engagement Framework</span></a>
+									
+									<ul class="drop third-level" >
+										<li class="link"><a href="/stakeholder-engagement/engagement-framework/" title="Engagement Framework"><span>Engagement Framework</span></a></li>
+										
+											<li class="link"><a href="/stakeholder-engagement/engagement-framework/indigenous-peoples-and-communities/" title="Indigenous Peoples and Communities"><span>Indigenous Peoples and Communities</span></a>
+                                                
+                                            </li>
+										
+									</ul>
+									
+								</li>
+								
+								<li class="link drop"><a href="https://www.aesoengage.aeso.ca/" title="AESO Engage"><span>AESO Engage</span></a>
+									
+									<ul class="drop third-level" >
+										<li class="link"><a href="https://www.aesoengage.aeso.ca/" title="AESO Engage"><span>AESO Engage</span></a></li>
+										
+											<li class="link"><a href="https://www.aesoengage.aeso.ca/tariff-evolution-roundtable-world-cafe" title="Tariff Evolution Roundtable &amp; World Cafe"><span>Tariff Evolution Roundtable &amp; World Cafe</span></a>
+                                                
+                                            </li>
+										
+									</ul>
+									
+								</li>
+								
+								<li class="link "><a href="/stakeholder-engagement/completed-engagements/" title="Completed Engagements"><span>Completed Engagements</span></a>
+									
+								</li>
+								
+								<li class="link "><a href="/stakeholder-engagement/newsletters/" title="Stakeholder Newsletters"><span>Stakeholder Newsletters</span></a>
+									
+								</li>
+								
+								<li class="link "><a href="/stakeholder-engagement/rules-standards-and-tariff/" title="Rules, Standards and Tariff Consultations"><span>Rules, Standards and Tariff Consultations</span></a>
+									
+								</li>
+								
+								<li class="link "><a href="/stakeholder-engagement/calendar/" title="Calendar"><span>Calendar</span></a>
+									
+								</li>
+								
+							</ul>
+
+							<div class="feature">
+								
+								<a href="/stakeholder-engagement/calendar/" class="page">Calendar</a>
+								<ul>
+									
+									<li><a href="event/2023-11-23-stakeholder-session-grid-reliability-update"><span>Nov. 23, 2023: Stakeholder Session | Grid Reliability Update</span></a></li>
+									
+									<li><a href="event/2023-11-23-stakeholder-session-bulk-transmission-line-technical-requirements"><span>Nov. 23, 2023: Stakeholder Session | Bulk Transmission Line Technical Requirements</span></a></li>
+									
+									<li><a href="event/2023-11-28-stakeholder-session-reliability-standards-workshop-cip-004-ab-7-and-cip-011-ab-3"><span>Nov. 28, 2023: Stakeholder Session | Reliability Standards Workshop, CIP-004-AB-7 and CIP-011-AB-3</span></a></li>
+									
+								</ul>
+								
+							</div>
+						
+					</li>
+				
+					<li class="link drop"><a href="/future-of-electricity/" title="Future of Electricity"><span>Future of Electricity</span></a>
+						
+							<ul class="drop second-level" >
+								<li class="link"><a href="/future-of-electricity/" title="Future of Electricity"><span>Future of Electricity</span></a>
+								
+								<li class="link "><a href="/future-of-electricity/reliability-requirements-roadmap/" title="Reliability Requirements Roadmap"><span>Reliability Requirements Roadmap</span></a>
+									
+								</li>
+								
+								<li class="link "><a href="/future-of-electricity/albertas-power-system-in-transition/" title="Alberta’s Power System in Transition "><span>Alberta’s Power System in Transition </span></a>
+									
+								</li>
+								
+								<li class="link "><a href="/future-of-electricity/net-zero-emissions-pathways/" title="Net-Zero Emissions Pathways"><span>Net-Zero Emissions Pathways</span></a>
+									
+								</li>
+								
+							</ul>
+
+							<div class="feature">
+								
+							</div>
+						
+					</li>
+				
+			</ul>
+			<ul class="secondmenu">
+				<li><a href="https://ets.aeso.ca/" target="_blank">ETS login</a></li>
+                <li><a href="https://aesoengage.aeso.ca/" target="_blank">AESO Engage</a></li>
+				<li><a href="/aeso/library/">Library</a></li>
+				<li><a href="/aeso/careers/" target="_blank">Careers</a></li>
+				<li><a href="/aeso/contact/">Contact us</a></li>
+			</ul>
+		</nav>
+	</div>
+</header>
+<div id="megamenu">
+	<div class="wrapper">
+		<ul></ul>
+		<div class="feature">
+		</div>
+	</div>
+</div>
+
+	<div class="page">
+    <div class="wrapper">
+        
+            <aside>
+	<nav>
+		
+		    
+			<ul>
+                <li>
+                    <a href="/market/">Market</a>
+                </li>
+				
+    <li class="link parent">
+        <a href="/market/market-participation/understanding-the-market/" class="link">Market Participation</a>
+        
+    </li>
+
+    <li class="link ">
+        <a href="/market/market-updates/" class="link">Market Updates</a>
+        
+    </li>
+
+    <li class="link parent">
+        <a href="/market/market-related-initiatives/" class="link">Market-Related Initiatives</a>
+        
+    </li>
+
+    <li class="section parent">
+        <a href="/market/market-and-system-reporting/" class="section">Market and System Reporting</a>
+        
+        <ul>
+            
+    <li class="link ">
+        <a href="/market/market-and-system-reporting/annual-market-statistic-reports/" class="link">Annual Market Statistics Reports</a>
+        
+    </li>
+
+    <li class="link ">
+        <a href="/market/market-and-system-reporting/delivered-cost-of-electricity/" class="link">Delivered Cost of Electricity</a>
+        
+    </li>
+
+    <li class="link ">
+        <a href="/market/market-and-system-reporting/system-flexibility-assessment/" class="link">System Flexibility Assessment</a>
+        
+    </li>
+
+    <li class="link ">
+        <a href="/market/market-and-system-reporting/long-term-adequacy-metrics/" class="link">Long-Term Adequacy Metrics</a>
+        
+    </li>
+
+    <li class="current ">
+        <a href="/market/market-and-system-reporting/micro-and-small-distributed-generation-reporting/" class="current"> Micro-  and Small Distributed Generation Reporting</a>
+        
+    </li>
+
+    <li class="link ">
+        <a href="/market/market-and-system-reporting/constrained-down-generation/" class="link">Constrained Down Generation</a>
+        
+    </li>
+
+    <li class="link ">
+        <a href="/market/market-and-system-reporting/pool-participant-lists/" class="link">Pool Participant Lists</a>
+        
+    </li>
+
+    <li class="link parent">
+        <a href="/market/market-and-system-reporting/data-requests/" class="link">Data Requests</a>
+        
+    </li>
+
+    <li class="link ">
+        <a href="/market/market-and-system-reporting/aeso-application-programming-interface-api/" class="link">AESO Application Programming Interface (API)</a>
+        
+    </li>
+
+
+        </ul>
+        
+    </li>
+
+
+			</ul>
+			
+		
+	</nav>
+    
+</aside>
+<div class="gutter">
+</div>
+
+        
+        <article>
+            
+                
+                <h1> Micro-  and Small Distributed Generation Reporting</h1>
+                
+
+                
+
+
+                
+                    <div class="content">
+                        <p>Within Alberta, electric distribution systems are operated by utility companies and are the portion of the electric system that operates at 25 kilovolts or less. These distribution systems are used to deliver electricity from the Alberta interconnected electric system to an end-use customer. A Distributed Energy Resource is any resource that is connected to and can supply energy to an electric distribution system. This includes distribution-connected generation resources and energy storage. This report focuses on distribution-connected generation resources that are smaller than 5,000 kW. These resources are typically connected to a distribution system at customer locations.</p><p>Distribution-connected generation, if it qualifies, can be designated as micro-generation. For the purposes of this report, resources that are not designated as micro-generation will be referred to simply as distributed generation. These reports include a section containing a brief description of each class of generation. In addition, there is data on the number of sites and total installed capacity broken out by energy source.</p><ul>
+<li><a rel="noopener" href="/assets/Uploads/market-and-system-reporting/Small-DERS-Microgen-Monthly-by-Type.xlsx" target="_blank">Micro- and Small Distributed Generation Datafile</a> [Updated: Nov. 8, 2023]</li>
+</ul><p><em><strong>Note:&nbsp;</strong></em><em>In August 2022, it was identified that </em><em>many </em><em>micro-generation </em><em>sites are reported with a lag and not in the same month they were installed. </em><em>As a result, the </em><em>monthly number and volume </em><em>of micro-generation sites </em><em>may be undercounted for some months. </em><em>Please see the datafile link on this page for the </em><em>updated </em><em>monthly </em><em>counts and capacities</em><em>.</em></p>
+                    </div>
+                
+            
+
+            <div class="blocks">
+                
+    
+	   <!-- ElementHolder.ss -->
+	<section class="filelist ">
+    <div class="wrapper">
+        <h2>Micro-  and Small Distributed Generation Reports</h2>
+        <ul>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-November-2023.pdf" class="document pdf">Microgen &amp; DG Report November 2023</a><span class="posted">[Posted: November 8, 2023]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-October-2023.pdf" class="document pdf">Microgen &amp; DG Report October 2023</a><span class="posted">[Posted: October 11, 2023]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-September-2023.pdf" class="document pdf">Microgen &amp; DG Report September 2023</a><span class="posted">[Posted: September 7, 2023]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-August-2023.pdf" class="document pdf">Microgen &amp; DG Report August 2023</a><span class="posted">[Posted: August 4, 2023]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-July-2023.pdf" class="document pdf">Microgen &amp; DG Report July 2023</a><span class="posted">[Posted: July 10, 2023]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-June-2023.pdf" class="document pdf">Microgen &amp; DG Report June 2023</a><span class="posted">[Posted: June 7, 2023]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-May-2023.pdf" class="document pdf">Microgen &amp;  DG Report May 2023</a><span class="posted">[Posted: May 5, 2023]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-April-2023.pdf" class="document pdf">Microgen &amp; DG Report April 2023</a><span class="posted">[Posted: April 5, 2023]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-March-2023.pdf" class="document pdf">Microgen &amp; DG Report March 2023</a><span class="posted">[Posted: March 8, 2023]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-February-2023.pdf" class="document pdf">Microgen &amp; DG Report February 2023</a><span class="posted">[Posted: February 21, 2023]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-January-2023.pdf" class="document pdf">Microgen &amp; DG Report January 2023</a><span class="posted">[Posted: January 10, 2023]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-December-2022.pdf" class="document pdf">Microgen &amp; DG Report December 2022</a><span class="posted">[Posted: December 5, 2022]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-November-2022.pdf" class="document pdf">Microgen &amp; DG Report November 2022</a><span class="posted">[Posted: November 3, 2022]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-October-2022.pdf" class="document pdf">Microgen &amp; DG Report October 2022</a><span class="posted">[Posted: November 3, 2022]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-September-2022.pdf" class="document pdf">Microgen &amp; DG Report September 2022</a><span class="posted">[Posted: September 6, 2022]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-August-2022.pdf" class="document pdf">Microgen &amp; DG Report August 2022</a><span class="posted">[Posted: August 4, 2022]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-July-2022.pdf" class="document pdf">Microgen &amp; DG Report July 2022</a><span class="posted">[Posted: July 7, 2022]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-June-2022.pdf" class="document pdf">Microgen &amp; DG Report June 2022</a><span class="posted">[Posted: June 6, 2022]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-May-2022.pdf" class="document pdf">Microgen &amp; DG Report May 2022</a><span class="posted">[Posted: May 5, 2022]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-April-2022.pdf" class="document pdf">Microgen &amp; DG Report April 2022</a><span class="posted">[Posted: April 7, 2022]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-March-2022.pdf" class="document pdf">Microgen &amp; DG Report March 2022</a><span class="posted">[Posted: March 4, 2022]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-February-2022.pdf" class="document pdf">Microgen &amp; DG Report February 2022</a><span class="posted">[Posted: February 15, 2022]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-January-2022.pdf" class="document pdf">Microgen &amp; DG Report January 2022</a><span class="posted">[Posted: January 11, 2022]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-December-2021.pdf" class="document pdf">Microgen &amp;  DG Report December 2021</a><span class="posted">[Posted: December 6, 2021]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-November-2021.pdf" class="document pdf">Microgen &amp; DG Report November 2021</a><span class="posted">[Posted: November 10, 2021]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-October-2021.pdf" class="document pdf">Microgen &amp; DG Report October 2021</a><span class="posted">[Posted: November 10, 2021]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-September-2021.pdf" class="document pdf">Microgen &amp; DG Report September 2021</a><span class="posted">[Posted: September 3, 2021]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-August-2021.pdf" class="document pdf">Microgen &amp; DG Report August 2021</a><span class="posted">[Posted: August 5, 2021]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-July-2021.pdf" class="document pdf">Microgen &amp; DG Report July 2021</a><span class="posted">[Posted: July 7, 2021]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-March-2020.pdf" class="document pdf">Microgen &amp; DG Report March 2020</a><span class="posted">[Posted: March 13, 2020]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-June-2021.pdf" class="document pdf">Microgen &amp; DG Report June 2021</a><span class="posted">[Posted: June 8, 2021]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-May-2021.pdf" class="document pdf">Microgen &amp; DG Report May 2021</a><span class="posted">[Posted: May 6, 2021]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-April-2021.pdf" class="document pdf">Microgen &amp; DG Report April 2021</a><span class="posted">[Posted: April 7, 2021]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-March-2021.pdf" class="document pdf">Microgen &amp; DG Report March 2021</a><span class="posted">[Posted: March 9, 2021]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-February-2021.pdf" class="document pdf">Microgen &amp; DG Report February 2021</a><span class="posted">[Posted: February 2, 2021]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-January-2021.pdf" class="document pdf">Microgen &amp; DG Report January 2021</a><span class="posted">[Posted: January 12, 2021]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-December-2020.pdf" class="document pdf">Microgen &amp; DG Report December 2020</a><span class="posted">[Posted: December 3, 2020]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-November-2020.pdf" class="document pdf">Microgen &amp; DG Report November 2020</a><span class="posted">[Posted: November 5, 2020]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-October-2020.pdf" class="document pdf">Microgen &amp; DG Report October 2020</a><span class="posted">[Posted: October 6, 2020]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-September-2020.pdf" class="document pdf">Microgen &amp; DG Report September 2020</a><span class="posted">[Posted: September 9, 2020]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-August-2020.pdf" class="document pdf">Microgen &amp; DG Report August 2020</a><span class="posted">[Posted: August 7, 2020]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-July-2020.pdf" class="document pdf">Microgen &amp; DG Report July 2020</a><span class="posted">[Posted: July 17, 2020]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-June-2020.pdf" class="document pdf">Microgen &amp; DG Report June 2020</a><span class="posted">[Posted: June 4, 2020]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-May-2020.pdf" class="document pdf">Microgen &amp; DG Report May 2020</a><span class="posted">[Posted: May 7, 2020]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-April-2020.pdf" class="document pdf">Microgen &amp; DG Report April 2020</a><span class="posted">[Posted: April 7, 2020]</span>
+            </li>
+            
+            <li>
+                <a href="/download/listedfiles/Microgen-DG-Report-February-2020.pdf" class="document pdf">Microgen &amp; DG Report February 2020</a><span class="posted">[Posted: February 12, 2020]</span>
+            </li>
+            
+        </ul>
+    </div>
+</section>
+
+
+    
+
+
+            </div>
+            
+            
+            
+
+<div class="breadcrumb">
+	<div><a href="/"><img src="/themes/aeso/images/icons/home.png" alt="Home" class="home" /></a><i class="fa fa-angle-right" aria-hidden="true"></i><a href="/market/" class="breadcrumb-1">Market</a></div><div><i class="fa fa-angle-right" aria-hidden="true"></i><a href="/market/market-and-system-reporting/" class="breadcrumb-2">Market and System Reporting</a></div><div><i class="fa fa-angle-right" aria-hidden="true"></i> Micro-  and Small Distributed Generation Reporting</div>
+</div>
+
+
+        </article>
+    </div>
+</div>
+
+	<footer>
+    
+    <div class="sub-footer">
+        <div class="wrapper">
+            <ul>
+                
+                <li><a href="/market-participants/"  class="page">Market participants</a></li>
+                
+                <li><a href="/investors/"  class="page">Investors</a></li>
+                
+                <li><a href="/alberta-land-owners/"  class="page">Alberta land owners</a></li>
+                
+            </ul>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <div class="wrapper">
+            <ul class="connect">
+                <li>
+                    <h2>Connect with us</h2>
+                    <span class="phone">
+                        403-539-2450
+                    </span>
+                    <p>
+                        Calgary Place, 2500, 330 - 5th Avenue SW<br/>
+                        Calgary, AB T2P 0L4
+                    </p>
+                    <div class="buttons">
+                        <a href="mailto:info@aeso.ca" class="button">Email us</a>
+                        <a href="https://www.linkedin.com/company/25743" target="_blank" class="button linkedin"><span>LinkedIn</span></a>
+                        <a href="https://twitter.com/theaeso" target="_blank" class="button twitter"><span>Twitter</span></a>
+                    </div>
+                </li>
+                <li>
+                    <h2>Work with us</h2>
+                    <span>
+                        Careers
+                    </span>
+                    <p>
+                        Click below to learn more about a career with AESO.
+                    </p>
+                    <div class="buttons">
+                        <a href="/aeso/careers/current-opportunities/" class="button page">Current opportunities</a>
+                    </div>
+                </li>
+                <li>
+                    <h2>Hear from us</h2>
+                    <span>
+                        Newsletter
+                    </span>
+                    <p>
+                        Stay up to date with AESO and market news by subscribing to our newsletter.
+                    </p>
+                    <form action="//aeso.us8.list-manage.com/subscribe/post?u=53f850c65b0456e7f1e69974d&amp;id=4de5e0990d" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                        <fieldset>
+                            <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_53f850c65b0456e7f1e69974d_f5333ae270" tabindex="-1" value=""></div>
+                            <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="enter email" required><button type="submit" id="mc-embedded-subscribe">Subscribe</button>
+                        </fieldset>
+                        <span>You can unsubscribe at any time.</span>
+                    </form>
+                </li>
+            </ul>
+            <div class="links">
+                <ul>
+                    
+                        <li><a href="/aeso/media/" >Media</a></li>
+                    
+                        <li><a href="/legal/" >Legal</a></li>
+                    
+                        <li><a href="/privacy/" >Privacy</a></li>
+                    
+                    <li class="stakeholder-relations">Stakeholder relations: <span class="phone">1-888-866-2959 <span class="toll-free">(toll free)</span></span></li>
+                </ul>
+                <p class="disclaimer"><span>Copyright &copy; 2016</span> <span>Alberta Electric System Operator.</span> <span>All rights reserved.</span></p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+	
+</div>
+</body>
+</html>
