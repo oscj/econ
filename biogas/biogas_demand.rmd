@@ -1,8 +1,8 @@
-## Bionergy - Demand Forecast and Technology Evolution
+## Bioenergy - Demand Forecast and Technology Advancements
 
 ##### [Oscar Jaimes](https://www.linkedin.com/in/oscj/) 
 
-This set of graphs is designed to show how the demand for biofuels and technological advancements are linked in Canada's key bioenergy-producing regions, under the three CER future scenarios. These visuals are aimed at providing an estimate of the bioenergy sector's projected growth within each selected region. I'm closely following Alberta's progress as it diversifies its energy portfolio, adding to its traditional focus on oil and gas to include more renewable energy sources. This transition is not only important for environmental sustainability but also offers an opportunity for investors to be part of the expanding bioenergy market in Canada. Biofuel demand in Alberta is expected to approximately double by 2050 under the Canada Net-zero scenario from 2023 levels. This growth is exciting, and definitely worth following in the near future.
+These visuals are aimed at providing a rough outlook of biofuel end-use-demand and projected bioenergy production from technology advancements under the three CER future scenarios. As someone who works adjacent to the bioenergy sector, I’m following Alberta’s progress as it diversifies its energy portfolio to include more renewable sources. We all know that Alberta has a large livestock industry, and with that comes contributions to GHG emissions - in 2017, [GHGs from livestock manure were responsible for 12% of all agricultural emissions](https://www.alberta.ca/climate-smart-agriculture-livestock-systems#:~:text=In%202017%2C%20GHGs,contribute%20to%20odour.). Given the rise of Renewable Gas (RNG) projects in Canada that use biomass from agriculture to produce biogas from anaerobic digestion, there is potential for upside investment opportunities in bioenergy production that promotes environmental sustainability. Biofuel demand in Alberta is projected to double by 2050 under the Canada Net-zero scenario from 2023 levels - this growth is exciting, and  worth following in the near future.
 
 Sources: 
 
@@ -19,7 +19,6 @@ library(lubridate)
 library(scales)
 library(viridis)
 library(gridExtra)
-library(wesanderson)
 knitr::opts_chunk$set(echo=FALSE)
 ```
 
@@ -65,7 +64,7 @@ generate_plots_for_region <- function(r) {
   
   end_use_p <- end_use_demand %>%
     ggplot()+
-    scale_fill_manual(values = c( "#909191", "#446455", "#fbd364"))+
+    scale_fill_manual(values = c( "#d4c0bc", "#446455", "#fbd364"))+
     theme_minimal()+ 
     geom_area(
       aes(year,value, group=sector, fill=sector), 
@@ -79,7 +78,7 @@ generate_plots_for_region <- function(r) {
       position = "stack", 
       colour="black",
       linewidth=0.5,
-      alpha=0.5
+      alpha=0.65
     )+
     theme(
       text = element_text(size=12, face="bold"),
@@ -96,7 +95,7 @@ generate_plots_for_region <- function(r) {
     guides(fill=guide_legend(nrow=1, title=NULL))+
     facet_wrap(~scenario)+
     labs(
-      title="End-Demand For Biofuels, by Sector",
+      title="End-Use-Demand For Biofuels, by Sector",
       y="Petajoules",x="",
       subtitle=("CER End-Demand Data (2005-2023) and Projections (2023-2050)")
     )
@@ -104,17 +103,17 @@ generate_plots_for_region <- function(r) {
   
   technology_p <- electricity_technology %>%
     ggplot()+
-    scale_fill_manual(values = wes_palette("IsleofDogs1"))+
+    scale_fill_manual(values = c("#9985a5", "#ac8c82"))+
     theme_minimal()+ 
-    geom_area(
-      aes(year,value*0.0036, group=variable, fill=variable), 
+    geom_col(
+      aes(year,value*0.0036,fill=variable), 
       position = "stack", 
       colour="black",
       linewidth=0.5
     )+
-    geom_area(
+    geom_col(
       data=electricity_technology_proj,
-      aes(year,value*0.0036, group=variable, fill=variable), 
+      aes(year,value*0.0036, fill=variable), 
       position = "stack", 
       colour="black",
       linewidth=0.5,
@@ -135,7 +134,7 @@ generate_plots_for_region <- function(r) {
     guides(fill=guide_legend(nrow=1, title=NULL))+
     facet_wrap(~scenario)+
     labs(
-      title="Increase in Bioenergy Generation From Technology Evolution",
+      title="Year by Year Bioenergy Generation From Technology Advancements",
       y="Petajoules",x="",
       subtitle=("CER Generation Data (2020-2023) and Projections (2023-2050)"),
       caption="Source: CER Canada's Energy Futures 2023, Graph by Oscar Jaimes"
@@ -155,6 +154,8 @@ plotly_plots = lapply(province_names, generate_plots_for_region)
 ##  {.tabset}
 
 ```{r biofules_and_energy,fig.width=12,fig.height=4.5,dpi=200, results='asis'}
+# this code dynamically creates tab sections for the above tabset
+# my apologies in advance if this breaks something
 for (i in 1:length(plotly_plots)) {
   cat("### ",province_names[i],"\n")
   print(plotly_plots[[i]][[1]])
@@ -166,4 +167,4 @@ for (i in 1:length(plotly_plots)) {
 
 ## 
 
-My name is Oscar, and I currently in my final semester at the University of Alberta, pursuing a major in Computing Science. My academic journey has been enhanced with unique work placements in software/data engineering. In 2022, I completed an 8-month term at BlackBerry in Ottawa, contributing to their [Radar platform](https://www.blackberry.com/us/en/products/asset-tracking). My most significant experience, however, has been with [Livestock Water Recycling (LWR)](https://www.livestockwaterrecycling.com), a leading agTech company based in Calgary. Since my second year (2019), I have progressed to a full-time software engineer at LWR, leading the development of data pipelines and software solutions for manure and wastewater treatment systems. LWR's expertise in manure treatment technology notably contributes to the Renewable Natural Gas (RNG) sector, supplying valuable feedstock for anaerobic digesters and facilitating a more sustainable RNG lifecycle. Feel free to checkout my [GitHub](https://github.com/oscj) and [LinkedIn](https://www.linkedin.com/in/oscj/) for a deeper look into my projects and experience. 
+My name is Oscar, and I currently in my final semester at the University of Alberta, majoring in Computing Science. My academic career has involved unique work placements in software/data engineering roles. In 2022, I completed an 8-month term at BlackBerry in Ottawa working as a full stack developer. My most significant experience, however, has been with [Livestock Water Recycling (LWR)](https://www.livestockwaterrecycling.com/), an agTech company based in Calgary. Since my second year (2019), I have progressed to a full-time software engineer, leading the development of data pipelines and software solutions for manure and wastewater treatment systems. LWR’s expertise in manure treatment technology notably contributes to the Renewable Natural Gas (RNG) sector, supplying valuable feedstock for anaerobic digesters and facilitating a more sustainable RNG lifecycle. Feel free to checkout my [GitHub](https://github.com/oscj) or [LinkedIn](https://www.linkedin.com/in/oscj/) for a closer look into my projects and experience.
